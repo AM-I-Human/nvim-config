@@ -1,6 +1,8 @@
 require 'options.global'
 require 'options.opt'
 require 'commands.keymaps'
+require 'options.mouse'
+require 'lua.functions.autocommands'
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
