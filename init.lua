@@ -1,20 +1,9 @@
 require 'options.global'
 require 'options.opt'
-require 'commands.keymaps'
 require 'options.mouse'
-require 'lua.functions.autocommands'
-
--- [[ Basic Autocommands ]]
---  See `:help lua-guide-autocommands`
-
---  See `:help vim.highlight.on_yank()`
-vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'Highlight when yanking (copying) text',
-    group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
-    callback = function()
-        vim.highlight.on_yank()
-    end,
-})
+require 'keymaps.load_keymaps'
+require 'functions.autocommands'
+require 'functions.reload'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
