@@ -80,5 +80,5 @@ if vim.fn.has 'mac' == 1 then
     M.mappings.normal_mode['<A-Right>'] = M.mappings.normal_mode['<C-Right>']
 end
 
-M.load(mappings)
+M.load(M.mappings)
 return M

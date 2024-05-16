@@ -29,8 +29,8 @@ local mappings = {
         -- Resize with arrows
         ['<C-Up>'] = ':resize -2<CR>',
         ['<C-Down>'] = ':resize +2<CR>',
-        ['<C-Left>'] = ':vertical resize -2<CR>',
-        ['<C-Right>'] = ':vertical resize +2<CR>',
+        ['<C-Left>'] = ':vertical resize -3<CR>',
+        ['<C-Right>'] = ':vertical resize +3<CR>',
 
         -- Move current line / block with Alt-j/k a la vscode.
         ['<A-j>'] = ':m .+1<CR>==',
@@ -67,7 +67,6 @@ local mappings = {
         ['<A-j>'] = ":m '>+1<CR>gv-gv",
         ['<A-k>'] = ":m '<-2<CR>gv-gv",
     },
-
     command_mode = {
         -- navigate tab completion with <c-j> and <c-k>
         -- runs conditionally
