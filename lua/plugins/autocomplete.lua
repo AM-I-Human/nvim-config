@@ -1,7 +1,10 @@
 return { -- Autocompletion
     'hrsh7th/nvim-cmp',
+    lazy = false,
+    priority = 100,
     event = 'InsertEnter',
     dependencies = {
+        'onsails/lspkind.nvim',
         -- Snippet Engine & its associated nvim-cmp source
         {
             'L3MON4D3/LuaSnip',
@@ -29,6 +32,8 @@ return { -- Autocompletion
         'saadparwaiz1/cmp_luasnip',
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-path',
+        'hrsh7th/cmp-buffer',
+        'saadparwaiz1/cmp_luasnip',
     },
     config = function()
         -- See `:help cmp`
@@ -92,6 +97,7 @@ return { -- Autocompletion
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' },
                 { name = 'path' },
+                { name = 'buffer' },
             },
         }
     end,
