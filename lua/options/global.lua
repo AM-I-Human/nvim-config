@@ -7,6 +7,10 @@ vim.g.have_nerd_font = true
 vim.g.python3_host_prog = 'C:\\Users\\andre\\.pyenv\\pyenv-win\\versions\\nvim_3.12.3\\python.exe'
 vim.g.jukit_mappings = 0
 
+vim.opt.shell = 'pwsh.exe -NoLogo'
+vim.opt.shellcmdflag =
+    '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+
 vim.cmd [[
     let &shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
     let &shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'

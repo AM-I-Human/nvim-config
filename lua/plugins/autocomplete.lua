@@ -1,3 +1,4 @@
+vim.opt.completeopt = { 'menu', 'menuone', 'preview' }
 return { -- Autocompletion
     'hrsh7th/nvim-cmp',
     lazy = false,
@@ -40,6 +41,8 @@ return { -- Autocompletion
         local cmp = require 'cmp'
         local luasnip = require 'luasnip'
         luasnip.config.setup {}
+        local lspkind = require 'lspkind'
+        lspkind.init {}
 
         cmp.setup {
             snippet = {
@@ -58,19 +61,21 @@ return { -- Autocompletion
                 ['<C-n>'] = cmp.mapping.select_next_item(),
                 -- Select the [p]revious item
                 ['<C-p>'] = cmp.mapping.select_prev_item(),
+                ['<C-y>'] = cmp.mapping(
+                    cmp.mapping.confirm {
+                        behavior = cmp.ConfirmBehavior.Insert,
+                        select = true,
+                    },
+                    { 'i', 'c' }
+                ),
 
                 -- Scroll the documentation window [b]ack / [f]orward
-                ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-                ['<C-f>'] = cmp.mapping.scroll_docs(4),
-
-                -- Accept ([y]es) the completion.
-                --  This will auto-import if your LSP supports it.
-                --  This will expand snippets if the LSP sent a snippet.
-                ['<C-y>'] = cmp.mapping.confirm { select = true },
+                ['<C-b>'] = cmp.mapping.scroll_docs(-3),
+                ['<C-f>'] = cmp.mapping.scroll_docs(3),
 
                 -- If you prefer more traditional completion keymaps,
                 -- you can uncomment the following lines
-                ['<CR>'] = cmp.mapping.confirm { select = true },
+                -- ['<CR>'] = cmp.mapping.confirm { select = true },
                 --['<Tab>'] = cmp.mapping.select_next_item(),
                 --['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
@@ -100,5 +105,35 @@ return { -- Autocompletion
                 { name = 'buffer' },
             },
         }
+
+        -- Setup up vim-dadbod
+        cmp.setup.filetype({ 'sql' }, {
+            sources = {
+                { name = 'vim-dadbod-completion' },
+                { name = 'buffer' },
+            },
+        })
+
+        local ls = require 'luasnip'
+        ls.config.set_config {
+            history = false,
+            updateevents = 'TextChanged,TextChangedI',
+        }
+
+        for _, ft_path in ipairs(vim.api.nvim_get_runtime_file('snippets/*.lua', true)) do
+            loadfile(ft_path)()
+        end
+
+        vim.keymap.set({ 'i', 's' }, '<c-k>', function()
+            if ls.expand_or_jumpable() then
+                ls.expand_or_jump()
+            end
+        end, { silent = true })
+
+        vim.keymap.set({ 'i', 's' }, '<c-l>', function()
+            if ls.jumpable(-1) then
+                ls.jump(-1)
+            end
+        end, { silent = true })
     end,
 }

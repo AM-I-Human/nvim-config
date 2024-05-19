@@ -1,3 +1,5 @@
+M = {}
+
 ---@class Keys
 ---@field insert_mode table
 ---@field normal_mode table
@@ -6,7 +8,7 @@
 ---@field visual_block_mode table
 ---@field command_mode table
 ---@field operator_pending_mode table
-local mappings = {
+M.nvim_mappings = {
     insert_mode = {
         -- Move current line / block with Alt-j/k ala vscode.
         ['<A-j>'] = '<Esc>:m .+1<CR>==gi',
@@ -27,8 +29,8 @@ local mappings = {
         ['<C-l>'] = '<C-w>l',
 
         -- Resize with arrows
-        ['<C-Up>'] = ':resize -2<CR>',
-        ['<C-Down>'] = ':resize +2<CR>',
+        ['<C-Up>'] = ':resize -3<CR>',
+        ['<C-Down>'] = ':resize +3<CR>',
         ['<C-Left>'] = ':vertical resize -3<CR>',
         ['<C-Right>'] = ':vertical resize +3<CR>',
 
@@ -39,7 +41,6 @@ local mappings = {
         -- QuickFix
         [']q'] = ':cnext<CR>',
         ['[q'] = ':cprev<CR>',
-        -- ["<C-q>"] = ":call QuickFixToggle()<CR>",
 
         -- Set highlight on search, but clear on pressing <Esc> in normal mode
         ['<Esc>'] = '<cmd>nohlsearch<CR>',
@@ -75,4 +76,68 @@ local mappings = {
     },
 }
 
-return mappings
+---@class WhichKeyKeys
+---@field insert_mode table
+---@field normal_mode table
+---@field terminal_mode table
+---@field visual_mode table
+---@field visual_block_mode table
+---@field command_mode table
+---@field operator_pending_mode table
+---@field pages table
+M.which_key_mappings = {
+    insert_mode = {
+
+        ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
+        g = {
+            name = 'Git',
+            g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },
+            j = { "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>", 'Next Hunk' },
+            k = { "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>", 'Prev Hunk' },
+            l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", 'Blame' },
+            p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", 'Preview Hunk' },
+            r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", 'Reset Hunk' },
+            R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", 'Reset Buffer' },
+            s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", 'Stage Hunk' },
+            u = {
+                "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
+                'Undo Stage Hunk',
+            },
+            o = { '<cmd>Telescope git_status<cr>', 'Open changed file' },
+            b = { '<cmd>Telescope git_branches<cr>', 'Checkout branch' },
+            c = { '<cmd>Telescope git_commits<cr>', 'Checkout commit' },
+            C = {
+                '<cmd>Telescope git_bcommits<cr>',
+                'Checkout commit(for current file)',
+            },
+            d = {
+                '<cmd>Gitsigns diffthis HEAD<cr>',
+                'Git Diff',
+            },
+        },
+    },
+    visual_mode = {},
+
+    ---@class WhichKeyPages
+    ---@field insert_mode table
+    ---@field normal_mode table
+    ---@field terminal_mode table
+    ---@field visual_mode table
+    ---@field visual_block_mode table
+    ---@field command_mode table
+    ---@field operator_pending_mode table
+    pages = {
+        insert_mode = {
+            ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
+            ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+            ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+            ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
+            ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+            ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
+            ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        },
+        visual_mode = {},
+    },
+}
+
+return M

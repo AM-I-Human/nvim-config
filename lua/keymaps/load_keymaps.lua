@@ -71,7 +71,7 @@ function M.load(keymaps)
     end
 end
 
-M.mappings = require 'keymaps.keymaps'
+M.mappings = (require 'keymaps.keymaps').nvim_mappings
 
 if vim.fn.has 'mac' == 1 then
     M.mappings.normal_mode['<A-Up>'] = M.mappings.normal_mode['<C-Up>']
