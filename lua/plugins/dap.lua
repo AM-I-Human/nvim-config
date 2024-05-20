@@ -15,6 +15,7 @@ return {
 
             require('dapui').setup()
             require('dap-go').setup()
+            require('dap-python').setup(vim.g.python3_host_prog)
 
             require('nvim-dap-virtual-text').setup {
                 -- This just tries to mitigate the chance that I leak tokens here. Probably won't stop it from happening...
@@ -33,15 +34,23 @@ return {
                 end,
             }
 
+            table.insert(dap.configurations.python, {
+                type = 'python',
+                request = 'launch',
+                name = 'My custom launch configuration',
+                program = '${file}',
+                -- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
+            })
+
             -- Handled by nvim-dap-go
-            -- dap.adapters.go = {
-            --   type = "server",
-            --   port = "${port}",
-            --   executable = {
-            --     command = "dlv",
-            --     args = { "dap", "-l", "127.0.0.1:${port}" },
-            --   },
-            -- }
+            dap.adapters.go = {
+                type = 'server',
+                port = '${port}',
+                executable = {
+                    command = 'dlv',
+                    args = { 'dap', '-l', '127.0.0.1:${port}' },
+                },
+            }
 
             local elixir_ls_debugger = vim.fn.exepath 'elixir-ls-debugger'
             if elixir_ls_debugger ~= '' then
