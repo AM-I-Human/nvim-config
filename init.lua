@@ -17,6 +17,17 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure and install plugins ]]
 require('lazy').setup({
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+    {
+        'linux-cultist/venv-selector.nvim',
+        dependencies = {
+            'neovim/nvim-lspconfig',
+            'mfussenegger/nvim-dap',
+            'mfussenegger/nvim-dap-python',
+            { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
+        },
+        lazy = false,
+        branch = 'regexp',
+    },
     { import = 'plugins' }, --    For additional information, see `:help lazy.nvim-lazy.nvim-structuring-your-plugins`
 }, {
     ui = {
