@@ -44,6 +44,11 @@ M.nvim_mappings = {
 
         -- Set highlight on search, but clear on pressing <Esc> in normal mode
         ['<Esc>'] = '<cmd>nohlsearch<CR>',
+        ['<leader>dpr'] = {
+            function()
+                require('dap-python').test_method()
+            end,
+        },
     },
 
     term_mode = {
