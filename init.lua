@@ -1,7 +1,6 @@
 require 'options.global'
 require 'options.opt'
 require 'options.mouse'
-require 'keymaps.load_keymaps'
 require 'functions.autocommands'
 require 'functions.reload'
 
@@ -50,3 +49,4 @@ require('lazy').setup({
         },
     },
 })
+require 'keymaps.load_keymaps'

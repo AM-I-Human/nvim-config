@@ -28,6 +28,9 @@ M.nvim_mappings = {
         ['<C-k>'] = '<C-w>k',
         ['<C-l>'] = '<C-w>l',
 
+        ['C-H'] = ':bprevious',
+        ['C-L'] = ':bnext',
+
         -- Resize with arrows
         ['<C-Up>'] = ':resize -3<CR>',
         ['<C-Down>'] = ':resize +3<CR>',
@@ -44,11 +47,6 @@ M.nvim_mappings = {
 
         -- Set highlight on search, but clear on pressing <Esc> in normal mode
         ['<Esc>'] = '<cmd>nohlsearch<CR>',
-        ['<leader>dpr'] = {
-            function()
-                require('dap-python').test_method()
-            end,
-        },
     },
 
     term_mode = {
@@ -120,6 +118,24 @@ M.which_key_mappings = {
                 'Git Diff',
             },
         },
+
+        D = {
+            name = 'DAP',
+            P = {
+                t = { require('dap-python').test_method, 'Test Method' },
+            },
+            b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },
+
+            r = { name = 'Run', b = { require('dap').run_to_cursor, 'Run To Cursor' } },
+            e = { require('dapui').eval, 'Evaluate' },
+        },
+        D1 = { require('dap').continue, 'Continue' },
+        D2 = { require('dap').step_into, 'Step Into' },
+        D3 = { require('dap').step_over, 'Step Over' },
+        D4 = { require('dap').step_out, 'Step Out' },
+        D5 = { require('dap').step_back, 'Step Back' },
+        D0 = { require('dap').restart, 'Restart' },
+        P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
     },
     visual_mode = {},
 
@@ -135,11 +151,13 @@ M.which_key_mappings = {
         insert_mode = {
             ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
             ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
+            ['<leader>D'] = { name = '[D]ebug', _ = 'which_key_ignore' },
             ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
             ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
             ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
             ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
             ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+            ['<leader>P'] = { name = 'Python', _ = 'which_key_ignore' },
         },
         visual_mode = {},
     },
