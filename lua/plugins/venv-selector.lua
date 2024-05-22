@@ -8,7 +8,7 @@ return {
     },
     lazy = false,
     branch = 'regexp',
-    config = function()
-        require('venv-selector').setup {}
+    config = function(_, opts)
+        require('venv-selector').setup(opts)
     end,
 }

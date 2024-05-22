@@ -90,8 +90,12 @@ M.nvim_mappings = {
 ---@field pages table
 M.which_key_mappings = {
     insert_mode = {
-
-        ['e'] = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
+        E = {
+            name = 'Explorer Functions',
+            p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },
+            ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
+        },
+        e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
         g = {
             name = 'Git',
             g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },

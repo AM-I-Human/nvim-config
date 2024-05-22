@@ -1,8 +1,6 @@
 require 'options.global'
 require 'options.opt'
 require 'options.mouse'
-require 'functions.autocommands'
-require 'functions.reload'
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
@@ -49,4 +47,7 @@ require('lazy').setup({
         },
     },
 })
+require 'ui.sign'
+require 'functions.autocommands'
+require 'functions.reload'
 require 'keymaps.load_keymaps'
