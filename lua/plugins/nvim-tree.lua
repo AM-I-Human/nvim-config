@@ -42,7 +42,7 @@ local function on_attach(bufnr)
         },
     }
 
-    require('keymaps.load_keymaps').load(normal_mode, useful_keys)
+    require('keymaps.load_keymaps').load(useful_keys)
 end
 return {
     'kyazdani42/nvim-tree.lua',
@@ -50,29 +50,32 @@ return {
     cmd = { 'NvimTreeToggle', 'NvimTreeOpen', 'NvimTreeFocus', 'NvimTreeFindFileToggle' },
     event = 'User DirOpened',
     opts = {
-        auto_reload_on_write = false,
-        disable_netrw = false,
+        on_attach = on_attach,
         hijack_cursor = false,
+        auto_reload_on_write = false, --
+        disable_netrw = false,
         hijack_netrw = true,
         hijack_unnamed_buffer_when_opening = false,
-        sort_by = 'name',
         root_dirs = {},
-        prefer_startup_root = false,
-        sync_root_with_cwd = true,
-        reload_on_bufenter = false,
+        prefer_startup_root = true, --
+        sync_root_with_cwd = true, --
+        reload_on_bufenter = true,
         respect_buf_cwd = false,
-        on_attach = on_attach,
-        --remove_keymaps = false,
         select_prompts = false,
+        --remove_keymaps = false,
         view = {
-            adaptive_size = false,
-            centralize_selection = true,
-            width = 40,
+            centralize_selection = true, --
+            cursorline = true,
+            width = {
+                min = 30,
+                max = -1,
+                padding = 1,
+            },
             --hide_root_folder = false,
             side = 'left',
-            preserve_window_proportions = false,
-            number = false,
-            relativenumber = false,
+            preserve_window_proportions = true, --
+            number = true, --
+            relativenumber = true, --
             signcolumn = 'yes',
             float = {
                 enable = false,
@@ -96,12 +99,12 @@ return {
             root_folder_label = ':t',
             indent_width = 2,
             indent_markers = {
-                enable = false,
+                enable = true,
                 inline_arrows = true,
                 icons = {
-                    corner = '└',
-                    edge = '│',
-                    item = '│',
+                    corner = '󰢢',
+                    edge = '',
+                    item = '󰢤', --'󰢡',
                     none = ' ',
                 },
             },
