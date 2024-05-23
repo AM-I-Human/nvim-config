@@ -10,10 +10,10 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-vim.api.nvim_create_autocmd('VimEnter', {
-    desc = 'Auto open Nvim-tree on open',
-    group = vim.api.nvim_create_augroup('Nvim-tree-autoopen', { clear = true }),
-    callback = function()
-        require('nvim-tree.api').tree.open()
-    end,
-})
+-- vim.api.nvim_create_autocmd('VimEnter', {
+--     desc = 'Auto open Nvim-tree on open',
+--     group = vim.api.nvim_create_augroup('Nvim-tree-autoopen', { clear = true }),
+--     callback = function()
+--         require('nvim-tree.api').tree.open()
+--     end,
+-- })
