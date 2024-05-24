@@ -5,7 +5,15 @@ return {
         'nvim-lua/plenary.nvim',
         'antoinemadec/FixCursorHold.nvim',
         'nvim-treesitter/nvim-treesitter',
+        'neotest-plenary',
+        {
+            'nvim-neotest/neotest-python',
+            dependecies = {
+                'nvim-treesitter/nvim-treesitter',
+            },
+        },
     },
+    lazy = true,
     config = function()
         require('neotest').setup {
             adapters = {
@@ -20,7 +28,6 @@ return {
                     args = { '--log-level', 'DEBUG', '--quiet' },
                     runner = 'pytest',
                 },
-                -- require 'neotest-plenary',
             },
         }
     end,

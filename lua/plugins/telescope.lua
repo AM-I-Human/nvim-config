@@ -13,6 +13,10 @@ return {
         },
         { 'nvim-telescope/telescope-ui-select.nvim' },
         { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+        {
+            'nvim-telescope/telescope-file-browser.nvim',
+            dependencies = { 'nvim-telescope/telescope.nvim', 'nvim-lua/plenary.nvim' },
+        },
     },
     config = function()
         -- [[ Configure Telescope ]]
@@ -31,12 +35,19 @@ return {
                 ['ui-select'] = {
                     require('telescope.themes').get_dropdown(),
                 },
+                ['file-browser'] = {
+                    file_browser = {
+                        -- use the "ivy" theme if you want
+                        theme = 'ivy',
+                    },
+                },
             },
         }
 
         -- Enable Telescope extensions if they are installed
         pcall(require('telescope').load_extension, 'fzf')
         pcall(require('telescope').load_extension, 'ui-select')
+        pcall(require('telescope').load_extension, 'file-browser')
 
         -- See `:help telescope.builtin`
         local builtin = require 'telescope.builtin'

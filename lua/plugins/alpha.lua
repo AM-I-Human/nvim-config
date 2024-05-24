@@ -5,7 +5,7 @@ local path_ok, plenary_path = pcall(require, 'plenary.path')
 if not path_ok then
     return
 end
-local leader = 'SPC'
+local leader = '<leader>'
 
 --- @param sc string
 --- @param txt string
@@ -215,8 +215,8 @@ local buttons = {
         { type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
         { type = 'padding', val = 1 },
         button('e', '  New file', '<cmd>ene<CR>'),
-        button('SPC s f', '󰈞  Find file'),
-        button('SPC s g', '󰊄  Live grep'),
+        button('<leader> s f', '󰈞  Find file'),
+        button('<leader> s g', '󰊄  Live grep'),
         button('c', '  Configuration', '<cmd>cd ' .. (package.config:sub(1, 1) == '\\' and '$LOCALAPPDATA/nvim/' or '~/.config/nvim/') .. '<CR>'),
         button('u', '  Update plugins', '<cmd>Lazy sync<CR>'),
         button('q', '󰅚  Quit', '<cmd>qa<CR>'),
