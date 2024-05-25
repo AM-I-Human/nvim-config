@@ -89,13 +89,14 @@ M.nvim_mappings = {
 ---@field operator_pending_mode table
 ---@field pages table
 M.which_key_mappings = {
-    insert_mode = {
+    normal_mode = {
         E = {
             name = 'Explorer Functions',
             p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },
             ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
         },
         e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
+        f = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
         g = {
             name = 'Git',
             g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },
@@ -132,16 +133,45 @@ M.which_key_mappings = {
 
             r = { name = 'Run', b = { require('dap').run_to_cursor, 'Run To Cursor' } },
             e = { require('dapui').eval, 'Evaluate' },
+            ['0'] = { require('dap').restart, 'Restart' },
+            ['1'] = { require('dap').continue, 'Continue' },
+            ['2'] = { require('dap').step_into, 'Step Into' },
+            ['3'] = { require('dap').step_over, 'Step Over' },
+            ['4'] = { require('dap').step_out, 'Step Out' },
+            ['5'] = { require('dap').step_back, 'Step Back' },
         },
-        D1 = { require('dap').continue, 'Continue' },
-        D2 = { require('dap').step_into, 'Step Into' },
-        D3 = { require('dap').step_over, 'Step Over' },
-        D4 = { require('dap').step_out, 'Step Out' },
-        D5 = { require('dap').step_back, 'Step Back' },
-        D0 = { require('dap').restart, 'Restart' },
         P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
+        s = {
+            name = 'Search',
+            h = { require('telescope.builtin').help_tags, 'Help' },
+            k = { require('telescope.builtin').keymaps, 'Keymaps' },
+            f = { require('telescope.builtin').find_files, 'Files' },
+            s = { require('telescope.builtin').builtin, 'Search Types Telescope' },
+            w = { require('telescope.builtin').grep_string, 'current Word' },
+            g = { require('telescope.builtin').live_grep, 'Grep' },
+            d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
+            r = { require('telescope.builtin').oldfiles, 'Recent Files ("." for repeat)' },
+            b = { require('telescope.builtin').buffers, 'Find existing buffers' },
+            ['.'] = { require('telescope.builtin').resume, 'Resume' },
+            ['/'] = {
+                function()
+                    require('telescope.builtin').live_grep { grep_open_files = true, prompt_title = 'Live Grep in Open Files' }
+                end,
+                '/ in Open Files',
+            },
+            n = {
+                function()
+                    require('telescope.builtin').find_files { cwd = vim.fn.stdpath 'config' }
+                end,
+                'Neovim files',
+            },
+        },
     },
+
+    -- Shortcut for searching your Neovim configuration files
     visual_mode = {},
+
+    -- See `:help telescope.builtin`
 
     ---@class WhichKeyPages
     ---@field insert_mode table
@@ -152,15 +182,15 @@ M.which_key_mappings = {
     ---@field command_mode table
     ---@field operator_pending_mode table
     pages = {
-        insert_mode = {
-            ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-            ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-            ['<leader>D'] = { name = '[D]ebug', _ = 'which_key_ignore' },
-            ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
-            ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-            ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
-            ['<leader>t'] = { name = '[T]oggle', _ = 'which_key_ignore' },
-            ['<leader>h'] = { name = 'Git [H]unk', _ = 'which_key_ignore' },
+        normal_mode = {
+            ['<leader>c'] = { name = 'Code', _ = 'which_key_ignore' },
+            ['<leader>d'] = { name = 'Document', _ = 'which_key_ignore' },
+            ['<leader>D'] = { name = 'Debug', _ = 'which_key_ignore' },
+            ['<leader>r'] = { name = 'Rename', _ = 'which_key_ignore' },
+            ['<leader>s'] = { name = 'Search', _ = 'which_key_ignore' },
+            ['<leader>w'] = { name = 'Workspace', _ = 'which_key_ignore' },
+            ['<leader>t'] = { name = 'Toggle', _ = 'which_key_ignore' },
+            ['<leader>h'] = { name = 'Git Hunk', _ = 'which_key_ignore' },
             ['<leader>P'] = { name = 'Python', _ = 'which_key_ignore' },
         },
         visual_mode = {},

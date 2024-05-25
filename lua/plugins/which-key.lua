@@ -21,11 +21,11 @@ return { -- Useful plugin to show you pending keybinds.
     config = function() -- This is the function that runs, AFTER loading
         local which_key_mappings = (require 'keymaps.keymaps').which_key_mappings
         -- Document existing key chains using pages
-        require('which-key').register(which_key_mappings.pages.insert_mode)
+        require('which-key').register(which_key_mappings.pages.normal_mode)
         require('which-key').register(which_key_mappings.pages.visual_mode, { mode = 'v' })
 
         -- adding keymaps functions
-        require('which-key').register(which_key_mappings.insert_mode, opts)
+        require('which-key').register(which_key_mappings.normal_mode, opts)
         require('which-key').register(which_key_mappings.visual_mode, vopts)
     end,
 }
