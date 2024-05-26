@@ -19,8 +19,7 @@ return {
         },
     },
     config = function()
-        -- [[ Configure Telescope ]]
-        -- See `:help telescope` and `:help telescope.setup()`
+        local fb_actions = require('telescope').extensions.file_browser.actions
         require('telescope').setup {
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
@@ -28,7 +27,7 @@ return {
             defaults = {
                 mappings = {
                     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-                    n = { ['q'] = require('telescope').close },
+                    n = { ['q'] = 'close' },
                 },
             },
             -- pickers = {}
@@ -40,6 +39,10 @@ return {
                     file_browser = {
                         -- use the "ivy" theme if you want
                         theme = 'ivy',
+                    },
+                    mappings = {
+                        ['i'] = {},
+                        ['n'] = { q = 'close' },
                     },
                 },
             },

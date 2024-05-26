@@ -1,7 +1,6 @@
 -- [[ Setting options ]]
 --
 -- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
 -- Make line numbers default
@@ -35,7 +34,7 @@ vim.opt.updatetime = 250
 
 -- Decrease mapped sequence wait time
 -- Displays which-key popup sooner
-vim.opt.timeoutlen = 300
+vim.opt.timeoutlen = 200
 
 -- Configure how new splits should be opened
 vim.opt.splitright = true
@@ -56,6 +55,8 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 100
 vim.opt.hlsearch = true
+
+vim.opt.laststatus = 3
 
 -- vim.opt.shell = 'pwsh.exe -NoLogo'
 -- vim.opt.shellcmdflag =

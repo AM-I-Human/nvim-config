@@ -1,5 +1,13 @@
 M = {}
 
+-- insert_mode = 'i',
+-- normal_mode = 'n',
+-- term_mode = 't',
+-- visual_mode = 'v',
+-- visual_block_mode = 'x',
+-- command_mode = 'c',
+-- operator_pending_mode = 'o',
+
 ---@class Keys
 ---@field insert_mode table
 ---@field normal_mode table
@@ -96,7 +104,7 @@ M.which_key_mappings = {
             ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
         },
         e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
-        f = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
+        f = { '<cmd>Telescope file_browser initial_mode=normal<CR>', 'File Browser' },
         g = {
             name = 'Git',
             g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },
@@ -121,6 +129,40 @@ M.which_key_mappings = {
             d = {
                 '<cmd>Gitsigns diffthis HEAD<cr>',
                 'Git Diff',
+            },
+        },
+        j = {
+            name = 'Jump',
+            j = {
+                function()
+                    require('flash').jump()
+                end,
+                'Jump',
+            },
+            J = {
+                function()
+                    require('flash').treesitter()
+                end,
+                desc = 'Flash Treesitter',
+                'Semantic Jump',
+            },
+            r = {
+                function()
+                    require('flash').remote()
+                end,
+                'Remote Flash',
+            },
+            R = {
+                function()
+                    require('flash').treesitter_search()
+                end,
+                'Treesitter Search',
+            },
+            t = {
+                function()
+                    require('flash').toggle()
+                end,
+                'Toggle Flash Search',
             },
         },
 

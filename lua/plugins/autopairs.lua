@@ -4,6 +4,7 @@
 return {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
+    lazy = true,
     -- Optional dependency
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
@@ -16,7 +17,7 @@ return {
     opts = {
         disable_filetype = { 'TelescopePrompt', 'spectre_panel' },
         disable_in_macro = true, -- disable when recording or executing a macro
-        disable_in_visualblock = false, -- disable when insert after visual block mode
+        disable_in_visualblock = true, -- disable when insert after visual block mode
         disable_in_replace_mode = true,
         ignored_next_char = [=[[%w%%%'%[%"%.%`%$]]=],
         enable_moveright = true,

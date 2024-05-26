@@ -58,7 +58,7 @@ return {
             -- clear highlight after jump
             nohlsearch = false,
             -- automatically jump when there is only one match
-            autojump = false,
+            autojump = true,
             -- You can force inclusive/exclusive jumps by setting the
             -- `inclusive` option. By default it will be automatically
             -- set based on the mode.
@@ -111,7 +111,7 @@ return {
         },
         highlight = {
             -- show a backdrop with hl FlashBackdrop
-            backdrop = false,
+            backdrop = true,
             -- Highlight the search matches
             matches = true,
             -- extmark priority
@@ -154,7 +154,7 @@ return {
             -- options used when flash is activated through
             -- `f`, `F`, `t`, `T`, `;` and `,` motions
             char = {
-                enabled = true,
+                enabled = false,
                 -- dynamic configuration for ftFT motions
                 config = function(opts)
                     -- autohide flash when in operator-pending mode
@@ -251,10 +251,5 @@ return {
     },
   -- stylua: ignore
   keys = {
-    { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-    { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-    { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-    { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-    { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
   },
 }
