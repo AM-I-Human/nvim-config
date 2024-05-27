@@ -78,12 +78,47 @@ M.nvim_mappings = {
         -- Move current line / block with Alt-j/k ala vscode.
         ['<A-j>'] = ":m '>+1<CR>gv-gv",
         ['<A-k>'] = ":m '<-2<CR>gv-gv",
+        ['C-j'] = {
+            function()
+                require('flash').jump()
+            end,
+            { desc = 'Jump' },
+        },
+        ['C-J'] = {
+            function()
+                require('flash').treesitter()
+            end,
+            { desc = 'Semantic Jump' },
+        },
+        R = {
+            function()
+                require('flash').treesitter_search()
+            end,
+            { desc = 'Treesitter Search' },
+        },
     },
     command_mode = {
-        -- navigate tab completion with <c-j> and <c-k>
-        -- runs conditionally
-        ['<C-j>'] = { 'pumvisible() ? "\\<C-n>" : "\\<C-j>"', { expr = true, noremap = true } },
-        ['<C-k>'] = { 'pumvisible() ? "\\<C-p>" : "\\<C-k>"', { expr = true, noremap = true } },
+        ['<C-j'] = {
+            function()
+                require('flash').toggle()
+            end,
+            { desc = 'Toggle Flash Search' },
+        },
+    },
+
+    operator_pending_mode = {
+        r = {
+            function()
+                require('flash').remote()
+            end,
+            { desc = 'Remote Flash' },
+        },
+        R = {
+            function()
+                require('flash').treesitter_search()
+            end,
+            { desc = 'Treesitter Search' },
+        },
     },
 }
 
@@ -143,7 +178,6 @@ M.which_key_mappings = {
                 function()
                     require('flash').treesitter()
                 end,
-                desc = 'Flash Treesitter',
                 'Semantic Jump',
             },
             r = {

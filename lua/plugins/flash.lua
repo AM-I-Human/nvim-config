@@ -11,7 +11,7 @@ return {
             -- search direction
             forward = true,
             -- when `false`, find only matches in the given direction
-            wrap = false,
+            wrap = true,
             ---@type Flash.Pattern.Mode
             -- Each mode will take ignorecase and smartcase into account.
             -- * exact: exact match
