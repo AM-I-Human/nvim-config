@@ -1,3 +1,4 @@
+require 'functions.os'
 require 'options.global'
 require 'options.opt'
 require 'options.mouse'

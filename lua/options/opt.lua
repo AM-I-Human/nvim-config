@@ -58,6 +58,16 @@ vim.opt.hlsearch = true
 
 vim.opt.laststatus = 3
 
--- vim.opt.shell = 'pwsh.exe -NoLogo'
--- vim.opt.shellcmdflag =
---     '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+if IS_WINDOWS then
+    vim.opt.shell = 'pwsh.exe -NoLogo'
+    vim.opt.shellcmdflag =
+        '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+    vim.api.nvim_set_option_value('shellredir', '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode', { scope = 'global' })
+    vim.api.nvim_set_option_value('shellpipe', '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode', { scope = 'global' })
+    vim.opt.shellquote = ''
+    vim.opt.shellxquote = ''
+elseif IS_MAC then
+    vim.opt.shell = '/bin/zsh'
+else
+    vim.opt.shell = '/bin/bash'
+end
