@@ -107,6 +107,7 @@ return {
             end
         end, { silent = true })
 
+        require('luasnip.loaders.from_vscode').lazy_load()
         -- Initialize lspkind
         lspkind.init {
             -- enables text annotations
