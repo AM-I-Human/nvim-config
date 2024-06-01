@@ -56,7 +56,11 @@ vim.opt.cursorline = true
 vim.opt.scrolloff = 100
 vim.opt.hlsearch = true
 
+-- Keep a global bar at the bottom
 vim.opt.laststatus = 3
+
+-- Ename termguicolors for highlight-colors plugin
+vim.opt.termguicolors = true
 
 if IS_WINDOWS then
     vim.opt.shell = 'pwsh.exe -NoLogo'
