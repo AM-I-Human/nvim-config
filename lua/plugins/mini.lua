@@ -1,5 +1,6 @@
 return { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
+    dependencies = { 'GCBallesteros/NotebookNavigator.nvim' },
     config = function()
         -- Better Around/Inside textobjects
         --
@@ -15,6 +16,22 @@ return { -- Collection of various small independent plugins/modules
         -- - sd'   - [S]urround [D]elete [']quotes
         -- - sr)'  - [S]urround [R]eplace [)] [']
         require('mini.surround').setup()
+        -- local hipatterns = require 'mini.hipatterns'
+        -- hipatterns.setup {
+        --     highlighters = {
+        --         -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
+        --         fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
+        --         hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
+        --         todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
+        --         note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
+        --
+        --         -- Highlight hex color strings (`#rrggbb`) using that color
+        --         hex_color = hipatterns.gen_highlighter.hex_color(),
+        --     },
+        -- }
+        -- local nn = require 'notebook-navigator'
+        --
+        -- local opts = { highlighters = { cells = nn.minihipatterns_spec } }
 
         local statusline = require 'mini.statusline'
         statusline.setup {
