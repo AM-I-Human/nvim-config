@@ -15,6 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure and install plugins ]]
 require('lazy').setup({
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+    { 'linrongbin16/commons.nvim', lazy = true },
     {
         'linux-cultist/venv-selector.nvim',
         dependencies = {

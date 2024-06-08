@@ -73,7 +73,7 @@ end
 
 M.mappings = (require 'keymaps.keymaps').nvim_mappings
 
-if vim.fn.has 'mac' == 1 then
+if IS_MAC then
     M.mappings.normal_mode['<A-Up>'] = M.mappings.normal_mode['<C-Up>']
     M.mappings.normal_mode['<A-Down>'] = M.mappings.normal_mode['<C-Down>']
     M.mappings.normal_mode['<A-Left>'] = M.mappings.normal_mode['<C-Left>']
