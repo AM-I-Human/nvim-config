@@ -4,3 +4,9 @@ vim.fn.sign_define('DapBreakpointCondition', { text = icons.ui.Bug, texthl = 'Da
 vim.fn.sign_define('DapBreakpointRejected', { text = icons.ui.BoldArrowRight, texthl = 'DapBreakpoint' })
 vim.fn.sign_define('DapLogPoint', { text = icons.ui.Comment, texthl = 'DapLogPoint' })
 vim.fn.sign_define('DapStopped', { text = icons.ui.Triangle, texthl = 'DapStopped' })
+
+local signs = { Error = '✘', Warn = '▲', Hint = '⚑', Info = '»' }
+for type, icon in pairs(signs) do
+    local hl = 'DiagnosticSign' .. type
+    vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end

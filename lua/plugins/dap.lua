@@ -17,7 +17,10 @@ return {
             local dap_python = require 'dap-python'
 
             local mason_path = vim.fn.glob(vim.fn.stdpath 'data' .. '/mason/')
-            local debugpy_path = mason_path .. 'packages/debugpy/venv/Scripts/python'
+            local debugpy_path = mason_path .. 'packages/debugpy/venv/bin/python'
+            if IS_WINDOWS then
+                debugpy_path = mason_path .. 'packages/debugpy/venv/Scripts/python'
+            end
 
             dapui.setup()
             dap_python.setup(debugpy_path)
