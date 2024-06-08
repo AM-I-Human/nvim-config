@@ -31,6 +31,14 @@ return {
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-buffer',
         'saadparwaiz1/cmp_luasnip',
+        {
+            'MattiasMTS/cmp-dbee',
+            dependencies = {
+                { 'kndndrj/nvim-dbee' },
+            },
+            ft = 'sql', -- optional but good to have
+            opts = {}, -- needed
+        },
     },
     config = function()
         -- See `:help cmp`
@@ -89,6 +97,7 @@ return {
         -- Setup for SQL filetype
         cmp.setup.filetype({ 'sql' }, {
             sources = {
+                { namne = 'cmp-dbee' },
                 { name = 'vim-dadbod-completion' },
                 { name = 'buffer' },
             },
