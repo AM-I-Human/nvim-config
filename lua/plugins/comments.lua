@@ -22,7 +22,7 @@ return {
             block = '<leader><leader>/',
         },
         ---LHS of extra mappings
-        extra = { -- mappings not sets
+        extra = {
             above = 'gcm',
             below = 'gco',
             eol = 'gcA',
