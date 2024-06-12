@@ -1,4 +1,4 @@
-M = {}
+local M = {}
 
 -- insert_mode = 'i',
 -- normal_mode = 'n',
@@ -55,6 +55,14 @@ M.nvim_mappings = {
 
         -- Set highlight on search, but clear on pressing <Esc> in normal mode
         ['<Esc>'] = '<cmd>nohlsearch<CR>',
+        g = {
+            d = { require('telescope.builtin').lsp_definitions, 'Definition' },
+            D = { vim.lsp.buf.declaration, 'Declaration' },
+            r = { require('telescope.builtin').lsp_references, 'References' },
+            I = { require('telescope.builtin').lsp_implementations, 'Implementation' },
+            t = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' },
+        },
+        K = { vim.lsp.buf.hover, 'Hover Documentation' },
     },
 
     term_mode = {
@@ -122,6 +130,16 @@ M.nvim_mappings = {
     },
 }
 
+-- Fuzzy find all the symbols in your current document.
+--  Symbols are things like variables, functions, types, etc.
+-- map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
+--
+-- -- Fuzzy find all the symbols in your current workspace.
+-- --  Similar to document symbols, except searches over your entire project.
+-- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
+--
+-- map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+
 ---@class WhichKeyKeys
 ---@field insert_mode table
 ---@field normal_mode table
@@ -133,6 +151,10 @@ M.nvim_mappings = {
 ---@field pages table
 M.which_key_mappings = {
     normal_mode = {
+        c = {
+            r = { vim.lsp.buf.rename, 'Rename' },
+            a = { vim.lsp.buf.code_action, 'Action' },
+        },
         E = {
             name = 'Explorer Functions',
             p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },

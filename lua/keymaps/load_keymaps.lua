@@ -44,6 +44,9 @@ function M.set_keymaps(mode, key, val)
     if type(val) == 'table' then
         opt = val[2]
         val = val[1]
+        if type(opt) == 'string' then
+            opt = { desc = opt }
+        end
     end
     if val then
         vim.keymap.set(mode, key, val, opt)
@@ -58,7 +61,17 @@ end
 function M.load_mode(mode, keymaps)
     mode = mode_adapters[mode] or mode
     for k, v in pairs(keymaps) do
-        M.set_keymaps(mode, k, v)
+        if type(v) == 'table' and (type(v[1]) == 'string' or type(v[1]) == 'function') then
+            -- Direct mapping with optional options table
+            M.set_keymaps(mode, k, v)
+        elseif type(v) == 'table' then
+            -- Nested mappings
+            for subk, subv in pairs(v) do
+                M.set_keymaps(mode, k .. subk, subv)
+            end
+        else
+            M.set_keymaps(mode, k, v)
+        end
     end
 end
 
