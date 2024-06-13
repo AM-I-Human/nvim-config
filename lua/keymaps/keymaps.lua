@@ -264,6 +264,16 @@ M.which_key_mappings = {
                 'Neovim files',
             },
         },
+        t = {
+            h = {
+                function()
+                    if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
+                        vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+                    end
+                end,
+                '[T]oggle Inlay [H]ints',
+            },
+        },
     },
 
     -- Shortcut for searching your Neovim configuration files
