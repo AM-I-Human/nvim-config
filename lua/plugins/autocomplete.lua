@@ -98,9 +98,9 @@ return {
             sources = {
                 { name = 'nvim_lsp' },
                 { name = 'luasnip' },
+                { name = 'otter' },
                 { name = 'path' },
                 { name = 'buffer' },
-                { name = 'otter' },
             },
         }
 
