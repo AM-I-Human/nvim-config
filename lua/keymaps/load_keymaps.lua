@@ -9,6 +9,7 @@ local generic_opts = {
     command_mode = generic_opts_any,
     operator_pending_mode = generic_opts_any,
     term_mode = { silent = true },
+    -- select_mode = generic_opts_any,
 }
 
 local mode_adapters = {
@@ -19,6 +20,7 @@ local mode_adapters = {
     visual_block_mode = 'x',
     command_mode = 'c',
     operator_pending_mode = 'o',
+    select_mode = 's',
 }
 -- Unsets all keybindings defined in keymaps
 -- @param keymaps The table of key mappings containing a list per mode (normal_mode, insert_mode, ..)

@@ -7,6 +7,7 @@ local M = {}
 -- visual_block_mode = 'x',
 -- command_mode = 'c',
 -- operator_pending_mode = 'o',
+-- select_mode = 's'
 
 ---@class Keys
 ---@field insert_mode table
@@ -27,6 +28,24 @@ M.nvim_mappings = {
         ['<A-Down>'] = '<C-\\><C-N><C-w>j',
         ['<A-Left>'] = '<C-\\><C-N><C-w>h',
         ['<A-Right>'] = '<C-\\><C-N><C-w>l',
+        ['<c-k>'] = {
+            function()
+                local luasnip = require 'luasnip'
+                if luasnip.expand_or_jumpable() then
+                    luasnip.expand_or_jump()
+                end
+            end,
+            'Next template argument jump',
+        },
+        ['<c-l>'] = {
+            function()
+                local luasnip = require 'luasnip'
+                if luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
+                end
+            end,
+            'Previous template argument jump',
+        },
     },
 
     normal_mode = {
@@ -52,6 +71,10 @@ M.nvim_mappings = {
         -- QuickFix
         [']q'] = ':cnext<CR>',
         ['[q'] = ':cprev<CR>',
+        ['<A-h>'] = {
+            ':bp',
+            'Previous template argument jump',
+        },
 
         -- Set highlight on search, but clear on pressing <Esc> in normal mode
         ['<Esc>'] = '<cmd>nohlsearch<CR>',
@@ -105,6 +128,29 @@ M.nvim_mappings = {
             { desc = 'Treesitter Search' },
         },
     },
+
+    select_mode = {
+
+        ['<c-k>'] = {
+            function()
+                local luasnip = require 'luasnip'
+                if luasnip.expand_or_jumpable() then
+                    luasnip.expand_or_jump()
+                end
+            end,
+            'Next template argument jump',
+        },
+        ['<c-l>'] = {
+            function()
+                local luasnip = require 'luasnip'
+                if luasnip.jumpable(-1) then
+                    luasnip.jump(-1)
+                end
+            end,
+            'Previous template argument jump',
+        },
+    },
+
     command_mode = {
         ['<C-j'] = {
             function()
