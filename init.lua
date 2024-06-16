@@ -12,7 +12,6 @@ if not vim.loop.fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
 require('lazy').setup({
     'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
     { 'linrongbin16/commons.nvim', lazy = true },
@@ -51,6 +50,7 @@ require('lazy').setup({
         },
     },
 })
+
 require 'ui.sign'
 require 'functions.autocommands'
 require 'functions.reload'

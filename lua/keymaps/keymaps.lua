@@ -195,7 +195,7 @@ M.nvim_mappings = {
 ---@field command_mode table
 ---@field operator_pending_mode table
 ---@field pages table
-M.which_key_mappings = {
+local leader_keymaps = {
     normal_mode = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
@@ -284,6 +284,12 @@ M.which_key_mappings = {
             ['4'] = { require('dap').step_out, 'Step Out' },
             ['5'] = { require('dap').step_back, 'Step Back' },
         },
+        G = {
+            G = { ':Gen<CR>', 'Gen Options' },
+            s = { ':Gen Enhance_Grammar_Spelling<CR>', 'Spelling' },
+            c = { ':Gen Chat<CR>', 'Chat' },
+            a = { ':Gen Ask<CR>', 'Ask' },
+        },
         P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
         s = {
             name = 'Search',
@@ -350,5 +356,6 @@ M.which_key_mappings = {
         visual_mode = {},
     },
 }
+M.which_key_mappings = leader_keymaps
 
 return M
