@@ -55,9 +55,6 @@ M.nvim_mappings = {
         ['<C-k>'] = '<C-w>k',
         ['<C-l>'] = '<C-w>l',
 
-        ['C-H'] = ':bprevious',
-        ['C-L'] = ':bnext',
-
         -- Resize with arrows
         ['<C-Up>'] = ':resize -3<CR>',
         ['<C-Down>'] = ':resize +3<CR>',
@@ -71,9 +68,13 @@ M.nvim_mappings = {
         -- QuickFix
         [']q'] = ':cnext<CR>',
         ['[q'] = ':cprev<CR>',
-        ['<A-h>'] = {
-            ':bp',
-            'Previous template argument jump',
+        ['<A-H>'] = {
+            ':bprevious<CR>',
+            'Previous buffer',
+        },
+        ['<A-L>'] = {
+            ':bnext<CR>',
+            'Next buffer',
         },
 
         -- Set highlight on search, but clear on pressing <Esc> in normal mode
@@ -207,7 +208,7 @@ local leader_keymaps = {
             ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
         },
         e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
-        f = { '<cmd>Telescope file_browser initial_mode=normal<CR>', 'File Browser' },
+        f = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
         g = {
             name = 'Git',
             g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },
@@ -344,7 +345,7 @@ local leader_keymaps = {
     pages = {
         normal_mode = {
             ['<leader>c'] = { name = 'Code', _ = 'which_key_ignore' },
-            ['<leader>d'] = { name = 'Document', _ = 'which_key_ignore' },
+            ['<leader>d'] = { name = 'DB', _ = 'which_key_ignore' },
             ['<leader>D'] = { name = 'Debug', _ = 'which_key_ignore' },
             ['<leader>r'] = { name = 'Rename', _ = 'which_key_ignore' },
             ['<leader>s'] = { name = 'Search', _ = 'which_key_ignore' },
