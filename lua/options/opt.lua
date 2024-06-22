@@ -62,6 +62,11 @@ vim.opt.laststatus = 3
 -- Ename termguicolors for highlight-colors plugin
 vim.opt.termguicolors = true
 
+vim.o.expandtab = true --# expand tab input with spaces characters
+vim.o.smartindent = true --# syntax aware indentations for newline inserts
+vim.o.tabstop = 4 --# num of space characters per tab
+vim.o.shiftwidth = 1 --# spaces per indentation level
+
 if IS_WINDOWS then
     vim.opt.shell = 'pwsh.exe -NoLogo'
     vim.opt.shellcmdflag =
