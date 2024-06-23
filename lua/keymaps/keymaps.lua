@@ -110,13 +110,13 @@ M.nvim_mappings = {
         -- Move current line / block with Alt-j/k ala vscode.
         ['<A-j>'] = ":m '>+1<CR>gv-gv",
         ['<A-k>'] = ":m '<-2<CR>gv-gv",
-        ['C-j'] = {
+        ['<C-j>'] = {
             function()
                 require('flash').jump()
             end,
             { desc = 'Jump' },
         },
-        ['C-J'] = {
+        ['<C-J>'] = {
             function()
                 require('flash').treesitter()
             end,
@@ -153,7 +153,7 @@ M.nvim_mappings = {
     },
 
     command_mode = {
-        ['<C-j'] = {
+        ['<C-j>'] = {
             function()
                 require('flash').toggle()
             end,
