@@ -3,8 +3,8 @@ return { -- LSP Configuration & Plugins
     dependencies = {
         -- Automatically install LSPs and related tools to stdpath for Neovim
         { 'williamboman/mason.nvim', config = true },
-        'williamboman/mason-lspconfig.nvim',
-        'WhoIsSethDaniel/mason-tool-installer.nvim',
+        { 'williamboman/mason-lspconfig.nvim' },
+        { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
         { 'j-hui/fidget.nvim', opts = {} },
         { 'folke/neodev.nvim', opts = {} },
     },
@@ -44,6 +44,7 @@ return { -- LSP Configuration & Plugins
                 vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event.buf }
             end,
         })
+
         --[[ Increasing LSP capabilities]]
         --
         local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -62,6 +63,7 @@ return { -- LSP Configuration & Plugins
             -- clangd = {},
             -- gopls = {},
             pyright = {},
+            pylsp = {},
             -- rust_analyzer = {},
             -- tsserver = {},
             -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -81,23 +83,28 @@ return { -- LSP Configuration & Plugins
                 },
             },
         }
-
-        -- Ensure the servers and tools above are installed
-        --  To check the current status of installed tools and/or manually install
-        --  other tools, you can run
-        --    :Mason
-        --
-        --  You can press `g?` for help in this menu.
-        require('mason').setup()
-
-        -- You can add other tools here that you want Mason to install
-        -- for you, so that they are available from within Neovim.
+        require('mason').setup {}
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
-            'stylua', -- Used to format Lua code
+            'stylua',
+            'black',
+            'debugpy',
+            'pyright',
+            'python-lsp-server',
         })
         require('mason-tool-installer').setup { ensure_installed = ensure_installed }
-
+        require('mason-registry.index')['pylance'] = 'pylance'
+        require('mason-registry'):on('package:install:success', require('plugins.lsp.python').mason_post_install)
+        -- local Package = require'mason-core.package'
+        -- local registry = require "mason-registry"
+        --     install = function(ctx)
+        --         local pylsp = registry.get_package("python-lsp-server")
+        --         assert(pylsp:is_installed(), "python-lsp-server is not installed")
+        --         ctx.spawn[pylsp:get_install_path() .. "/venv/bin/python"] {
+        --             "-m", "pip", "install", "python-lsp-black"
+        --         }
+        --         ctx.receipt:with_primary_source(ctx.receipt.pip3('python-lsp-black'))
+        --     end,
         require('mason-lspconfig').setup {
             handlers = {
                 function(server_name)
