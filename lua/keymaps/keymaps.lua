@@ -220,7 +220,7 @@ local leader_keymaps = {
             ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
         },
         e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
-        f = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
+        F = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
         g = {
             name = 'Git',
             g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },

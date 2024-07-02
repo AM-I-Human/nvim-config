@@ -5,7 +5,10 @@ return {
         'nvim-lua/plenary.nvim',
         'antoinemadec/FixCursorHold.nvim',
         'nvim-treesitter/nvim-treesitter',
-        'neotest-plenary',
+        {
+            'nvim-neotest/neotest-plenary',
+            lazy = true,
+        },
         {
             'nvim-neotest/neotest-python',
             dependecies = {

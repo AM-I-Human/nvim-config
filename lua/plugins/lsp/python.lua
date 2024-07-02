@@ -145,13 +145,18 @@ M.mason_post_install = function(pkg)
     local venv = vim.fn.stdpath 'data' .. '/mason/packages/python-lsp-server/venv'
     local job = require 'plenary.job'
 
+    local pip_path = venv .. '/bin/pip'
+    if IS_WINDOWS then
+        pip_path = venv .. '/Scripts/pip'
+    end
     job:new({
-        command = venv .. '/bin/pip',
+        command = pip_path,
         args = {
             'install',
             '-U',
             '--disable-pip-version-check',
             'pylsp-mypy',
+            'pylsp-rope',
             'python-lsp-ruff',
         },
         cwd = venv,

@@ -44,6 +44,31 @@ return {
                 model = IS_MAC and 'llama3' or 'codestral', -- The default model to use.
                 action = 'display',
             },
+            Fast_virtual_prediction = {
+                prompt = 'This is a sample prompt that receives $input and $sel(ection), among others.',
+                model = 'starcode2',
+                ---@type Ollama.PromptAction
+                action = {
+                    fn = function(prompt)
+                        -- This function is called when the prompt is selected
+                        -- just before sending the prompt to the LLM.
+                        -- Useful for setting up UI or other state.
+
+                        -- Return a function that will be used as a callback
+                        -- when a response is received.
+                        ---@type Ollama.PromptActionResponseCallback
+                        return function(body, job)
+                            -- body is a table of the json response
+                            -- body.response is the response text received
+
+                            -- job is the plenary.job object when opts.stream = true
+                            -- job is nil otherwise
+                        end
+                    end,
+
+                    opts = { stream = true }, -- optional, default is false
+                },
+            },
         },
     },
 }

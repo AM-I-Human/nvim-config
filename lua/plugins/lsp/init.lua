@@ -92,9 +92,9 @@ return { -- LSP Configuration & Plugins
             'pyright',
             'python-lsp-server',
         })
-        require('mason-tool-installer').setup { ensure_installed = ensure_installed }
         require('mason-registry.index')['pylance'] = 'pylance'
         require('mason-registry'):on('package:install:success', require('plugins.lsp.python').mason_post_install)
+        require('mason-tool-installer').setup { ensure_installed = ensure_installed }
         -- local Package = require'mason-core.package'
         -- local registry = require "mason-registry"
         --     install = function(ctx)
