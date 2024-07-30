@@ -284,6 +284,7 @@ local leader_keymaps = {
         D = {
             name = 'DAP',
             P = {
+                name = 'Python',
                 t = { require('dap-python').test_method, 'Test Method' },
             },
             b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },

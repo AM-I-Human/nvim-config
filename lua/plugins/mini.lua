@@ -32,6 +32,9 @@ return { -- Collection of various small independent plugins/modules
         -- local nn = require 'notebook-navigator'
         --
         -- local opts = { highlighters = { cells = nn.minihipatterns_spec } }
+        --
+
+        -- require('mini.animate').setup()
 
         local statusline = require 'mini.statusline'
         statusline.setup {
