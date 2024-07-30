@@ -11,32 +11,32 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     end,
 })
 
-local olama_pred_group = vim.api.nvim_create_augroup('OllamaPrediction', { clear = true })
-vim.api.nvim_create_autocmd('TextChangedI', {
-    desc = 'Prediction with Ollama',
-    group = olama_pred_group,
-    callback = function()
-        local current_buffer = vim.api.nvim_get_current_buf()
-        local cursor_line_number = vim.api.nvim_win_get_cursor(0)[1] - 1
-        local cursor_col_number = vim.api.nvim_win_get_cursor(0)[2]
-
-        local nameme_space_id = vim.api.nvim_create_namespace 'demo'
-
-        local ollama_text = ';;' --require('ollama').prompt 'Fast virtual prediction'
-
-        -- print(ollama_text)
-
-        local opts = {
-            end_line = 10,
-            id = 1,
-            virt_text = { { ollama_text, 'IncSearch' } },
-            virt_text_pos = 'eol',
-        }
-
-        local mark_id = vim.api.nvim_buf_set_extmark(current_buffer, nameme_space_id, cursor_line_number, cursor_col_number, opts)
-    end,
-})
-
+-- local olama_pred_group = vim.api.nvim_create_augroup('OllamaPrediction', { clear = true })
+-- vim.api.nvim_create_autocmd('TextChangedI', {
+--     desc = 'Prediction with Ollama',
+--     group = olama_pred_group,
+--     callback = function()
+--         local current_buffer = vim.api.nvim_get_current_buf()
+--         local cursor_line_number = vim.api.nvim_win_get_cursor(0)[1] - 1
+--         local cursor_col_number = vim.api.nvim_win_get_cursor(0)[2]
+--
+--         local nameme_space_id = vim.api.nvim_create_namespace 'demo'
+--
+--         local ollama_text = ';;' --require('ollama').prompt 'Fast virtual prediction'
+--
+--         -- print(ollama_text)
+--
+--         local opts = {
+--             end_line = 10,
+--             id = 1,
+--             virt_text = { { ollama_text, 'IncSearch' } },
+--             virt_text_pos = 'eol',
+--         }
+--
+--         local mark_id = vim.api.nvim_buf_set_extmark(current_buffer, nameme_space_id, cursor_line_number, cursor_col_number, opts)
+--     end,
+-- })
+--
 -- local excluded_filetypes = {
 --     'unite',
 --     'tagbar',
