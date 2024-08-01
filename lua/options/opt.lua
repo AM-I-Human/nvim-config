@@ -1,3 +1,9 @@
+-- The most convenient way for setting global and local options, e.g., in init.lua,
+-- is through vim.opt and friends:
+-- vim.opt: behaves like :set
+-- vim.opt_global: behaves like :setglobal
+-- vim.opt_local: behaves like :setlocal
+
 -- [[ Setting options ]]
 --
 -- See `:help vim.opt`
@@ -62,6 +68,9 @@ vim.opt.laststatus = 3
 -- Ename termguicolors for highlight-colors plugin
 vim.opt.termguicolors = true
 
+vim.opt.grepprg = 'rg --vimgrep --no-heading --smart-case'
+vim.opt.grepformat = '%f:%l:%c:%m'
+
 vim.o.expandtab = true --# expand tab input with spaces characters
 vim.o.smartindent = true --# syntax aware indentations for newline inserts
 vim.o.tabstop = 4 --# num of space characters per tab
@@ -76,7 +85,7 @@ if IS_WINDOWS then
     vim.opt.shellquote = ''
     vim.opt.shellxquote = ''
 elseif IS_MAC then
-    vim.opt.shell = '/bin/zsh'
+    vim.opt.shell = '/opt/homebrew/bin/fish'
 else
     vim.opt.shell = '/bin/bash'
 end

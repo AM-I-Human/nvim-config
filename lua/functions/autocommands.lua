@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 --
 --         local nameme_space_id = vim.api.nvim_create_namespace 'demo'
 --
---         local ollama_text = ';;' --require('ollama').prompt 'Fast virtual prediction'
+--         local ollama_text = '<--' --require('ollama').prompt 'Fast virtual prediction'
 --
 --         -- print(ollama_text)
 --
