@@ -11,15 +11,26 @@ return {
     },
     config = function(opts)
         require('codecompanion').setup {
+            adapters = {
+                codestral = function()
+                    return require('codecompanion.adapters').use('ollama', {
+                        schema = {
+                            model = {
+                                default = 'codestral:latest',
+                            },
+                        },
+                    })
+                end,
+            },
             strategies = {
                 chat = {
-                    adapter = 'ollama',
+                    adapter = 'codestral',
                 },
                 inline = {
-                    adapter = 'ollama',
+                    adapter = 'codestral',
                 },
                 agent = {
-                    adapter = 'ollama',
+                    adapter = 'codestral',
                 },
             },
         }
