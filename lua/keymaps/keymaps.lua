@@ -214,12 +214,13 @@ local leader_keymaps = {
             -- vmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
             -- nmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
         },
-        E = {
-            name = 'Explorer Functions',
-            p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },
-            ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
-        },
-        e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
+        -- E = {
+        --     name = 'Explorer Functions',
+        --     p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },
+        --     ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
+        -- },
+        -- e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
+        e = { '<cmd>Neotree reveal_file=% toggle<CR>', 'Explorer' },
         F = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
         g = {
             name = 'Git',
