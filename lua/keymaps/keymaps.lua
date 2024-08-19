@@ -220,7 +220,16 @@ local leader_keymaps = {
         --     ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
         -- },
         -- e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
-        e = { '<cmd>Neotree reveal_file=% toggle<CR>', 'Explorer' },
+        e = {
+            function()
+                if vim.fn.expand '%' ~= '' then
+                    require('neo-tree.command').execute { action = 'show', source = 'filesystem', target = { path = vim.fn.expand '%' } }
+                else
+                    require('neo-tree.command').execute { action = 'focus' }
+                end
+            end,
+            'Explorer',
+        },
         F = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
         g = {
             name = 'Git',
