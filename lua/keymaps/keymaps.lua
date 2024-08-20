@@ -223,7 +223,7 @@ local leader_keymaps = {
         e = {
             function()
                 if vim.fn.expand '%' ~= '' then
-                    require('neo-tree.command').execute { action = 'show', toggle = true, source = 'filesystem', target = { path = vim.fn.expand '%' } }
+                    require('neo-tree.command').execute { action = 'focus', toggle = true, source = 'filesystem', target = { path = vim.fn.expand '%' } }
                 else
                     require('neo-tree.command').execute { action = 'focus', toggle = true }
                 end

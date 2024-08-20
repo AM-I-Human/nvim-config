@@ -48,6 +48,8 @@ return {
             --           return a.type > b.type
             --       end
             --   end , -- this sorts files and directories descendantly
+            --
+            use_default_mappings = false,
             default_component_configs = {
                 container = {
                     enable_character_fade = true,
@@ -132,10 +134,10 @@ return {
                     nowait = true,
                 },
                 mappings = {
-                    ['<space>'] = {
-                        'toggle_node',
-                        nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
-                    },
+                    -- ['<space>'] = {
+                    --     'toggle_node',
+                    --     nowait = false, -- disable `nowait` if you have existing combos starting with this char that you want to use
+                    -- },
                     ['<2-LeftMouse>'] = 'open',
                     ['<cr>'] = 'open',
                     ['<esc>'] = 'cancel', -- close preview or floating neo-tree window
@@ -233,7 +235,7 @@ return {
                         ['<bs>'] = 'navigate_up',
                         ['.'] = 'set_root',
                         ['H'] = 'toggle_hidden',
-                        ['/'] = 'fuzzy_finder',
+                        -- ['/'] = 'fuzzy_finder',
                         ['D'] = 'fuzzy_finder_directory',
                         ['#'] = 'fuzzy_sorter', -- fuzzy sorting using the fzy algorithm
                         -- ["D"] = "fuzzy_sorter_directory",
