@@ -222,11 +222,12 @@ local leader_keymaps = {
         -- e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
         e = {
             function()
-                if vim.fn.expand '%' ~= '' then
-                    require('neo-tree.command').execute { action = 'focus', toggle = true, source = 'filesystem', target = { path = vim.fn.expand '%' } }
-                else
-                    require('neo-tree.command').execute { action = 'focus', toggle = true }
-                end
+                require('neo-tree.command').execute {
+                    action = 'focus',
+                    reveal = true,
+                    toggle = true,
+                    source = 'filesystem',
+                }
             end,
             'Explorer',
         },
