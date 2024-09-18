@@ -1,4 +1,4 @@
--- completeopt but leave it for make sure it works
+-- for make sure it works
 vim.opt.completeopt = { 'menu', 'menuone', 'preview' }
 -- Autocompletion setup
 
@@ -107,7 +107,7 @@ return {
         -- Setup for SQL filetype
         cmp.setup.filetype({ 'sql' }, {
             sources = {
-                { namne = 'cmp-dbee' },
+                { name = 'cmp-dbee' },
                 { name = 'vim-dadbod-completion' },
                 { name = 'buffer' },
             },
