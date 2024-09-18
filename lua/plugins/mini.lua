@@ -1,3 +1,32 @@
+local spinner_symbols = {
+    '⠋',
+    '⠙',
+    '⠹',
+    '⠸',
+    '⠼',
+    '⠴',
+    '⠦',
+    '⠧',
+    '⠇',
+    '⠏',
+}
+
+local spinner_index = 1
+function next_spinner_symbol()
+    spinner_index = (spinner_index % #spinner_symbols) + 1
+    return spinner_symbols[spinner_index]
+end
+local processing = false
+local group = vim.api.nvim_create_augroup('CodeCompanionHooks', {})
+
+vim.api.nvim_create_autocmd({ 'User' }, {
+    pattern = 'CodeCompanionRequest',
+    group = group,
+    callback = function(request)
+        processing = (request.data.status == 'started')
+    end,
+})
+
 return { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     dependencies = { 'GCBallesteros/NotebookNavigator.nvim' },

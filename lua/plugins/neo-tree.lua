@@ -129,7 +129,7 @@ return {
             commands = {},
             window = {
                 position = 'left',
-                width = 60,
+                -- width = 80,
                 mapping_options = {
                     noremap = true,
                     nowait = true,
@@ -220,7 +220,7 @@ return {
                     },
                 },
                 follow_current_file = {
-                    enabled = false, -- This will find and focus the file in the active buffer every time
+                    enabled = true, -- This will find and focus the file in the active buffer every time
                     --               -- the current file is changed while the tree is open.
                     leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
                 },
@@ -233,6 +233,8 @@ return {
                 use_libuv_file_watcher = false, -- This will use the OS level file watchers to detect changes
                 -- instead of relying on nvim autocmd events.
                 window = {
+                    -- auto_expand_width = true,
+
                     mappings = {
                         ['<bs>'] = 'navigate_up',
                         ['.'] = 'set_root',
@@ -241,6 +243,12 @@ return {
                         ['D'] = 'fuzzy_finder_directory',
                         ['#'] = 'fuzzy_sorter', -- fuzzy sorting using the fzy algorithm
                         -- ["D"] = "fuzzy_sorter_directory",
+                        ['Y'] = {
+                            function(state)
+                                vim.fn.setreg('+', state.tree:get_node().path)
+                            end,
+                            desc = 'copy path to clipboard',
+                        },
                         ['f'] = 'filter_on_submit',
                         ['<c-x>'] = 'clear_filter',
                         ['[g'] = 'prev_git_modified',

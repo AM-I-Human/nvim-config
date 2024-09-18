@@ -10,7 +10,7 @@ return { -- LSP Configuration & Plugins
     },
     config = function()
         vim.api.nvim_create_autocmd('LspAttach', {
-            group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
+            group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
             callback = function(event)
                 -- In this case, we create a function that lets us more easily define mappings specific
                 -- for LSP related items. It sets the mode, buffer and description for us each time.
@@ -21,7 +21,7 @@ return { -- LSP Configuration & Plugins
                 -- When you move your cursor, the highlights will be cleared (the second autocommand).
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
                 if client and client.server_capabilities.documentHighlightProvider then
-                    local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
+                    local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
                     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                         buffer = event.buf,
                         group = highlight_augroup,
@@ -38,10 +38,10 @@ return { -- LSP Configuration & Plugins
         })
 
         vim.api.nvim_create_autocmd('LspDetach', {
-            group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
+            group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
             callback = function(event)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event.buf }
+                vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event.buf }
             end,
         })
 
@@ -63,6 +63,7 @@ return { -- LSP Configuration & Plugins
             -- clangd = {},
             -- gopls = {},
             pyright = {},
+            ruff_lsp = {},
             pylsp = {},
             -- rust_analyzer = {},
             -- tsserver = {},
@@ -87,7 +88,8 @@ return { -- LSP Configuration & Plugins
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             'stylua',
-            'black',
+            'ruff_lsp',
+            'ruff',
             'debugpy',
             'pyright',
             'python-lsp-server',
