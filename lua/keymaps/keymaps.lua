@@ -201,6 +201,7 @@ local leader_keymaps = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
+            f = { vim.lsp.buf.format, 'Format' }, -- new keymap for formatting
             -- " simple code action for normal mode and visual mode
             -- nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
             -- vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
@@ -354,8 +355,25 @@ local leader_keymaps = {
     },
 
     -- Shortcut for searching your Neovim configuration files
-    visual_mode = {},
-
+    visual_mode = {
+        c = {
+            r = { vim.lsp.buf.rename, 'Rename' },
+            a = { vim.lsp.buf.code_action, 'Action' },
+            f = { vim.lsp.buf.format, 'Format' }, -- new keymap for formatting
+            -- " simple code action for normal mode and visual mode
+            -- nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
+            -- vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
+            --
+            -- " alternative that uses floating window
+            -- " nmap <buffer> <Leader>f <plug>(lsp-code-action-float)
+            --
+            -- " mapping for filtered code actions
+            -- nmap <buffer> <Leader>ri :LspCodeAction refactor.inline<CR>
+            -- nmap <buffer> <Leader>ro :LspCodeAction source.organizeImports<CR>
+            -- vmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
+            -- nmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
+        },
+    },
     -- See `:help telescope.builtin`
 
     ---@class WhichKeyPages

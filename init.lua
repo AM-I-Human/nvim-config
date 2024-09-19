@@ -35,6 +35,7 @@ require('lazy').setup({
     { import = 'plugins.file' },
     { import = 'plugins.ai' },
     require 'plugins.lsp.java',
+    { import = 'plugins.mobile' },
 }, {
     ui = {
         -- If you are using a Nerd Font: set icons to an empty table which will use the
