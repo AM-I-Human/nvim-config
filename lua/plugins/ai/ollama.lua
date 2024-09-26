@@ -27,7 +27,7 @@ return {
 
     ---@type Ollama.Config
     opts = {
-        model = IS_MAC and 'llama3' or 'codestral', -- The default model to use.
+        model = 'codegeex4', -- The default model to use.
         url = 'http://127.0.0.1:11434',
         serve = {
             on_start = false,
@@ -41,13 +41,13 @@ return {
             Sample_Prompt = {
                 prompt = 'This is a sample prompt that receives $input and $sel(ection), among others.',
                 input_label = '> ',
-                model = IS_MAC and 'llama3' or 'codestral', -- The default model to use.
+                model = 'codegeex4', -- The default model to use.
                 action = 'display',
             },
             Fast_virtual_prediction = {
                 prompt = 'Given this code $buf, ',
-                model = 'starcode2',
-                action = 'table',
+                model = 'codegeex4:9b-all-q2_K',
+                action = 'display',
                 -- ---@type Ollama.PromptAction
                 -- action = {
                 --     fn = function(prompt)
