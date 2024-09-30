@@ -321,7 +321,12 @@ local leader_keymaps = {
             name = 'Search',
             h = { require('telescope.builtin').help_tags, 'Help' },
             k = { require('telescope.builtin').keymaps, 'Keymaps' },
-            f = { require('telescope.builtin').find_files, 'Files' },
+            f = {
+                function()
+                    require('telescope.builtin').find_files { hidden = true }
+                end,
+                'Files',
+            },
             s = { require('telescope.builtin').builtin, 'Search Types Telescope' },
             w = { require('telescope.builtin').grep_string, 'current Word' },
             g = { require('telescope.builtin').live_grep, 'Grep' },
