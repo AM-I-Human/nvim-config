@@ -80,6 +80,12 @@ return { -- LSP Configuration & Plugins
                         },
                         -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
                         -- diagnostics = { disable = { 'missing-fields' } },
+
+                        python = {
+                            analysis = {
+                                extraPaths = { './src' },
+                            },
+                        },
                     },
                 },
             },
@@ -94,8 +100,18 @@ return { -- LSP Configuration & Plugins
             'pyright',
             'python-lsp-server',
         })
+
         require('mason-registry.index')['pylance'] = 'pylance'
         require('mason-registry'):on('package:install:success', require('plugins.lsp.python').mason_post_install)
+        -- require('mason-registry'):on('package:install:success', function(pkg)
+        --     local pkg_name = pkg.name:lower()
+        --
+        --     if pkg_name:match 'python' then
+        --         require('plugins.lsp.python').mason_post_install()
+        --     elseif pkg_name:match 'markdown' then
+        --         require('plugins.lsp.markdown').mason_post_install()
+        --     end
+        -- end)
         require('mason-tool-installer').setup { ensure_installed = ensure_installed }
         -- local Package = require'mason-core.package'
         -- local registry = require "mason-registry"

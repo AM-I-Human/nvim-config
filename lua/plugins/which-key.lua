@@ -46,8 +46,10 @@ return { -- Useful plugin to show you pending keybinds.
         local which_key_mappings = (require 'keymaps.keymaps').which_key_mappings
         -- Document existing key chains using pages
         wk.add(which_key_mappings.pages.normal_mode)
+        wk.add(which_key_mappings.pages.visual_mode)
 
         wk.add(convert_to_new_format(which_key_mappings.normal_mode, '<leader>'))
+        wk.add(convert_to_new_format(which_key_mappings.visual_mode, '<leader>'))
         -- wk.add(convert_to_new_format(which_key_mappings.visual_mode, '<leader>'))
     end,
 }

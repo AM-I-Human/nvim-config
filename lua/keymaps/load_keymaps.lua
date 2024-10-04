@@ -42,6 +42,7 @@ end
 -- @param key The key of keymap
 -- @param val Can be form as a mapping or tuple of mapping and user defined opt
 function M.set_keymaps(mode, key, val)
+    mode = mode_adapters[mode]
     local opt = generic_opts[mode] or generic_opts_any
     if type(val) == 'table' then
         opt = val[2]
@@ -61,7 +62,6 @@ end
 -- @param mode The keymap mode, can be one of the keys of mode_adapters
 -- @param keymaps The list of key mappings
 function M.load_mode(mode, keymaps)
-    mode = mode_adapters[mode] or mode
     for k, v in pairs(keymaps) do
         if type(v) == 'table' and (type(v[1]) == 'string' or type(v[1]) == 'function') then
             -- Direct mapping with optional options table

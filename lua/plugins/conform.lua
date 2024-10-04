@@ -30,7 +30,14 @@ return { -- Autoformat
             --
             -- You can use a sub-list to tell conform to run *until* a formatter
             -- is found.
+            markdown = { 'comrak' },
             -- javascript = { { "prettierd", "prettier" } },
+        },
+        formatters = {
+            comrak = {
+                command = 'comrak',
+                args = { '--to', 'commonmark', '--width', '80' },
+            },
         },
     },
 }

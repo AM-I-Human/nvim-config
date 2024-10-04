@@ -11,7 +11,7 @@ return {
 
         --- The below is optional, make sure to setup it properly if you have lazy=true
         {
-            'MeanderingProgrammer/render-markdown.nvim',
+            'OXY2DEV/markview.nvim',
             opts = {
                 file_types = { 'markdown', 'Avante' },
             },
@@ -26,7 +26,7 @@ return {
                 ['local'] = true,
                 endpoint = '127.0.0.1:11434/v1',
                 -- model = "codegemma",
-                model = 'codegeex4',
+                model = 'qwen2.5:14b',
                 parse_curl_args = function(opts, code_opts)
                     return {
                         url = opts.endpoint .. '/chat/completions',
