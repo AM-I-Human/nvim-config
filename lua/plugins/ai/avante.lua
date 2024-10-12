@@ -2,7 +2,7 @@ return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     lazy = false,
-    build = IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false' or 'make',
+    build = (IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false') or 'make',
     dependencies = {
         'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
         'stevearc/dressing.nvim',
@@ -25,7 +25,6 @@ return {
             ollama = {
                 ['local'] = true,
                 endpoint = '127.0.0.1:11434/v1',
-                -- model = "codegemma",
                 model = 'qwen2.5:14b',
                 parse_curl_args = function(opts, code_opts)
                     return {
@@ -33,6 +32,7 @@ return {
                         headers = {
                             ['Accept'] = 'application/json',
                             ['Content-Type'] = 'application/json',
+                            ['x-api-key'] = 'ollama',
                         },
                         body = {
                             model = opts.model,
@@ -48,7 +48,7 @@ return {
             },
         },
         behaviour = {
-            auto_suggestions = false, -- Experimental stage
+            auto_suggestions = true, -- Experimental stage
             auto_set_highlight_group = true,
             auto_set_keymaps = true,
             auto_apply_diff_after_generation = false,

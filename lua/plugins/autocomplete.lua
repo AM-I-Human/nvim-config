@@ -101,6 +101,7 @@ return {
                 { name = 'otter' },
                 { name = 'path' },
                 { name = 'buffer' },
+                { name = 'avante' },
             },
         }
 
