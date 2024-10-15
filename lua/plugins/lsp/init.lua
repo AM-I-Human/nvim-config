@@ -95,7 +95,6 @@ return { -- LSP Configuration & Plugins
         vim.list_extend(ensure_installed, {
             'stylua',
             'ruff_lsp',
-            'ruff',
             'debugpy',
             'pyright',
             'python-lsp-server',
