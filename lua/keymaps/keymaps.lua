@@ -316,6 +316,57 @@ local leader_keymaps = {
             c = { ':Gen Chat<CR>', 'Chat' },
             a = { ':Gen Ask<CR>', 'Ask' },
         },
+        O = {
+            name = 'OIL',
+            o = {
+                function()
+                    require('oil').open()
+                end,
+                'Open Oil',
+            },
+            q = {
+                function()
+                    require('oil').close()
+                end,
+                'Close Oil',
+            },
+            v = {
+                function()
+                    require('oil').open_float()
+                end,
+                'Open Oil in Float',
+            },
+            h = {
+                function()
+                    require('oil').toggle_hidden()
+                end,
+                'Toggle Hidden Files',
+            },
+            r = {
+                function()
+                    require('oil').refresh()
+                end,
+                'Refresh Oil',
+            },
+            s = {
+                function()
+                    require('oil').select()
+                end,
+                'Select File/Directory',
+            },
+            d = {
+                function()
+                    require('oil').cd()
+                end,
+                'Change Directory',
+            },
+            p = {
+                function()
+                    require('oil').open_cwd()
+                end,
+                'Open CWD',
+            },
+        },
         P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
         s = {
             name = 'Search',
