@@ -7,8 +7,6 @@ require 'options.global'
 require 'options.opt'
 require 'options.mouse'
 
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
     local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -28,7 +26,7 @@ require('lazy').setup({
             { 'nvim-telescope/telescope.nvim', branch = '0.1.x', dependencies = { 'nvim-lua/plenary.nvim' } },
         },
         lazy = false,
-        branch = 'regexp',
+        branch = 'regexp', -- is the new rewrited version that support regexp
     },
     { import = 'plugins' },
     { import = 'plugins.jupyter' },
