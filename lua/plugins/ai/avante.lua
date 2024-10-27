@@ -1,7 +1,7 @@
 return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
-    lazy = false,
+    lazy = true,
     build = (IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false') or 'make',
     dependencies = {
         'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
