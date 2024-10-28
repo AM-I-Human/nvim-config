@@ -54,13 +54,36 @@ return {
             --     end,
             -- }
 
-            -- table.insert(dap.configurations.python, {
-            --     type = 'python',
-            --     request = 'launch',
-            --     name = 'My custom launch configuration',
-            --     program = '${file}',
-            --     -- ... more options, see https://github.com/microsoft/debugpy/wiki/Debug-configuration-settings
-            -- })
+            table.insert(dap.configurations.python, {
+                type = 'python',
+                request = 'launch',
+                name = 'Python: Current File',
+                program = '${file}',
+                projectDir = '${workspaceFolder}',
+                pythonPath = function()
+                    return require('venv-selector').get_active_venv_python_path()
+                end,
+            })
+
+            table.insert(dap.configurations.python, {
+                -- Launch configuration for FastAPI with fastapi dev
+                type = 'python',
+                request = 'launch',
+                name = 'FastAPI Dev',
+                program = '${file}', -- This specifies the main file in your FastAPI project
+                pythonPath = function()
+                    return require('venv-selector').get_active_venv_python_path()
+                end,
+                args = { -- Arguments for `fastapi dev`
+                    '-m',
+                    'fastapi', -- Run the fastapi module
+                    'dev', -- Use the `dev` command
+                    'run',
+                    'main.py', -- Specify the main FastAPI file
+                    '--reload', -- Optional: automatically reloads server on file changes
+                },
+                justMyCode = true, -- Set to false if you want to debug inside dependencies
+            })
 
             -- dap.adapters.go = {
             --     type = 'server',

@@ -11,6 +11,7 @@ return {
         -- See :help oil-columns
         columns = {
             'icon',
+            'fullpath',
             -- "permissions",
             -- "size",
             -- "mtime",
@@ -31,6 +32,7 @@ return {
             conceallevel = 3,
             concealcursor = 'nvic',
         },
+
         -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
         delete_to_trash = false,
         -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
@@ -60,6 +62,7 @@ return {
         -- it will use the mapping at require("oil.actions").<name>
         -- Set to `false` to remove a keymap
         -- See :help oil-actions for a list of all available actions
+        --
         keymaps = {
             ['g?'] = 'actions.show_help',
             ['<CR>'] = 'actions.select',
