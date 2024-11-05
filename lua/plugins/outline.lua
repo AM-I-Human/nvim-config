@@ -1,5 +1,6 @@
 return {
     lazy = true,
+    event = 'VeryLazy',
     'hedyhli/outline.nvim',
     config = function()
         -- Example mapping to toggle outline
