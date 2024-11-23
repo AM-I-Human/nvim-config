@@ -63,7 +63,7 @@ return { -- LSP Configuration & Plugins
             -- clangd = {},
             -- gopls = {},
             pyright = {},
-            ruff_lsp = {},
+            ruff = {},
             pylsp = {},
             -- rust_analyzer = {},
             -- tsserver = {},
@@ -94,7 +94,7 @@ return { -- LSP Configuration & Plugins
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             'stylua',
-            'ruff_lsp',
+            'ruff',
             'debugpy',
             'pyright',
             'python-lsp-server',

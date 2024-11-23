@@ -100,10 +100,6 @@ return {
             -- With `format`, you can change how the label is rendered.
             -- Should return a list of `[text, highlight]` tuples.
             ---@class Flash.Format
-            ---@field state Flash.State
-            ---@field match Flash.Match
-            ---@field hl_group string
-            ---@field after boolean
             ---@type fun(opts:Flash.Format): string[][]
             format = function(opts)
                 return { { opts.match.label, opts.hl_group } }

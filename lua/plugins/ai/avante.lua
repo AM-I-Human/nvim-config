@@ -23,7 +23,7 @@ return {
         use_absolute_path = true,
         vendors = {
             ollama = {
-                ['local'] = true,
+                api_key_name = '',
                 endpoint = '127.0.0.1:11434/v1',
                 -- model = "codegemma",
                 model = 'codestral:22b',
