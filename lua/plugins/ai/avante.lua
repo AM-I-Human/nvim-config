@@ -21,13 +21,19 @@ return {
     opts = {
         provider = 'ollama',
         use_absolute_path = true,
-        auto_suggestions_provider = 'ollama',
+        auto_suggestions_provider = 'ollama_autocomplete',
         vendors = {
+            ollama_autocomplete = {
+                __inherited_from = 'openai',
+                api_key_name = '',
+                endpoint = 'http://localhost:11434/v1',
+                model = 'codestral:22b',
+            },
             ollama = {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
-                model = 'codegemma',
+                model = 'codestral:22b',
             },
         },
         behaviour = {
@@ -49,7 +55,7 @@ return {
                 prev = '[x',
             },
             suggestion = {
-                accept = '<M-l>',
+                accept = '<Tab>',
                 next = '<M-]>',
                 prev = '<M-[>',
                 dismiss = '<C-]>',
