@@ -38,7 +38,17 @@ return { -- Collection of various small independent plugins/modules
         -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
         -- - sd'   - [S]urround [D]elete [']quotes
         -- - sr)'  - [S]urround [R]eplace [)] [']
-        require('mini.surround').setup()
+        require('mini.surround').setup {
+            mappings = {
+                add = 'gsa', -- Keep adding as is
+                delete = 'ds', -- Change delete mapping to 'ds'
+                find = 'gsf', -- Keep find as is
+                find_left = 'gsF', -- Keep find left as is
+                highlight = 'gsh', -- Keep highlight as is
+                replace = 'gsr', -- Keep replace as is
+                update_n_lines = 'gsn', -- Keep update n lines as is
+            },
+        }
         -- local hipatterns = require 'mini.hipatterns'
         -- hipatterns.setup {
         --     highlighters = {
