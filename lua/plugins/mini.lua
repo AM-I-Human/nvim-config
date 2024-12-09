@@ -40,13 +40,16 @@ return { -- Collection of various small independent plugins/modules
         -- - sr)'  - [S]urround [R]eplace [)] [']
         require('mini.surround').setup {
             mappings = {
-                add = 'gsa', -- Keep adding as is
-                delete = 'ds', -- Change delete mapping to 'ds'
-                find = 'gsf', -- Keep find as is
-                find_left = 'gsF', -- Keep find left as is
-                highlight = 'gsh', -- Keep highlight as is
-                replace = 'gsr', -- Keep replace as is
-                update_n_lines = 'gsn', -- Keep update n lines as is
+                add = 'sa', -- Add surrounding in Normal and Visual modes
+                delete = 'sd', -- Delete surrounding
+                find = 'sf', -- Find surrounding (to the right)
+                find_left = 'sF', -- Find surrounding (to the left)
+                highlight = 'sh', -- Highlight surrounding
+                replace = 'sr', -- Replace surrounding
+                update_n_lines = 'sn', -- Update `n_lines`
+
+                suffix_last = 'l', -- Suffix to search with "prev" method
+                suffix_next = 'n', -- Suffix to search with "next" method
             },
         }
         -- local hipatterns = require 'mini.hipatterns'
