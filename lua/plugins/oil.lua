@@ -7,14 +7,13 @@ return {
         -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
         -- Set to false if you still want to use netrw.
         default_file_explorer = true,
-        -- Id is automatically added at the beginning, and name at the end
         -- See :help oil-columns
         columns = {
             'icon',
             'fullpath',
             -- "permissions",
-            -- "size",
-            -- "mtime",
+            'size',
+            'mtime',
         },
         -- Buffer-local options to use for oil buffers
         buf_options = {
@@ -32,30 +31,16 @@ return {
             conceallevel = 3,
             concealcursor = 'nvic',
         },
-
-        -- Send deleted files to the trash instead of permanently deleting them (:help oil-trash)
-        delete_to_trash = false,
-        -- Skip the confirmation popup for simple operations (:help oil.skip_confirm_for_simple_edits)
-        skip_confirm_for_simple_edits = false,
-        -- Selecting a new/moved/renamed file or directory will prompt you to save changes first
-        -- (:help prompt_save_on_select_new_entry)
+        delete_to_trash = true,
+        skip_confirm_for_simple_edits = true,
         prompt_save_on_select_new_entry = true,
-        -- Oil will automatically delete hidden buffers after this delay
-        -- You can set the delay to false to disable cleanup entirely
-        -- Note that the cleanup process only starts when none of the oil buffers are currently displayed
         cleanup_delay_ms = 2000,
         lsp_file_methods = {
-            -- Time to wait for LSP file operations to complete before skipping
             timeout_ms = 1000,
-            -- Set to true to autosave buffers that are updated with LSP willRenameFiles
-            -- Set to "unmodified" to only save unmodified buffers
             autosave_changes = false,
         },
-        -- Constrain the cursor to the editable parts of the oil buffer
-        -- Set to `false` to disable, or "name" to keep it on the file names
         constrain_cursor = 'editable',
-        -- Set to true to watch the filesystem for changes and reload oil
-        experimental_watch_for_changes = false,
+        experimental_watch_for_changes = true,
         -- Keymaps in oil buffer. Can be any value that `vim.keymap.set` accepts OR a table of keymap
         -- options with a `callback` (e.g. { callback = function() ... end, desc = "", mode = "n" })
         -- Additionally, if it is a string that matches "actions.<name>",
@@ -84,13 +69,10 @@ return {
         -- Set to false to disable all of the above keymaps
         use_default_keymaps = true,
         view_options = {
-            -- Show files and directories that start with "."
-            show_hidden = false,
-            -- This function defines what is considered a "hidden" file
+            show_hidden = true,
             is_hidden_file = function(name, bufnr)
                 return vim.startswith(name, '.')
             end,
-            -- This function defines what will never be shown, even when `show_hidden` is set
             is_always_hidden = function(name, bufnr)
                 return false
             end,
@@ -98,15 +80,11 @@ return {
             -- so you may want to set to false if you work with large directories.
             natural_order = true,
             sort = {
-                -- sort order can be "asc" or "desc"
-                -- see :help oil-columns to see which columns are sortable
                 { 'type', 'asc' },
                 { 'name', 'asc' },
             },
         },
-        -- Extra arguments to pass to SCP when moving/copying files over SSH
         extra_scp_args = {},
-        -- EXPERIMENTAL support for performing file operations with git
         git = {
             -- Return true to automatically git add/mv/rm files
             add = function(path)
@@ -119,9 +97,7 @@ return {
                 return false
             end,
         },
-        -- Configuration for the floating window in oil.open_float
         float = {
-            -- Padding around the floating window
             padding = 2,
             max_width = 0,
             max_height = 0,
@@ -129,13 +105,10 @@ return {
             win_options = {
                 winblend = 0,
             },
-            -- This is the config that will be passed to nvim_open_win.
-            -- Change values here to customize the layout
             override = function(conf)
                 return conf
             end,
         },
-        -- Configuration for the actions floating preview window
         preview = {
             -- Width dimensions can be integers or a float between 0 and 1 (e.g. 0.4 for 40%)
             -- min_width and max_width can be a single value or a list of mixed integer/float types.

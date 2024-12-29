@@ -1,7 +1,8 @@
 return { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
-        -- Automatically install LSPs and related tools to stdpath for Neovim
+
+        'saghen/blink.cmp',
         { 'williamboman/mason.nvim', config = true },
         { 'williamboman/mason-lspconfig.nvim' },
         { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
@@ -9,6 +10,8 @@ return { -- LSP Configuration & Plugins
         { 'folke/neodev.nvim', opts = {} },
     },
     config = function()
+        local capabilities = require('blink.cmp').get_lsp_capabilities()
+        require('lspconfig').lua_ls.setup { capabilites = capabilities }
         vim.api.nvim_create_autocmd('LspAttach', {
             group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
             callback = function(event)
@@ -47,8 +50,8 @@ return { -- LSP Configuration & Plugins
 
         --[[ Increasing LSP capabilities]]
         --
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+        -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+        -- capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
         -- Enable the following language servers
         --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.

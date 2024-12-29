@@ -223,12 +223,8 @@ local leader_keymaps = {
         -- e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
         e = {
             function()
-                require('neo-tree.command').execute {
-                    action = 'focus',
-                    reveal = true,
-                    toggle = true,
-                    source = 'filesystem',
-                }
+                require('oil').toggle_float '.'
+                require('oil').open_preview()
             end,
             'Explorer',
         },

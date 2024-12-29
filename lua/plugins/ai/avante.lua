@@ -2,14 +2,13 @@ return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     lazy = true,
-    build = (IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false') or 'make',
+    build = (IS_WINDOWS and "Start-Process -FilePath powershell.exe -ArgumentList '-ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false' -Wait")
+        or 'make',
     dependencies = {
         'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
         'stevearc/dressing.nvim',
         'nvim-lua/plenary.nvim',
         'MunifTanjim/nui.nvim',
-
-        --- The below is optional, make sure to setup it properly if you have lazy=true
         {
             'OXY2DEV/markview.nvim',
             opts = {
