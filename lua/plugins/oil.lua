@@ -4,10 +4,7 @@ return {
     lazy = true,
     event = 'VeryLazy',
     opts = {
-        -- Oil will take over directory buffers (e.g. `vim .` or `:e src/`)
-        -- Set to false if you still want to use netrw.
         default_file_explorer = true,
-        -- See :help oil-columns
         columns = {
             'icon',
             'fullpath',
@@ -15,12 +12,10 @@ return {
             'size',
             'mtime',
         },
-        -- Buffer-local options to use for oil buffers
         buf_options = {
             buflisted = false,
             bufhidden = 'hide',
         },
-        -- Window-local options to use for oil buffers
         win_options = {
             wrap = false,
             signcolumn = 'no',

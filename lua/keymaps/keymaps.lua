@@ -202,6 +202,7 @@ local leader_keymaps = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
             f = { vim.lsp.buf.format, 'Format' }, -- new keymap for formatting
+
             -- " simple code action for normal mode and visual mode
             -- nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
             -- vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
@@ -220,40 +221,50 @@ local leader_keymaps = {
         --     p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },
         --     ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
         -- },
-        -- e = { '<cmd>NvimTreeToggle<CR>', 'Explorer' },
         e = {
             function()
-                require('oil').toggle_float '.'
-                require('oil').open_preview()
+                require('oil').toggle_float(nil)
+                require('oil').open_preview { vertical = true, split = 'botright' }
             end,
             'Explorer',
         },
-        F = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
+        F = {
+            name = 'Flutter',
+            a = { require('flutter-tools.commands').attach, 'Attach' }, -- Attach to a running app.
+            y = { require('flutter-tools.commands').copy_profiler_url, 'CopyProfilerUrl' }, -- Copies the profiler url to your system clipboard (+ register). Note that commands FlutterRun and FlutterDevTools must be executed first.
+            d = { require('flutter-tools.devices').list_devices, 'Devices' }, -- Brings up a list of connected devices to select from.
+            D = { require('flutter-tools.commands').detach, 'Detach' }, -- Ends a running session locally but keeps the process running on the device.
+            t = { require('flutter-tools.dev_tools').start, 'DevTools' }, -- Starts a Dart Dev Tools server.
+            T = { require('flutter-tools.dev_tools').activate, 'DevToolsActivate' }, -- Activates a Dart Dev Tools server.
+            E = { require('flutter-tools.devices').list_emulators, 'Emulators' }, -- Similar to devices but shows a list of emulators to choose from.
+            l = { require('flutter-tools.log').toggle, 'LogToggle' }, -- Toggles the log buffer.
+            L = { require('flutter-tools.log').clear, 'LogClear' }, -- Clears the log buffer.
+            o = { require('flutter-tools.outline').toggle, 'OutlineToggle' }, -- Toggle the outline window showing the widget tree for the given file.
+            O = { require('flutter-tools.outline').open, 'OutlineOpen' }, -- Opens an outline window showing the widget tree for the given file.
+            q = { require('flutter-tools.commands').quit, 'Quit' }, -- Ends a running session.
+            re = { require('flutter-tools.commands').reload, 'Reload' }, -- Reload the running project.
+            r = { '<cmd>FlutterRun<cr>', 'Run' }, -- Run the current project. Respects config.debugger.enabled setting.
+            rd = { '<cmd>FlutterDebug<cr>', 'Debug' }, -- Force run current project in debug mode.
+            R = { require('flutter-tools.commands').restart, 'Restart' }, -- Restart the current project.
+            S = { require('flutter-tools.lsp').dart_lsp_super, 'Super' }, -- Go to super class, method using custom LSP method dart/textDocument/super.
+            -- defining all Flutter.nvim leader keymaps for the commands
+        },
         g = {
             name = 'Git',
-            g = { "<cmd>lua require 'plugins.terminal'.lazygit_toggle()<cr>", 'Lazygit' },
-            j = { "<cmd>lua require 'gitsigns'.next_hunk({navigation_message = false})<cr>", 'Next Hunk' },
-            k = { "<cmd>lua require 'gitsigns'.prev_hunk({navigation_message = false})<cr>", 'Prev Hunk' },
-            l = { "<cmd>lua require 'gitsigns'.blame_line()<cr>", 'Blame' },
-            p = { "<cmd>lua require 'gitsigns'.preview_hunk()<cr>", 'Preview Hunk' },
-            r = { "<cmd>lua require 'gitsigns'.reset_hunk()<cr>", 'Reset Hunk' },
-            R = { "<cmd>lua require 'gitsigns'.reset_buffer()<cr>", 'Reset Buffer' },
-            s = { "<cmd>lua require 'gitsigns'.stage_hunk()<cr>", 'Stage Hunk' },
-            u = {
-                "<cmd>lua require 'gitsigns'.undo_stage_hunk()<cr>",
-                'Undo Stage Hunk',
-            },
+            g = { require('plugins.terminal').lazygit_toggle(), 'Lazygit' },
+            j = { require('gitsigns').nav_hunk 'next', 'Next Hunk' },
+            k = { require('gitsigns').nav_hunk 'prev', 'Previous Hunk' },
+            l = { require('gitsigns').blame_line(), 'Blame' },
+            p = { require('gitsigns').preview_hunk(), 'Preview Hunk' },
+            r = { require('gitsigns').reset_hunk(), 'Reset Hunk' },
+            R = { require('gitsigns').reset_buffer(), 'Reset Buffer' },
+            s = { require('gitsigns').stage_hunk(), 'Stage Hunk' },
+            u = { require('gitsigns').undo_stage_hunk(), 'Undo Stage Hunk' },
             o = { '<cmd>Telescope git_status<cr>', 'Open changed file' },
             b = { '<cmd>Telescope git_branches<cr>', 'Checkout branch' },
             c = { '<cmd>Telescope git_commits<cr>', 'Checkout commit' },
-            C = {
-                '<cmd>Telescope git_bcommits<cr>',
-                'Checkout commit(for current file)',
-            },
-            d = {
-                '<cmd>Gitsigns diffthis HEAD<cr>',
-                'Git Diff',
-            },
+            C = { '<cmd>Telescope git_bcommits<cr>', 'Checkout commit(for current file)' },
+            d = { '<cmd>Gitsigns diffthis HEAD<cr>', 'Git Diff' },
         },
         j = {
             name = 'Jump',
@@ -366,20 +377,21 @@ local leader_keymaps = {
         P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
         s = {
             name = 'Search',
-            h = { require('telescope.builtin').help_tags, 'Help' },
-            k = { require('telescope.builtin').keymaps, 'Keymaps' },
+            b = { require('telescope.builtin').buffers, 'Find existing buffers' },
+            d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
+            F = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
             f = {
                 function()
                     require('telescope.builtin').find_files { hidden = true }
                 end,
                 'Files',
             },
-            s = { require('telescope.builtin').builtin, 'Search Types Telescope' },
-            w = { require('telescope.builtin').grep_string, 'current Word' },
             g = { require('telescope.builtin').live_grep, 'Grep' },
-            d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
+            h = { require('telescope.builtin').help_tags, 'Help' },
+            k = { require('telescope.builtin').keymaps, 'Keymaps' },
             r = { require('telescope.builtin').oldfiles, 'Recent Files ("." for repeat)' },
-            b = { require('telescope.builtin').buffers, 'Find existing buffers' },
+            t = { require('telescope.builtin').builtin, 'Search Types Telescope' },
+            w = { require('telescope.builtin').grep_string, 'current Word' },
             ['.'] = { require('telescope.builtin').resume, 'Resume' },
             ['/'] = {
                 function()
@@ -410,20 +422,8 @@ local leader_keymaps = {
     visual_mode = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
-            a = { vim.lsp.buf.code_action, 'Action' },
+            a = { vim.lsp.buf.range_code_action, 'Action' }, -- new keymap for formatting
             f = { vim.lsp.buf.format, 'Format' }, -- new keymap for formatting
-            -- " simple code action for normal mode and visual mode
-            -- nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
-            -- vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
-            --
-            -- " alternative that uses floating window
-            -- " nmap <buffer> <Leader>f <plug>(lsp-code-action-float)
-            --
-            -- " mapping for filtered code actions
-            -- nmap <buffer> <Leader>ri :LspCodeAction refactor.inline<CR>
-            -- nmap <buffer> <Leader>ro :LspCodeAction source.organizeImports<CR>
-            -- vmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
-            -- nmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
         },
     },
     -- See `:help telescope.builtin`
