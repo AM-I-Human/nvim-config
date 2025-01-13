@@ -68,6 +68,10 @@ return { -- LSP Configuration & Plugins
             pyright = {},
             ruff = {},
             pylsp = {},
+            ['typescript-language-server'] = {
+                filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'json' },
+                cmd = { 'typescript-language-server', '--stdio' },
+            },
             -- rust_analyzer = {},
             -- tsserver = {},
             -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
@@ -101,6 +105,7 @@ return { -- LSP Configuration & Plugins
             'debugpy',
             'pyright',
             'python-lsp-server',
+            'typescript-language-server', -- Add this line
         })
 
         require('mason-registry.index')['pylance'] = 'pylance'
