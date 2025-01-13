@@ -1,5 +1,10 @@
 local M = {}
+local Terminal = require('toggleterm.terminal').Terminal
+local lazygit = Terminal:new { cmd = 'lazygit', hidden = true, direction = 'float', float_opts = { border = 'none', width = 100000, height = 100000 } }
 
+function _lazygit_toggle()
+    lazygit:toggle()
+end
 -- insert_mode = 'i',
 -- normal_mode = 'n',
 -- term_mode = 't',
@@ -251,7 +256,7 @@ local leader_keymaps = {
         },
         g = {
             name = 'Git',
-            g = { require('plugins.terminal').lazygit_toggle(), 'Lazygit' },
+            g = { _lazygit_toggle, 'Lazygit' },
             j = { require('gitsigns').nav_hunk 'next', 'Next Hunk' },
             k = { require('gitsigns').nav_hunk 'prev', 'Previous Hunk' },
             l = { require('gitsigns').blame_line(), 'Blame' },
