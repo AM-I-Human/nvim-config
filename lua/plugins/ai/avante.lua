@@ -2,10 +2,10 @@ return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
     lazy = true,
-    build = (IS_WINDOWS and "Start-Process -FilePath powershell.exe -ArgumentList '-ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false' -Wait")
-        or 'make',
+    build = (IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false') or 'make',
     dependencies = {
-        'nvim-tree/nvim-web-devicons', -- or echasnovski/mini.icons
+        'nvim-treesitter/nvim-treesitter',
+        'nvim-tree/nvim-web-devicons',
         'stevearc/dressing.nvim',
         'nvim-lua/plenary.nvim',
         'MunifTanjim/nui.nvim',
@@ -15,6 +15,20 @@ return {
                 file_types = { 'markdown', 'Avante' },
             },
             ft = { 'markdown', 'Avante' },
+        },
+        {
+            'HakonHarnes/img-clip.nvim',
+            event = 'VeryLazy',
+            opts = {
+                default = {
+                    embed_image_as_base64 = false,
+                    prompt_for_file_name = false,
+                    drag_and_drop = {
+                        insert_mode = true,
+                    },
+                    use_absolute_path = true,
+                },
+            },
         },
     },
     opts = {
@@ -26,13 +40,13 @@ return {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
-                model = 'codestral:22b',
+                model = 'deepseek-coder-v2:latest',
             },
             ollama = {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
-                model = 'codestral:22b',
+                model = 'deepseek-r1:32b',
             },
         },
         behaviour = {
@@ -42,6 +56,7 @@ return {
             auto_apply_diff_after_generation = false,
             support_paste_from_clipboard = false,
         },
+
         mappings = {
             --- @class AvanteConflictMappings
             diff = {

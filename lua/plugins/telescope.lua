@@ -30,7 +30,12 @@ return {
                     n = { ['q'] = 'close' },
                 },
             },
-            -- pickers = {}
+            -- pickers = {
+            --     find_files = {
+            --         theme = 'ivy',
+            --     },
+            -- },
+
             extensions = {
                 fzf = {},
                 ['ui-select'] = {
