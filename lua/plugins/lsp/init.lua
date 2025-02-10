@@ -63,8 +63,7 @@ return { -- LSP Configuration & Plugins
         --  - settings (table): Override the default settings passed when initializing the server.
         --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
         local servers = {
-            -- clangd = {},
-            -- gopls = {},
+            -- Existing servers
             pyright = {},
             ruff = {},
             pylsp = {},
@@ -72,22 +71,12 @@ return { -- LSP Configuration & Plugins
                 filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'json' },
                 cmd = { 'typescript-language-server', '--stdio' },
             },
-            -- rust_analyzer = {},
-            -- tsserver = {},
-            -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-
             lua_ls = {
-                -- cmd = {...},
-                -- filetypes = { ...},
-                -- capabilities = {},
                 settings = {
                     Lua = {
                         completion = {
                             callSnippet = 'Replace',
                         },
-                        -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-                        -- diagnostics = { disable = { 'missing-fields' } },
-
                         python = {
                             analysis = {
                                 extraPaths = { './src' },
@@ -96,6 +85,29 @@ return { -- LSP Configuration & Plugins
                     },
                 },
             },
+
+            -- Add jsonls (JSON Language Server)
+            jsonls = {
+                settings = {
+                    json = {
+                        schemas = require('schemastore').json.schemas(), -- Use SchemaStore for JSON
+                        validate = { enable = true }, -- Enable JSON validation
+                    },
+                },
+            },
+
+            -- Add yamlls (YAML Language Server)
+            yamlls = {
+                settings = {
+                    yaml = {
+                        schemas = require('schemastore').yaml.schemas(), -- Use SchemaStore for YAML
+                        validate = true, -- Enable YAML validation
+                        format = { enable = true }, -- Enable YAML formatting
+                    },
+                },
+            },
+
+            -- Add Biome integration via null-ls (for linting and formatting)
         }
         require('mason').setup {}
         local ensure_installed = vim.tbl_keys(servers or {})
@@ -106,6 +118,7 @@ return { -- LSP Configuration & Plugins
             'pyright',
             'python-lsp-server',
             'typescript-language-server', -- Add this line
+            'biome',
         })
 
         require('mason-registry.index')['pylance'] = 'pylance'
