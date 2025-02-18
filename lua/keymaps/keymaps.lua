@@ -257,6 +257,7 @@ local leader_keymaps = {
         g = {
             name = 'Git',
             g = { _lazygit_toggle, 'Lazygit' },
+            L = { name = 'Lab', m = { require('gitlab').choose_merge_request, 'Choose merge request' } },
             j = { require('gitsigns').nav_hunk 'next', 'Next Hunk' },
             k = { require('gitsigns').nav_hunk 'prev', 'Previous Hunk' },
             l = { require('gitsigns').blame_line, 'Blame' },
@@ -264,7 +265,7 @@ local leader_keymaps = {
             r = { require('gitsigns').reset_hunk, 'Reset Hunk' },
             R = { require('gitsigns').reset_buffer, 'Reset Buffer' },
             s = { require('gitsigns').stage_hunk, 'Stage Hunk' },
-            u = { require('gitsigns').undo_stage_hunk, 'Undo Stage Hunk' },
+            u = { require('gitsigns').stage_hunk, 'Undo Stage Hunk' },
             o = { '<cmd>Telescope git_status<cr>', 'Open changed file' },
             b = { '<cmd>Telescope git_branches<cr>', 'Checkout branch' },
             c = { '<cmd>Telescope git_commits<cr>', 'Checkout commit' },
