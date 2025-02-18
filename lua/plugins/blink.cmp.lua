@@ -14,6 +14,7 @@ end
 return {
     'saghen/blink.cmp',
     dependencies = {
+        { 'L3MON4D3/LuaSnip', version = 'v2.*' },
         'rafamadriz/friendly-snippets',
         'kristijanhusak/vim-dadbod-completion',
         {
@@ -33,6 +34,7 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
+        snippets = { preset = 'luasnip' },
         keymap = { preset = 'default' },
 
         appearance = {
