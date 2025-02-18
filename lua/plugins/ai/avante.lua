@@ -34,11 +34,18 @@ return {
     },
     opts = {
         -- provider = 'ollama',
+        -- provider = 'claude',
         provider = 'gemini',
         use_absolute_path = true,
         auto_suggestions_provider = 'ollama_autocomplete',
+        claude = {
+            endpoint = 'https://api.anthropic.com',
+            model = 'claude-3-5-sonnet-20241022',
+            temperature = 0,
+            max_tokens = 8192,
+        },
         gemini = {
-            model = 'gemini-2.0-flash-exp',
+            model = 'gemini-exp-1206',
             api_key_name = 'GEMINI_API_KEY',
             temperature = 0.7,
             max_tokens = 8192,
