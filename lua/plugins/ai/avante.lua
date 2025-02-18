@@ -38,6 +38,14 @@ return {
         provider = 'gemini',
         use_absolute_path = true,
         auto_suggestions_provider = 'ollama_autocomplete',
+        -- provider = 'bedrock',
+        bedrock = {
+            model = 'anthropic.claude-3.5-sonnet-20241022-v1:0',
+            region = 'eu-central-1', -- Or your AWS region where Bedrock is available
+            timeout = 30000, -- Timeout in milliseconds
+            temperature = 1, -- Adjust as needed
+            max_tokens = 8192, -- Adjust as needed
+        },
         claude = {
             endpoint = 'https://api.anthropic.com',
             model = 'claude-3-5-sonnet-20241022',
