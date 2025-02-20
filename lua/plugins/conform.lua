@@ -26,14 +26,17 @@ return { -- Autoformat
         formatters_by_ft = {
             lua = { 'stylua' },
             -- Conform can also run multiple formatters sequentially
-            python = { 'ruff', 'black' },
+            python = { 'ruff' }, --Remove black as ruff do it for you
             --
             -- You can use a sub-list to tell conform to run *until* a formatter
             -- is found.
             -- markdown = { 'comrak' },
-            javascript = { 'prettierd', 'prettier' },
-            html = { 'prettierd', 'prettier' },
-            css = { 'prettierd', 'prettier' },
+            javascript = { 'biome' },
+            typescript = { 'biome' },
+            json = { 'biome' },
+            jsonc = { 'biome' },
+            markdown = { 'biome' },
+            html = { 'biome' },
         },
         formatters = {
             comrak = {

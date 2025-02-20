@@ -3,7 +3,6 @@ return {
     'benlubas/molten-nvim',
     build = ':UpdateRemotePlugins',
     event = 'VeryLazy',
-    priority = 10,
 
     dependencies = {
         'willothy/wezterm.nvim', -- For image rendering
@@ -54,7 +53,12 @@ return {
 
                 -- Try to get kernel name from notebook metadata
                 local function try_kernel_name()
-                    local metadata = vim.json.decode(io.open(e.file, 'r'):read 'a')['metadata']
+                    local file = io.open(e.file, 'r')
+                    if not file then
+                        return nil
+                    end -- ADDED THIS
+                    local metadata = vim.json.decode(file:read 'a')['metadata']
+                    file:close() -- Close the file
                     return metadata.kernelspec.name
                 end
 
@@ -125,13 +129,14 @@ return {
         }
 
         -- Configure Jupytext sync for relevant filetypes
-        vim.api.nvim_create_autocmd('FileType', {
-            group = jupyter_group,
-            pattern = { 'python', 'jupyter', 'quarto', 'rmd' },
-            callback = function()
-                vim.opt_local.foldmethod = 'marker'
-                vim.opt_local.commentstring = '# %%'
-            end,
-        })
+        -- REMOVE the FileType autocommand that sets commentstring.  Let the LSP handle it.
+        -- vim.api.nvim_create_autocmd('FileType', {
+        --     group = jupyter_group,
+        --     pattern = { 'python', 'jupyter', 'quarto', 'rmd' },
+        --     callback = function()
+        --         vim.opt_local.foldmethod = 'marker'
+        --         vim.opt_local.commentstring = '# %%'  -- REMOVE THIS LINE
+        --     end,
+        -- })
     end,
 }
