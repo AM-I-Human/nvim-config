@@ -1,52 +1,41 @@
-return { -- Autoformat
+return {
     'stevearc/conform.nvim',
-    lazy = false,
+    lazy = true,
+    event = { 'BufReadPre', 'BufNewFile' },
     keys = {
         {
             '<leader>f',
             function()
                 require('conform').format { async = true, lsp_fallback = true }
             end,
-            mode = '',
             desc = '[F]ormat buffer',
         },
     },
-    opts = {
-        notify_on_error = false,
-        format_on_save = function(bufnr)
-            -- Disable "format_on_save lsp_fallback" for languages that don't
-            -- have a well standardized coding style. You can add additional
-            -- languages here or re-enable it for the disabled ones.
-            local disable_filetypes = { c = true, cpp = true, sql = true }
-            return {
-                timeout_ms = 5000,
-                lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
-            }
-        end,
-        formatters_by_ft = {
-            lua = { 'stylua' },
-            -- Conform can also run multiple formatters sequentially
-            python = { 'ruff' }, --Remove black as ruff do it for you
-            --
-            -- You can use a sub-list to tell conform to run *until* a formatter
-            -- is found.
-            -- markdown = { 'comrak' },
-            javascript = { 'biome' },
-            typescript = { 'biome' },
-            json = { 'biome' },
-            jsonc = { 'biome' },
-            markdown = { 'biome' },
-            html = { 'biome' },
-        },
-        formatters = {
-            comrak = {
-                command = 'comrak',
-                args = { '--to', 'commonmark', '--width', '80' },
+    config = function()
+        require('conform').setup {
+            notify_on_error = true,
+            format_on_save = {
+                timeout_ms = 1000,
+                lsp_fallback = true,
             },
-            deno_fmt = {
-                command = 'deno',
-                args = { 'fmt' },
+
+            formatters_by_ft = {
+                lua = { 'stylua' },
+                python = {
+                    command = 'ruff',
+                    args = function(ctx)
+                        return { 'check', '--fix', '--stdin-filename', ctx.filename, '-' }
+                    end,
+                    stdin = true,
+                },
+                javascript = { 'biome' },
+                typescript = { 'biome' },
+                json = { 'biome' },
+                jsonc = { 'biome' },
+                markdown = { 'biome' },
+                html = { 'biome' },
             },
-        },
-    },
+            formatters = {},
+        }
+    end,
 }
