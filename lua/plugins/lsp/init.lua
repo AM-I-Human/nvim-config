@@ -18,8 +18,12 @@ return { -- LSP Configuration & Plugins
                         null_ls.builtins.diagnostics.ruff,
                         null_ls.builtins.formatting.stylua,
                         null_ls.builtins.code_actions.ruff,
+                        -- Add sqlfluff as a formatting source
+                        null_ls.builtins.formatting.sqlfluff.with {
+                            extra_args = { '--dialect', 'snowflake' }, -- Crucial for Snowflake
+                        },
                     },
-                    -- Format on save using null-ls (through conform.nvim)
+                    -- Format on save using null-ls (through conform.nvim) -  KEEP THIS, but we adjust it.
                     on_attach = function(client, bufnr)
                         if client.supports_method 'textDocument/formatting' then
                             vim.api.nvim_clear_autocmds { group = vim.api.nvim_create_augroup('FormatAutogroup', {}), buffer = bufnr }
@@ -27,7 +31,8 @@ return { -- LSP Configuration & Plugins
                                 group = 'FormatAutogroup',
                                 buffer = bufnr,
                                 callback = function()
-                                    vim.lsp.buf.format { bufnr = bufnr }
+                                    -- Use conform.nvim for formatting.  This is the key change.
+                                    require('conform').format { bufnr = bufnr, lsp_fallback = true, async = true }
                                 end,
                             })
                         end
@@ -178,6 +183,7 @@ return { -- LSP Configuration & Plugins
             'typescript-language-server',
             'black',
             'biome',
+            'sqlfluff', -- Add sqlfluff here for mason-tool-installer
         })
         require('mason-tool-installer').setup {
             ensure_installed = ensure_installed,
