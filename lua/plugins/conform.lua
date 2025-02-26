@@ -34,8 +34,16 @@ return {
                 jsonc = { 'biome' },
                 markdown = { 'biome' },
                 html = { 'biome' },
+                -- Add sqlfluff for SQL formatting, including Snowflake
+                sql = { 'sqlfluff' },
             },
-            formatters = {},
+            formatters = {
+                -- sqlfluff configuration
+                sqlfluff = {
+                    prepend_args = { 'lint', '--dialect', 'snowflake', '--fix' },
+                    command = 'sqlfluff',
+                },
+            },
         }
     end,
 }

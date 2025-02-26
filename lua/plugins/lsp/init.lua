@@ -2,15 +2,61 @@ return { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
         'saghen/blink.cmp',
-        { 'williamboman/mason.nvim', config = true },
+        { 'williamboman/mason.nvim',                  config = true },
         { 'williamboman/mason-lspconfig.nvim' },
         { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-        { 'j-hui/fidget.nvim', opts = {} },
-        { 'folke/neodev.nvim', opts = {} },
-        { 'jose-elias-alvarez/null-ls.nvim', opts = {} },
+        { 'j-hui/fidget.nvim',                        opts = {} },
+        { 'folke/neodev.nvim',                        opts = {} },
+        -- Use null-ls *fully*
+        {
+            'jose-elias-alvarez/null-ls.nvim',
+            dependencies = { 'nvim-lua/plenary.nvim' },
+            config = function()
+                local null_ls = require 'null-ls'
+                null_ls.setup {
+                    sources = {
+                        null_ls.builtins.diagnostics.ruff,
+                        null_ls.builtins.formatting.stylua,
+                        null_ls.builtins.code_actions.ruff,
+                    },
+                    -- Format on save using null-ls (through conform.nvim)
+                    on_attach = function(client, bufnr)
+                        if client.supports_method 'textDocument/formatting' then
+                            vim.api.nvim_clear_autocmds { group = vim.api.nvim_create_augroup('FormatAutogroup', {}), buffer = bufnr }
+                            vim.api.nvim_create_autocmd('BufWritePre', {
+                                group = 'FormatAutogroup',
+                                buffer = bufnr,
+                                callback = function()
+                                    vim.lsp.buf.format { bufnr = bufnr }
+                                end,
+                            })
+                        end
+                    end,
+                }
+            end,
+        },
     },
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
+        -- Add codeAction capabilities explicitly. This is crucial.
+        capabilities.textDocument.codeAction = {
+            dynamicRegistration = true,
+            codeActionLiteralSupport = {
+                codeActionKind = {
+                    valueSet = {
+                        '',
+                        'quickfix',
+                        'refactor',
+                        'refactor.extract',
+                        'refactor.inline',
+                        'refactor.rewrite',
+                        'source',
+                        'source.organizeImports',
+                    },
+                },
+            },
+        }
+        capabilities.textDocument.completion.completionItem.snippetSupport = true
 
         -- LSP Attach/Detach Autocommands (Keep these)
         vim.api.nvim_create_autocmd('LspAttach', {
@@ -108,18 +154,13 @@ return { -- LSP Configuration & Plugins
                 'typescript-language-server',
                 'biome',
             },
+            automatic_installation = true, -- Let mason-tool-installer handle it
             handlers = {
                 function(server_name)
                     local server = servers[server_name] or {}
                     server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                    -- Disable pyright format
-                    if server_name == 'pyright' then
-                        server.capabilities.textDocument.formatting = nil
-                        server.capabilities.textDocument.rangeFormatting = nil
-                    end
 
-                    -- Load language-specific configuration (like for Python)
-                    if server_name == 'pyright' or server_name == 'ruff' then --or server_name == "pylance"
+                    if server_name == 'pyright' or server_name == 'ruff' then
                         local python_opts = require('plugins.lsp.python').setup()
                         server = vim.tbl_deep_extend('force', server, python_opts)
                     end
@@ -128,23 +169,6 @@ return { -- LSP Configuration & Plugins
                 end,
             },
         }
-
-        -- null-ls setup (MINIMAL - only for diagnostics if needed)
-        local null_ls = require 'null-ls'
-        null_ls.setup {
-            sources = {
-                -- Example: If you want to use a linter that's NOT handled by an LSP
-                -- null_ls.builtins.diagnostics.eslint_d,
-            },
-        }
-
-        --Format on save -- MOVED to conform.lua
-        -- vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-        --     pattern = "*",
-        --     callback = function(args)
-        --         require("conform").format({ bufnr = args.buf })
-        --     end,
-        -- })
 
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
@@ -155,6 +179,19 @@ return { -- LSP Configuration & Plugins
             'black',
             'biome',
         })
-        require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+        require('mason-tool-installer').setup {
+            ensure_installed = ensure_installed,
+            auto_update = true,
+            run_on_start = true,
+            start_delay = 3000, -- 3 second delay
+            debounce_hours = 5,
+            --to make use of the post install hook
+            install_hook = function(package)
+                local python_config = require 'plugins.lsp.python' -- Adjust path as needed
+                if python_config.mason_post_install then
+                    python_config.mason_post_install(package)
+                end
+            end,
+        }
     end,
 }
