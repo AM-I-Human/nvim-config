@@ -1,10 +1,16 @@
 local M = {}
 local Terminal = require('toggleterm.terminal').Terminal
-local lazygit = Terminal:new { cmd = 'lazygit', hidden = true, direction = 'float', float_opts = { border = 'none', width = 100000, height = 100000 } }
+local lazygit = Terminal:new {
+    cmd = 'lazygit',
+    hidden = true,
+    direction = 'float',
+    float_opts = { border = 'none', width = 100000, height = 100000 },
+}
 
 function _lazygit_toggle()
     lazygit:toggle()
 end
+
 -- insert_mode = 'i',
 -- normal_mode = 'n',
 -- term_mode = 't',
@@ -24,11 +30,8 @@ end
 ---@field operator_pending_mode table
 M.nvim_mappings = {
     insert_mode = {
-        -- Move current line / block with Alt-j/k ala vscode.
         ['<A-j>'] = '<Esc>:m .+1<CR>==gi',
-        -- Move current line / block with Alt-j/k ala vscode.
         ['<A-k>'] = '<Esc>:m .-2<CR>==gi',
-        -- navigation
         ['<A-Up>'] = '<C-\\><C-N><C-w>k',
         ['<A-Down>'] = '<C-\\><C-N><C-w>j',
         ['<A-Left>'] = '<C-\\><C-N><C-w>h',
@@ -54,35 +57,20 @@ M.nvim_mappings = {
     },
 
     normal_mode = {
-        -- Better window movement
         ['<C-h>'] = '<C-w>h',
         ['<C-j>'] = '<C-w>j',
         ['<C-k>'] = '<C-w>k',
         ['<C-l>'] = '<C-w>l',
-
-        -- Resize with arrows
         ['<C-Up>'] = ':resize -3<CR>',
         ['<C-Down>'] = ':resize +3<CR>',
         ['<C-Left>'] = ':vertical resize -3<CR>',
         ['<C-Right>'] = ':vertical resize +3<CR>',
-
-        -- Move current line / block with Alt-j/k a la vscode.
         ['<A-j>'] = ':m .+1<CR>==',
         ['<A-k>'] = ':m .-2<CR>==',
-
-        -- QuickFix
         [']q'] = ':cnext<CR>',
         ['[q'] = ':cprev<CR>',
-        ['<A-H>'] = {
-            ':bprevious<CR>',
-            'Previous buffer',
-        },
-        ['<A-L>'] = {
-            ':bnext<CR>',
-            'Next buffer',
-        },
-
-        -- Set highlight on search, but clear on pressing <Esc> in normal mode
+        ['<A-H>'] = { ':bprevious<CR>', 'Previous buffer' },
+        ['<A-L>'] = { ':bnext<CR>', 'Next buffer' },
         ['<Esc>'] = '<cmd>nohlsearch<CR>',
         g = {
             d = { require('telescope.builtin').lsp_definitions, 'Definition' },
@@ -95,7 +83,6 @@ M.nvim_mappings = {
     },
 
     term_mode = {
-        -- Terminal window navigation
         ['<C-h>'] = '<C-\\><C-N><C-w>h',
         ['<C-j>'] = '<C-\\><C-N><C-w>j',
         ['<C-k>'] = '<C-\\><C-N><C-w>k',
@@ -103,16 +90,12 @@ M.nvim_mappings = {
     },
 
     visual_mode = {
-        -- Better indenting
         ['<'] = '<gv',
         ['>'] = '>gv',
-
-        -- ["p"] = '"0p',
-        -- ["P"] = '"0P',
+        -- Keymap for range code action in visual mode
     },
 
     visual_block_mode = {
-        -- Move current line / block with Alt-j/k ala vscode.
         ['<A-j>'] = ":m '>+1<CR>gv-gv",
         ['<A-k>'] = ":m '<-2<CR>gv-gv",
         ['<C-j>'] = {
@@ -136,7 +119,6 @@ M.nvim_mappings = {
     },
 
     select_mode = {
-
         ['<c-k>'] = {
             function()
                 local luasnip = require 'luasnip'
@@ -182,16 +164,6 @@ M.nvim_mappings = {
     },
 }
 
--- Fuzzy find all the symbols in your current document.
---  Symbols are things like variables, functions, types, etc.
--- map('<leader>ds', require('telescope.builtin').lsp_document_symbols, '[D]ocument [S]ymbols')
---
--- -- Fuzzy find all the symbols in your current workspace.
--- --  Similar to document symbols, except searches over your entire project.
--- map('<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, '[W]orkspace [S]ymbols')
---
--- map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-
 ---@class WhichKeyKeys
 ---@field insert_mode table
 ---@field normal_mode table
@@ -206,26 +178,8 @@ local leader_keymaps = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
-            f = { vim.lsp.buf.format, 'Format' }, -- new keymap for formatting
-
-            -- " simple code action for normal mode and visual mode
-            -- nmap <buffer> <Leader><Leader> <plug>(lsp-code-action)
-            -- vmap <buffer> <Leader><Leader> :LspCodeAction<CR>
-            --
-            -- " alternative that uses floating window
-            -- " nmap <buffer> <Leader>f <plug>(lsp-code-action-float)
-            --
-            -- " mapping for filtered code actions
-            -- nmap <buffer> <Leader>ri :LspCodeAction refactor.inline<CR>
-            -- nmap <buffer> <Leader>ro :LspCodeAction source.organizeImports<CR>
-            -- vmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
-            -- nmap <buffer> <Leader>rm :LspCodeAction refactor.extract<CR>
+            f = { vim.lsp.buf.format, 'Format' },
         },
-        -- E = {
-        --     name = 'Explorer Functions',
-        --     p = { require('nvim-tree.api').tree.change_root_to_parent, 'Root To Parent' },
-        --     ['?'] = { require('nvim-tree.api').tree.toggle_help, 'Help' },
-        -- },
         e = {
             function()
                 require('oil').toggle_float(nil)
@@ -235,24 +189,23 @@ local leader_keymaps = {
         },
         F = {
             name = 'Flutter',
-            a = { require('flutter-tools.commands').attach, 'Attach' }, -- Attach to a running app.
-            y = { require('flutter-tools.commands').copy_profiler_url, 'CopyProfilerUrl' }, -- Copies the profiler url to your system clipboard (+ register). Note that commands FlutterRun and FlutterDevTools must be executed first.
-            d = { require('flutter-tools.devices').list_devices, 'Devices' }, -- Brings up a list of connected devices to select from.
-            D = { require('flutter-tools.commands').detach, 'Detach' }, -- Ends a running session locally but keeps the process running on the device.
-            t = { require('flutter-tools.dev_tools').start, 'DevTools' }, -- Starts a Dart Dev Tools server.
-            T = { require('flutter-tools.dev_tools').activate, 'DevToolsActivate' }, -- Activates a Dart Dev Tools server.
-            E = { require('flutter-tools.devices').list_emulators, 'Emulators' }, -- Similar to devices but shows a list of emulators to choose from.
-            l = { require('flutter-tools.log').toggle, 'LogToggle' }, -- Toggles the log buffer.
-            L = { require('flutter-tools.log').clear, 'LogClear' }, -- Clears the log buffer.
-            o = { require('flutter-tools.outline').toggle, 'OutlineToggle' }, -- Toggle the outline window showing the widget tree for the given file.
-            O = { require('flutter-tools.outline').open, 'OutlineOpen' }, -- Opens an outline window showing the widget tree for the given file.
-            q = { require('flutter-tools.commands').quit, 'Quit' }, -- Ends a running session.
-            re = { require('flutter-tools.commands').reload, 'Reload' }, -- Reload the running project.
-            r = { '<cmd>FlutterRun<cr>', 'Run' }, -- Run the current project. Respects config.debugger.enabled setting.
-            rd = { '<cmd>FlutterDebug<cr>', 'Debug' }, -- Force run current project in debug mode.
-            R = { require('flutter-tools.commands').restart, 'Restart' }, -- Restart the current project.
-            S = { require('flutter-tools.lsp').dart_lsp_super, 'Super' }, -- Go to super class, method using custom LSP method dart/textDocument/super.
-            -- defining all Flutter.nvim leader keymaps for the commands
+            a = { require('flutter-tools.commands').attach, 'Attach' },
+            y = { require('flutter-tools.commands').copy_profiler_url, 'CopyProfilerUrl' },
+            d = { require('flutter-tools.devices').list_devices, 'Devices' },
+            D = { require('flutter-tools.commands').detach, 'Detach' },
+            t = { require('flutter-tools.dev_tools').start, 'DevTools' },
+            T = { require('flutter-tools.dev_tools').activate, 'DevToolsActivate' },
+            E = { require('flutter-tools.devices').list_emulators, 'Emulators' },
+            l = { require('flutter-tools.log').toggle, 'LogToggle' },
+            L = { require('flutter-tools.log').clear, 'LogClear' },
+            o = { require('flutter-tools.outline').toggle, 'OutlineToggle' },
+            O = { require('flutter-tools.outline').open, 'OutlineOpen' },
+            q = { require('flutter-tools.commands').quit, 'Quit' },
+            re = { require('flutter-tools.commands').reload, 'Reload' },
+            r = { '<cmd>FlutterRun<cr>', 'Run' },
+            rd = { '<cmd>FlutterDebug<cr>', 'Debug' },
+            R = { require('flutter-tools.commands').restart, 'Restart' },
+            S = { require('flutter-tools.lsp').dart_lsp_super, 'Super' },
         },
         g = {
             name = 'Git',
@@ -305,7 +258,6 @@ local leader_keymaps = {
                 'Toggle Flash Search',
             },
         },
-
         D = {
             name = 'DAP',
             P = {
@@ -313,7 +265,6 @@ local leader_keymaps = {
                 t = { require('dap-python').test_method, 'Test Method' },
             },
             b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },
-
             r = { name = 'Run', b = { require('dap').run_to_cursor, 'Run To Cursor' } },
             e = { require('dapui').eval, 'Evaluate' },
             ['0'] = { require('dap').restart, 'Restart' },
@@ -401,7 +352,10 @@ local leader_keymaps = {
             ['.'] = { require('telescope.builtin').resume, 'Resume' },
             ['/'] = {
                 function()
-                    require('telescope.builtin').live_grep { grep_open_files = true, prompt_title = 'Live Grep in Open Files' }
+                    require('telescope.builtin').live_grep {
+                        grep_open_files = true,
+                        prompt_title = 'Live Grep in Open Files',
+                    }
                 end,
                 '/ in Open Files',
             },
@@ -423,17 +377,16 @@ local leader_keymaps = {
             },
         },
     },
-
-    -- Shortcut for searching your Neovim configuration files
     visual_mode = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
-            a = { vim.lsp.buf.range_code_action, 'Action' }, -- new keymap for formatting
-            f = { vim.lsp.buf.format, 'Format' }, -- new keymap for formatting
+            a = {
+                vim.lsp.buf.range_code_action,
+                'Action',
+            },
+            f = { vim.lsp.buf.format, 'Format' },
         },
     },
-    -- See `:help telescope.builtin`
-
     ---@class WhichKeyPages
     ---@field insert_mode table
     ---@field normal_mode table
@@ -444,7 +397,6 @@ local leader_keymaps = {
     ---@field operator_pending_mode table
     pages = {
         normal_mode = {
-            -- { '<leader>D', group = 'Debug' },
             { '<leader>P', group = 'Python' },
             { '<leader>c', group = 'Code' },
             { '<leader>d', group = 'DB' },
