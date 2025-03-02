@@ -77,7 +77,6 @@ M.nvim_mappings = {
             D = { vim.lsp.buf.declaration, 'Declaration' },
             r = { require('telescope.builtin').lsp_references, 'References' },
             I = { require('telescope.builtin').lsp_implementations, 'Implementation' },
-            t = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' },
         },
         K = { vim.lsp.buf.hover, 'Hover Documentation' },
     },
@@ -267,6 +266,13 @@ local leader_keymaps = {
             b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },
             r = { name = 'Run', b = { require('dap').run_to_cursor, 'Run To Cursor' } },
             e = { require('dapui').eval, 'Evaluate' },
+            ['?'] = {
+                function()
+                    require('dapui').eval(vim.fn.expand '<cexpr>')
+                end,
+                'Evaluate under cursor',
+            },
+
             ['0'] = { require('dap').restart, 'Restart' },
             ['1'] = { require('dap').continue, 'Continue' },
             ['2'] = { require('dap').step_into, 'Step Into' },
@@ -343,6 +349,7 @@ local leader_keymaps = {
                 end,
                 'Files',
             },
+            t = { require('telescope.builtin').lsp_type_definitions, 'Type Definition' },
             g = { require('telescope.builtin').live_grep, 'Grep' },
             h = { require('telescope.builtin').help_tags, 'Help' },
             k = { require('telescope.builtin').keymaps, 'Keymaps' },
@@ -369,6 +376,7 @@ local leader_keymaps = {
         t = {
             h = {
                 function()
+                    local client = vim.lsp.get_clients()[1]
                     if client and client.server_capabilities.inlayHintProvider and vim.lsp.inlay_hint then
                         vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
                     end
