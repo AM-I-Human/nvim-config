@@ -262,6 +262,15 @@ local leader_keymaps = {
             P = {
                 name = 'Python',
                 t = { require('dap-python').test_method, 'Test Method' },
+                u = {
+                    name = 'uv run',
+                    r = {
+                        function()
+                            require('dap').continue { config = 'uv run ${file}' }
+                        end,
+                        'Debug with uv run',
+                    },
+                },
             },
             b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },
             r = { name = 'Run', b = { require('dap').run_to_cursor, 'Run To Cursor' } },

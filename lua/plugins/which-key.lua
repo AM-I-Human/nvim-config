@@ -36,7 +36,7 @@ end
 -- Print or use the `which_key_mappings` as needed
 -- print(vim.inspect(which_key_mappings))
 
-return { -- Useful plugin to show you pending keybinds.
+return {                -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     lazy = false,

@@ -58,9 +58,7 @@ return {
             name = 'Python: Current File',
             program = '${file}',
             projectDir = '${workspaceFolder}',
-            pythonPath = function()
-                return require('venv-selector').get_active_venv_python_path()
-            end,
+            pythonPath = require('venv-selector').get_active_path,
         })
 
         table.insert(dap.configurations.python, {
@@ -69,9 +67,7 @@ return {
             request = 'launch',
             name = 'FastAPI Dev',
             program = '${file}', -- This specifies the main file in your FastAPI project
-            pythonPath = function()
-                return require('venv-selector').get_active_venv_python_path()
-            end,
+            pythonPath = require('venv-selector').get_active_path,
             args = { -- Arguments for `fastapi dev`
                 '-m',
                 'fastapi', -- Run the fastapi module
@@ -81,6 +77,13 @@ return {
                 '--reload', -- Optional: automatically reloads server on file changes
             },
             justMyCode = true, -- Set to false if you want to debug inside dependencies
+        })
+        table.insert(dap.configurations.python, {
+            type = 'python',
+            request = 'launch',
+            name = 'UV run',
+            program = require('venv-selector').get_active_venv,
+            justMyCode = true,
         })
 
         dap.listeners.before.launch.dapui_config = dapui.open
