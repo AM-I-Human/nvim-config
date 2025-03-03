@@ -2,12 +2,16 @@ return { -- LSP Configuration & Plugins
     'neovim/nvim-lspconfig',
     dependencies = {
         'saghen/blink.cmp',
-        { 'williamboman/mason.nvim',                  config = true },
+        { 'williamboman/mason.nvim', config = true },
         { 'williamboman/mason-lspconfig.nvim' },
         { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
-        { 'j-hui/fidget.nvim',                        opts = {} },
-        { 'folke/neodev.nvim',                        opts = {} },
-        -- Use null-ls *fully*
+        { 'j-hui/fidget.nvim', opts = {} },
+        { 'folke/neodev.nvim', opts = {} },
+        -- Add conform.nvim as a dependency
+        {
+            'stevearc/conform.nvim',
+            opts = {}, -- You can put conform.nvim options here if needed
+        },
         {
             'jose-elias-alvarez/null-ls.nvim',
             dependencies = { 'nvim-lua/plenary.nvim' },
@@ -15,15 +19,12 @@ return { -- LSP Configuration & Plugins
                 local null_ls = require 'null-ls'
                 null_ls.setup {
                     sources = {
-                        null_ls.builtins.diagnostics.ruff,
                         null_ls.builtins.formatting.stylua,
-                        null_ls.builtins.code_actions.ruff,
-                        -- Add sqlfluff as a formatting source
                         null_ls.builtins.formatting.sqlfluff.with {
                             extra_args = { '--dialect', 'snowflake' }, -- Crucial for Snowflake
                         },
                     },
-                    -- Format on save using null-ls (through conform.nvim) -  KEEP THIS, but we adjust it.
+                    -- Format on save using null-ls (through conform.nvim).
                     on_attach = function(client, bufnr)
                         if client.supports_method 'textDocument/formatting' then
                             vim.api.nvim_clear_autocmds { group = vim.api.nvim_create_augroup('FormatAutogroup', {}), buffer = bufnr }
@@ -31,7 +32,6 @@ return { -- LSP Configuration & Plugins
                                 group = 'FormatAutogroup',
                                 buffer = bufnr,
                                 callback = function()
-                                    -- Use conform.nvim for formatting.  This is the key change.
                                     require('conform').format { bufnr = bufnr, lsp_fallback = true, async = true }
                                 end,
                             })
@@ -43,7 +43,7 @@ return { -- LSP Configuration & Plugins
     },
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
-        -- Add codeAction capabilities explicitly. This is crucial.
+        -- Add codeAction capabilities explicitly.
         capabilities.textDocument.codeAction = {
             dynamicRegistration = true,
             codeActionLiteralSupport = {
@@ -125,12 +125,10 @@ return { -- LSP Configuration & Plugins
                     },
                 },
             },
-            ['typescript-language-server'] = {
+            tsserver = {
                 filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact' },
-                cmd = { 'typescript-language-server', '--stdio' },
             },
 
-            -- Biome (Keep this if you use it!)
             biome = {
                 filetypes = {
                     'javascript',
@@ -155,8 +153,8 @@ return { -- LSP Configuration & Plugins
                 'jsonls',
                 'yamlls',
                 'pyright',
-                'ruff',
-                'typescript-language-server',
+                'ruff', -- Just 'ruff' now
+                'tsserver',
                 'biome',
             },
             automatic_installation = true, -- Let mason-tool-installer handle it
@@ -165,7 +163,7 @@ return { -- LSP Configuration & Plugins
                     local server = servers[server_name] or {}
                     server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
 
-                    if server_name == 'pyright' or server_name == 'ruff' then
+                    if server_name == 'pyright' then
                         local python_opts = require('plugins.lsp.python').setup()
                         server = vim.tbl_deep_extend('force', server, python_opts)
                     end
@@ -178,12 +176,12 @@ return { -- LSP Configuration & Plugins
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             'stylua',
-            'ruff',
+            'ruff', -- Just 'ruff' for mason-tool-installer too
             'pyright',
-            'typescript-language-server',
+            'tsserver',
             'black',
             'biome',
-            'sqlfluff', -- Add sqlfluff here for mason-tool-installer
+            'sqlfluff',
         })
         require('mason-tool-installer').setup {
             ensure_installed = ensure_installed,
