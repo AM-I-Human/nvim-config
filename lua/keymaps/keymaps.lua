@@ -263,10 +263,10 @@ local leader_keymaps = {
                 name = 'Python',
                 t = { require('dap-python').test_method, 'Test Method' },
                 u = {
-                    name = 'uv run',
+                    name = 'UV run',
                     r = {
                         function()
-                            require('dap').continue { config = 'uv run ${file}' }
+                            require('dap').continue { config = 'UV run' }
                         end,
                         'Debug with uv run',
                     },
