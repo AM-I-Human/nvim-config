@@ -178,6 +178,7 @@ local leader_keymaps = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
             f = { vim.lsp.buf.format, 'Format' },
+            -- require('conform').format { async = true, lsp_fallback = true }
         },
         e = {
             function()
@@ -264,17 +265,22 @@ local leader_keymaps = {
                 t = { require('dap-python').test_method, 'Test Method' },
                 u = {
                     name = 'UV run',
-                    r = {
-                        function()
-                            require('dap').continue { config = 'UV run' }
-                        end,
-                        'Debug with uv run',
-                    },
+                    function()
+                        require('dap').continue { config = 'UV run' }
+                    end,
+                    'Debug with uv run',
                 },
             },
             b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },
             r = { name = 'Run', b = { require('dap').run_to_cursor, 'Run To Cursor' } },
             e = { require('dapui').eval, 'Evaluate' },
+            q = {
+                function()
+                    require('dap').close()
+                    require('dapui').close()
+                end,
+                'Quit Debugging',
+            },
             ['?'] = {
                 function()
                     require('dapui').eval(vim.fn.expand '<cexpr>')

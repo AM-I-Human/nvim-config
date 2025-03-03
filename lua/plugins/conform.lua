@@ -1,16 +1,6 @@
 return {
     'stevearc/conform.nvim',
-    lazy = true,
     event = { 'BufReadPre', 'BufNewFile' },
-    keys = {
-        {
-            '<leader>f',
-            function()
-                require('conform').format { async = true, lsp_fallback = true }
-            end,
-            desc = '[F]ormat buffer',
-        },
-    },
     config = function()
         require('conform').setup {
             notify_on_error = true,
@@ -34,15 +24,7 @@ return {
                 jsonc = { 'biome' },
                 markdown = { 'biome' },
                 html = { 'biome' },
-                -- Add sqlfluff for SQL formatting, including Snowflake
-                sql = { 'sqlfluff' },
-            },
-            formatters = {
-                -- sqlfluff configuration
-                sqlfluff = {
-                    prepend_args = { 'lint', '--dialect', 'snowflake', '--fix' },
-                    command = 'sqlfluff',
-                },
+                sql = { 'sqlfluff', args = { 'lint', '--dialect', 'snowflake', '--fix', '-' } }, -- Correct args
             },
         }
     end,
