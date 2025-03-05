@@ -7,60 +7,12 @@ return { -- LSP Configuration & Plugins
         { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
         { 'j-hui/fidget.nvim', opts = {} },
         { 'folke/neodev.nvim', opts = {} },
-        -- Add conform.nvim as a dependency
         {
             'stevearc/conform.nvim',
-            opts = {}, -- You can put conform.nvim options here if needed
-        },
-        {
-            'jose-elias-alvarez/null-ls.nvim',
-            dependencies = { 'nvim-lua/plenary.nvim' },
-            config = function()
-                local null_ls = require 'null-ls'
-                null_ls.setup {
-                    sources = {
-                        null_ls.builtins.formatting.stylua,
-                        null_ls.builtins.formatting.sqlfluff.with {
-                            extra_args = { '--dialect', 'snowflake' }, -- Crucial for Snowflake
-                        },
-                    },
-                    -- Format on save using null-ls (through conform.nvim).
-                    on_attach = function(client, bufnr)
-                        if client.supports_method 'textDocument/formatting' then
-                            vim.api.nvim_clear_autocmds { group = vim.api.nvim_create_augroup('FormatAutogroup', {}), buffer = bufnr }
-                            vim.api.nvim_create_autocmd('BufWritePre', {
-                                group = 'FormatAutogroup',
-                                buffer = bufnr,
-                                callback = function()
-                                    require('conform').format { bufnr = bufnr, lsp_fallback = true, async = true }
-                                end,
-                            })
-                        end
-                    end,
-                }
-            end,
         },
     },
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
-        -- Add codeAction capabilities explicitly.
-        capabilities.textDocument.codeAction = {
-            dynamicRegistration = true,
-            codeActionLiteralSupport = {
-                codeActionKind = {
-                    valueSet = {
-                        '',
-                        'quickfix',
-                        'refactor',
-                        'refactor.extract',
-                        'refactor.inline',
-                        'refactor.rewrite',
-                        'source',
-                        'source.organizeImports',
-                    },
-                },
-            },
-        }
         capabilities.textDocument.completion.completionItem.snippetSupport = true
 
         -- LSP Attach/Detach Autocommands (Keep these)
@@ -125,7 +77,7 @@ return { -- LSP Configuration & Plugins
                     },
                 },
             },
-            tsserver = {
+            ts_ls = {
                 filetypes = { 'javascript', 'javascriptreact', 'javascript.jsx', 'typescript', 'typescriptreact' },
             },
 
@@ -154,7 +106,7 @@ return { -- LSP Configuration & Plugins
                 'yamlls',
                 'pyright',
                 'ruff', -- Just 'ruff' now
-                'tsserver',
+                'ts_ls',
                 'biome',
             },
             automatic_installation = true, -- Let mason-tool-installer handle it
@@ -178,7 +130,7 @@ return { -- LSP Configuration & Plugins
             'stylua',
             'ruff', -- Just 'ruff' for mason-tool-installer too
             'pyright',
-            'tsserver',
+            'ts_ls',
             'black',
             'biome',
             'sqlfluff',
