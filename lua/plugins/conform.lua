@@ -24,7 +24,11 @@ return {
                 jsonc = { 'biome' },
                 markdown = { 'biome' },
                 html = { 'biome' },
-                sql = { 'sqlfluff', args = { 'format', '--dialect', 'snowflake' } },
+                sql = {
+                    command = 'sqlfluff',
+                    args = { 'format', '--dialect', 'snowflake', '-' },
+                    stdin = true,
+                },
             },
         }
     end,
