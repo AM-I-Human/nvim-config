@@ -26,7 +26,7 @@ return {
                 html = { 'biome' },
                 sql = {
                     command = 'sqlfluff',
-                    args = { 'format', '--dialect', 'snowflake', '-' },
+                    args = { 'format', '--config "indentation.tab_space_size=4"', '--dialect', 'snowflake', '-' },
                     stdin = true,
                 },
             },
