@@ -6,8 +6,12 @@ return {
         'nvim-treesitter/nvim-treesitter',
         'nvim-tree/nvim-web-devicons',
     },
+    branch = 'main',
     opts = {
-        file_types = { 'markdown', 'Avante' },
+        preview = {
+            filetypes = { 'md', 'rmd', 'quarto', 'markdown', 'Avante' },
+            ignore_buftypes = {},
+        },
+        max_length = 99999,
     },
-    ft = { 'markdown', 'Avante' },
 }
