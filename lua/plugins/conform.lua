@@ -26,7 +26,15 @@ return {
                 html = { 'biome' },
                 sql = {
                     command = 'sqlfluff',
-                    args = { 'format', '--config "indentation.tab_space_size=4"', '--dialect', 'snowflake', '-' },
+                    args = {
+                        'format',
+                        '--config "indentation.tab_space_size=4"',
+                        '--config "templater=placeholder"',
+                        '--config "templater:placeholder.param_style=ampersand"',
+                        '--dialect',
+                        'snowflake',
+                        '-',
+                    },
                     stdin = true,
                 },
             },
