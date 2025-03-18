@@ -177,8 +177,7 @@ local leader_keymaps = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
-            f = { vim.lsp.buf.format, 'Format' },
-            -- require('conform').format { async = true, lsp_fallback = true }
+            f = { require('conform').format { async = true, lsp_fallback = true }, 'Format' },
         },
         e = {
             function()

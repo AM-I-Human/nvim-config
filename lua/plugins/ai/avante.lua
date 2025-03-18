@@ -1,3 +1,44 @@
+local M = {}
+
+function M.set_bedrock_keys(profile)
+    profile = profile or 'default'
+    local credentials = vim.system({ 'aws', 'configure', 'export-credentials', '--profile', profile }, { text = true }):wait()
+    if credentials.code ~= 0 then
+        vim.notify(vim.trim(credentials.stderr), vim.log.levels.ERROR)
+        return
+    end
+    local cred_data = vim.json.decode(credentials.stdout)
+    local region = vim.system({ 'aws', 'configure', 'get', 'region', '--profile', profile }, { text = true }):wait()
+    if region.code ~= 0 then
+        vim.notify(vim.trim(region.stderr), vim.log.levels.ERROR)
+        return
+    end
+    local region_text = vim.trim(region.stdout)
+    local bedrock_keys = table.concat({
+        cred_data.AccessKeyId,
+        cred_data.SecretAccessKey,
+        region_text,
+        cred_data.SessionToken,
+    }, ',')
+    vim.env.BEDROCK_KEYS = bedrock_keys
+    vim.notify(string.format('BEDROCK_KEYS set for profile %s in region %s', profile, region_text), vim.log.levels.INFO)
+end
+
+-- local provider = 'bedrock'
+local provider = 'gemini'
+-- if not IS_WINDOWS then
+--     local aws_command = 'aws sts get-caller-identity --profile wsi-dev-ai'
+--     local aws_check = vim.fn.system(aws_command)
+--     local aws_success = vim.v.shell_error == 0
+--
+--     if aws_success then
+--         print 'AWS CLI check successful, using Bedrock'
+--         provider = 'bedrock'
+--     else
+--         print 'AWS CLI check failed or not on macOS, using Gemini'
+--     end
+-- end
+
 return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
@@ -33,29 +74,26 @@ return {
         },
     },
     opts = {
-        -- provider = 'ollama',
-        -- provider = 'claude',
-        provider = 'gemini',
+        provider = provider,
         use_absolute_path = true,
         auto_suggestions_provider = 'ollama_autocomplete',
-        -- provider = 'bedrock',
         bedrock = {
             model = 'anthropic.claude-3.5-sonnet-20241022-v1:0',
-            region = 'eu-central-1', -- Or your AWS region where Bedrock is available
             timeout = 30000, -- Timeout in milliseconds
             temperature = 1, -- Adjust as needed
             max_tokens = 8192, -- Adjust as needed
+            profile = 'wsi-dev-ai', -- Your AWS CLI profile name
         },
         claude = {
             endpoint = 'https://api.anthropic.com',
             model = 'claude-3-5-sonnet-20241022',
-            temperature = 0,
+            temperature = 1,
             max_tokens = 8192,
         },
         gemini = {
             model = 'gemini-exp-1206',
             api_key_name = 'GEMINI_API_KEY',
-            temperature = 0.7,
+            temperature = 1,
             max_tokens = 8192,
         },
         vendors = {
