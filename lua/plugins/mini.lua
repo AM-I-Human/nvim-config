@@ -71,6 +71,7 @@ return { -- Collection of various small independent plugins/modules
 
         -- require('mini.animate').setup()
 
+        vim.api.nvim_set_hl(0, 'MyRecordingHighlight', { bg = 'yellow', fg = 'black', bold = true })
         local statusline = require 'mini.statusline'
         statusline.setup {
             use_icons = vim.g.have_nerd_font,
@@ -107,7 +108,7 @@ return { -- Collection of various small independent plugins/modules
                     -- sections, etc.)
                     return MiniStatusline.combine_groups {
                         { hl = mode_hl, strings = { mode } },
-                        { hl = 'Cursor', strings = { recording } },
+                        { hl = 'MyRecordingHighlight', strings = { recording } },
                         '%<', -- Mark general truncate point
                         { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
                         '%<', -- Mark general truncate point
