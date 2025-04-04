@@ -91,7 +91,7 @@ return {
             max_tokens = 8192,
         },
         gemini = {
-            model = 'gemini-exp-1206',
+            model = 'gemini-2.0-flash-thinking-exp-01-21',
             api_key_name = 'GEMINI_API_KEY',
             temperature = 1,
             max_tokens = 8192,

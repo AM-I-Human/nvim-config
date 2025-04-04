@@ -60,8 +60,4 @@ return {
         -- (Optional) for use with `mini.hipatterns` to highlight cell markers
         cell_highlight_group = 'Folded',
     },
-    config = function()
-        local nn = require 'notebook-navigator'
-        nn.setup { activate_hydra_keys = '<leader>H' }
-    end,
 }
