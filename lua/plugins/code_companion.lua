@@ -10,6 +10,7 @@ return {
                 show_references = true,
                 show_settings = true,
                 show_token_count = true,
+                model = 'gemini-2.5-pro-preview-03-25', -- Specify the model for chat
                 keymaps = {
                     send = {
                         modes = { n = '<C-s>', i = '<C-s>' },
@@ -45,6 +46,7 @@ return {
             },
             inline = {
                 adapter = 'gemini',
+                model = 'gemini-2.5-pro-preview-03-25', -- Specify the model for chat
                 keymaps = {
                     accept_change = {
                         modes = { n = 'ga' },
