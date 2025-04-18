@@ -9,7 +9,7 @@ return {
     branch = 'main',
     opts = {
         preview = {
-            filetypes = { 'md', 'rmd', 'quarto', 'markdown', 'Avante' },
+            filetypes = { 'md', 'rmd', 'quarto', 'markdown', 'Avante', 'codecompanion' },
             ignore_buftypes = {},
         },
         max_length = 99999,
