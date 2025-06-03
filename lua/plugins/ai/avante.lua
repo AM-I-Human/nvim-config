@@ -51,6 +51,7 @@ return {
         'stevearc/dressing.nvim',
         'nvim-lua/plenary.nvim',
         'MunifTanjim/nui.nvim',
+        'echasnovski/mini.pick',
         {
             'OXY2DEV/markview.nvim',
             opts = {
@@ -77,31 +78,37 @@ return {
         provider = provider,
         use_absolute_path = true,
         auto_suggestions_provider = 'ollama_autocomplete',
-        bedrock = {
-            model = 'anthropic.claude-3.5-sonnet-20241022-v1:0',
-            timeout = 30000, -- Timeout in milliseconds
-            temperature = 1, -- Adjust as needed
-            max_tokens = 8192, -- Adjust as needed
-            profile = 'wsi-dev-ai', -- Your AWS CLI profile name
-        },
-        claude = {
-            endpoint = 'https://api.anthropic.com',
-            model = 'claude-3-5-sonnet-20241022',
-            temperature = 1,
-            max_tokens = 8192,
-        },
-        gemini = {
-            model = 'gemini-2.0-flash-thinking-exp-01-21',
-            api_key_name = 'GEMINI_API_KEY',
-            temperature = 1,
-            max_tokens = 8192,
-        },
-        vendors = {
+        providers = {
+            bedrock = {
+                model = 'anthropic.claude-3.5-sonnet-20241022-v1:0',
+                timeout = 30000, -- Timeout in milliseconds
+                profile = 'wsi-dev-ai', -- Your AWS CLI profile name
+                extra_request_body = {
+                    temperature = 1, -- Adjust as needed
+                    max_tokens = 8192, -- Adjust as needed
+                },
+            },
+            claude = {
+                endpoint = 'https://api.anthropic.com',
+                model = 'claude-3-5-sonnet-20241022',
+                extra_request_body = {
+                    temperature = 1,
+                    max_tokens = 8192,
+                },
+            },
+            gemini = {
+                model = 'gemini-2.5-flash-preview-04-17',
+                api_key_name = 'GEMINI_API_KEY',
+                extra_request_body = {
+                    temperature = 1,
+                    max_tokens = 8192,
+                },
+            },
             ollama_autocomplete = {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
-                model = 'qwen2.5-coder:7b',
+                model = 'gemma3:4b',
             },
             ollama = {
                 __inherited_from = 'openai',
