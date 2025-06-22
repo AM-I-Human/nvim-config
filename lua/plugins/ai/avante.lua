@@ -45,6 +45,7 @@ return {
     lazy = false,
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     build = (IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false') or 'make',
+
     dependencies = {
         'nvim-treesitter/nvim-treesitter',
         'nvim-tree/nvim-web-devicons',
@@ -75,6 +76,18 @@ return {
         },
     },
     opts = {
+        -- system_prompt as function ensures LLM always has latest MCP server state
+        -- This is evaluated for every message, even in existing chats
+        system_prompt = function()
+            local hub = require('mcphub').get_hub_instance()
+            return hub and hub:get_active_servers_prompt() or ''
+        end,
+        -- Using function prevents requiring mcphub before it's loaded
+        custom_tools = function()
+            return {
+                require('mcphub.extensions.avante').mcp_tool(),
+            }
+        end,
         provider = provider,
         use_absolute_path = true,
         auto_suggestions_provider = 'ollama_autocomplete',
