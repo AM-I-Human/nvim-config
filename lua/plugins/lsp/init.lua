@@ -99,15 +99,16 @@ return { -- LSP Configuration & Plugins
 
         -- mason-lspconfig setup
         require('mason-lspconfig').setup {
-            -- List *ALL* servers you want mason-lspconfig to manage:
             ensure_installed = {
                 'lua_ls',
                 'jsonls',
                 'yamlls',
                 'pyright',
-                'ruff', -- Just 'ruff' now
+                'ruff',
                 'ts_ls',
                 'biome',
+                'tinymist',
+                'sqlruff',
             },
             automatic_installation = true, -- Let mason-tool-installer handle it
             handlers = {
@@ -128,12 +129,14 @@ return { -- LSP Configuration & Plugins
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             'stylua',
-            'ruff', -- Just 'ruff' for mason-tool-installer too
+            'ruff',
             'pyright',
             'ts_ls',
             'black',
             'biome',
             'sqlfluff',
+            'sqlruff',
+            'tinymist',
         })
         require('mason-tool-installer').setup {
             ensure_installed = ensure_installed,

@@ -121,7 +121,7 @@ return {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
-                model = 'gemma3:4b',
+                model = 'gemma3:4b-it-qat',
             },
             ollama = {
                 __inherited_from = 'openai',
