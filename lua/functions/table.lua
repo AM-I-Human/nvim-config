@@ -313,4 +313,22 @@ function Table.log(...)
     vim.notify(debug_value)
 end
 
+function Table.printTable(t)
+    local function recurse(tbl, indent)
+        indent = indent or 0
+        local indentStr = string.rep('\t', indent)
+        for k, v in pairs(tbl) do
+            if type(v) == 'table' then
+                print(indentStr .. tostring(k) .. ' = {')
+                recurse(v, indent + 1)
+                print(indentStr .. '}')
+            else
+                print(indentStr .. tostring(k) .. ' = ' .. tostring(v))
+            end
+        end
+    end
+
+    recurse(t, 0)
+end
+
 return Table

@@ -351,7 +351,7 @@ local leader_keymaps = {
                 'Open CWD',
             },
         },
-        P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
+        P = { name = 'Python', e = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
         s = {
             name = 'Search',
             b = { require('telescope.builtin').buffers, 'Find existing buffers' },
