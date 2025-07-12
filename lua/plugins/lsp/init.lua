@@ -108,7 +108,6 @@ return { -- LSP Configuration & Plugins
                 'ts_ls',
                 'biome',
                 'tinymist',
-                'sqlruff',
             },
             automatic_installation = true, -- Let mason-tool-installer handle it
             handlers = {
@@ -135,7 +134,6 @@ return { -- LSP Configuration & Plugins
             'black',
             'biome',
             'sqlfluff',
-            'sqlruff',
             'tinymist',
         })
         require('mason-tool-installer').setup {
