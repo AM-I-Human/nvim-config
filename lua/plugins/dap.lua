@@ -25,9 +25,14 @@ return {
             automatic_installation = true, -- Automatically install new adapters
             handlers = {}, -- Use the default handlers
         }
+        if IS_WINDOWS then
+            python_adapter_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/Scripts/python.exe'
+        else
+            python_adapter_path = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/bin/python'
+        end
         dap.adapters.python = {
             type = 'executable',
-            command = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/Scripts/python.exe',
+            command = python_adapter_path,
             args = { '-m', 'debugpy.adapter' },
         }
 
