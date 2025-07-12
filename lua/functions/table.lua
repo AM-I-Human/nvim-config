@@ -313,7 +313,7 @@ function Table.log(...)
     vim.notify(debug_value)
 end
 
-function Table.printTable(t)
+function Table.print(t)
     local function recurse(tbl, indent)
         indent = indent or 0
         local indentStr = string.rep('\t', indent)

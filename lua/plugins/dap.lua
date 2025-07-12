@@ -5,20 +5,34 @@ return {
         'theHamsta/nvim-dap-virtual-text',
         'nvim-neotest/nvim-nio',
         'williamboman/mason.nvim',
-        'jay-babu/mason-nvim-dap.nvim',
+        'jay-babu/mason-nvim-dap.nvim', -- Ensures adapters are installed and configured
         'mfussenegger/nvim-dap-python',
         'leoluz/nvim-dap-go',
     },
     config = function()
+        -- 1. Enable DAP logging for debugging. This is the most impMasonInstall python-debugpyortant step.
+        -- Log file will be at C:\\Users\\<user>\\AppData\\Local\\nvim-data\\dap.log
+        require('dap').set_log_level 'TRACE'
+
         local dap = require 'dap'
         local dapui = require 'dapui'
-        local dap_python = require 'dap-python'
 
-        local mason_path = vim.fn.glob(vim.fn.stdpath 'data' .. '/mason/')
-        local debugpy_path = mason_path .. 'packages/debugpy/venv/bin/python'
-        if IS_WINDOWS then
-            debugpy_path = mason_path .. 'packages/debugpy/venv/Scripts/python'
-        end
+        -- 2. Let mason-nvim-dap handle the setup of adapters.
+        -- This automatically installs and configures debugpy, delg, etc.
+        -- It's much more reliable than setting paths manually.
+        require('mason-nvim-dap').setup {
+            ensure_installed = { 'python' }, -- Adapters you want installed
+            automatic_installation = true, -- Automatically install new adapters
+            handlers = {}, -- Use the default handlers
+        }
+        dap.adapters.python = {
+            type = 'executable',
+            command = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/Scripts/python.exe',
+            args = { '-m', 'debugpy.adapter' },
+        }
+
+        -- This replaces your manual dap-python.setup() and path logic.
+        -- mason-nvim-dap will now correctly configure the python debugger (debugpy).
 
         dapui.setup {
             icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
@@ -38,10 +52,9 @@ return {
                 },
             },
         }
-        dap_python.setup(debugpy_path)
-        dap_python.default_port = 5678
 
         require('nvim-dap-virtual-text').setup {
+            -- Your virtual text setup remains the same
             display_callback = function(variable)
                 local name = string.lower(variable.name)
                 local value = string.lower(variable.value)
@@ -52,44 +65,52 @@ return {
             end,
         }
 
-        table.insert(dap.configurations.python, {
-            type = 'python',
-            request = 'launch',
-            name = 'Python: Current File',
-            program = '${file}',
-            projectDir = '${workspaceFolder}',
-            pythonPath = require('venv-selector').get_active_path,
-        })
-
-        table.insert(dap.configurations.python, {
-            -- Launch configuration for FastAPI with fastapi dev
-            type = 'python',
-            request = 'launch',
-            name = 'FastAPI Dev',
-            program = '${file}', -- This specifies the main file in your FastAPI project
-            pythonPath = require('venv-selector').get_active_path,
-            args = { -- Arguments for `fastapi dev`
-                '-m',
-                'fastapi', -- Run the fastapi module
-                'dev', -- Use the `dev` command
-                'run',
-                'main.py', -- Specify the main FastAPI file
-                '--reload', -- Optional: automatically reloads server on file changes
+        -- 3. Simplified Launch Configurations
+        -- Your configurations for python can be simplified. `mason-nvim-dap` already
+        -- sets up a default configuration. You can add more as needed.
+        dap.configurations.python = {
+            {
+                type = 'python',
+                request = 'launch',
+                name = 'Launch file',
+                program = '${file}',
+                pythonPath = function()
+                    local venv = require('venv-selector').python()
+                    if venv then
+                        return venv
+                    end
+                    vim.notify('Python venv not selected, falling back to global python', vim.log.levels.WARN)
+                    return 'python'
+                end,
+                justMyCode = true,
             },
-            justMyCode = true, -- Set to false if you want to debug inside dependencies
-        })
-        table.insert(dap.configurations.python, {
-            type = 'python',
-            request = 'launch',
-            name = 'UV run',
-            program = function()
-                return vim.fn.expand '%:p'
-            end,
-            pythonPath = function()
-                return require('venv-selector').get_active_venv() .. '/bin/python'
-            end,
-            justMyCode = true,
-        })
+            {
+                type = 'python',
+                request = 'launch',
+                name = 'FastAPI: uvicorn',
+                module = 'uvicorn',
+                args = {
+                    'main:app', -- Assuming your app instance is in main.py
+                    '--reload',
+                    '--host',
+                    '127.0.0.1',
+                    '--port',
+                    '8000',
+                },
+                jinja = 'py', -- Allows for expression evaluation in args
+                justMyCode = true,
+            },
+            {
+                type = 'python',
+                request = 'launch',
+                name = 'UV run',
+                program = function()
+                    return vim.fn.expand '%:p'
+                end,
+                pythonPath = require('venv-selector').python(),
+                justMyCode = true,
+            },
+        }
 
         dap.listeners.before.launch.dapui_config = dapui.open
         dap.listeners.after.event_initialized.dapui_config = dapui.open
@@ -100,8 +121,6 @@ return {
         dap.listeners.before.launch.dapui_config = dapui.open
         dap.listeners.before.event_terminated.dapui_config = dapui.close
         dap.listeners.before.event_exited.dapui_config = dapui.close
-        -- dap.lua
-        -- ... (rest of your dap.lua setup) ...
 
         -- Helper function to get all leader mappings (including which-key)
         local function get_all_leader_mappings(mode)
