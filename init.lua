@@ -22,19 +22,16 @@ require('lazy').setup({
         dir = 'C:/Users/andre/Projects/Jove.nvim/',
         name = 'jove',
         dev = true,
-        -- Define commands so lazy knows when to load/reload the plugin
-        cmd = { 'JoveStart', 'JoveExecute' },
-        -- Define keymaps directly here
         keys = {
             { '<Leader>Je', '<cmd>JoveExecute<cr>', mode = { 'n', 'x' }, desc = 'Jove: Execute line/selection' },
-            { '<Leader>Js', '<cmd>JoveStart python<cr>', mode = { 'n' }, desc = 'Jove: Execute line/selection' },
+            { '<Leader>Js', '<cmd>JoveStart python<cr>', mode = { 'n' }, desc = 'Jove: Start python kernel' },
         },
         config = function()
             -- This is the standard way to set up a plugin
             require('jove').setup {
                 kernels = {
                     python = { cmd = 'python -m ipykernel_launcher -f {connection_file}' },
-                    -- Aggiungi altri kernel se necessario
+                    python_executable = 'python',
                 },
             }
 

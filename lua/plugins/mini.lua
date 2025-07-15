@@ -16,127 +16,111 @@ function next_spinner_symbol()
     spinner_index = (spinner_index % #spinner_symbols) + 1
     return spinner_symbols[spinner_index]
 end
-local processing = false
-local group = vim.api.nvim_create_augroup('CodeCompanionHooks', {})
+local group_code_companion = vim.api.nvim_create_augroup('CodeCompanionHooks', {})
 
 vim.api.nvim_create_autocmd({ 'User' }, {
     pattern = 'CodeCompanionRequest',
-    group = group,
+    group = group_code_companion,
     callback = function(request)
         processing = (request.data.status == 'started')
     end,
 })
 
-return { -- Collection of various small independent plugins/modules
+return {
     'echasnovski/mini.nvim',
+    -- Rimuovi venv-selector da qui, ora è gestito nel suo file
     dependencies = { 'GCBallesteros/NotebookNavigator.nvim' },
     config = function()
+        -- ... (tutta la tua configurazione di mini.ai e mini.surround rimane invariata) ...
         require('mini.ai').setup { n_lines = 500 }
-
-        -- Add/delete/replace surroundings (brackets, quotes, etc.)
-        --
-        -- - saiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-        -- - sd'   - [S]urround [D]elete [']quotes
-        -- - sr)'  - [S]urround [R]eplace [)] [']
         require('mini.surround').setup {
-            mappings = {
-                add = 'gs', -- Add surrounding
-                delete = 'gsd', -- Delete surrounding
-                find = 'gsf', -- Find surrounding (to the right)
-                find_left = 'gsF', -- Find surrounding (to the left)
-                highlight = 'gsh', -- Highlight surrounding
-                replace = 'gsr', -- Replace surrounding
-                update_n_linse = 'gns', -- Update n_lines
-            },
+            mappings = { add = 'gs', delete = 'gsd', find = 'gsf', find_left = 'gsF', highlight = 'gsh', replace = 'gsr', update_n_linse = 'gns' },
             suffix_last = 'l',
             suffix_next = 'n',
         }
-        -- local hipatterns = require 'mini.hipatterns'
-        -- hipatterns.setup {
-        --     highlighters = {
-        --         -- Highlight standalone 'FIXME', 'HACK', 'TODO', 'NOTE'
-        --         fixme = { pattern = '%f[%w]()FIXME()%f[%W]', group = 'MiniHipatternsFixme' },
-        --         hack = { pattern = '%f[%w]()HACK()%f[%W]', group = 'MiniHipatternsHack' },
-        --         todo = { pattern = '%f[%w]()TODO()%f[%W]', group = 'MiniHipatternsTodo' },
-        --         note = { pattern = '%f[%w]()NOTE()%f[%W]', group = 'MiniHipatternsNote' },
-        --
-        --         -- Highlight hex color strings (`#rrggbb`) using that color
-        --         hex_color = hipatterns.gen_highlighter.hex_color(),
-        --     },
-        -- }
-        -- local nn = require 'notebook-navigator'
-        --
-        -- local opts = { highlighters = { cells = nn.minihipatterns_spec } }
-        --
-
-        -- require('mini.animate').setup()
 
         vim.api.nvim_set_hl(0, 'MyRecordingHighlight', { bg = 'yellow', fg = 'black', bold = true })
+
         local statusline = require 'mini.statusline'
+
+        ---
+        -- Sezione VENV personalizzata (con la tua patch di sicurezza, che è un'ottima idea)
+        ---
+        local function section_venv(args)
+            args = args or {}
+            args.trunc_width = args.trunc_width or 80
+            args.icon = args.icon or ''
+
+            local ok, venv_selector = pcall(require, 'venv-selector')
+            -- La tua patch è perfetta per gestire i casi limite durante l'avvio
+            if not ok or venv_selector.get_active_venv == nil then
+                return ''
+            end
+
+            local venv = venv_selector.venv()
+            if venv and venv ~= '' then
+                local venv_parts = vim.fn.split(venv, '/')
+                local venv_name = venv_parts[#venv_parts]
+                return args.icon .. ' ' .. venv_name
+            else
+                return args.icon .. ' Seleziona Venv'
+            end
+        end
+
+        local jove_component = function()
+            local ok, jove_commands = pcall(require, 'jove.commands')
+            if not ok then
+                return ''
+            end
+            return jove_commands.status_text()
+        end
+
         statusline.setup {
             use_icons = vim.g.have_nerd_font,
             set_vim_settings = false,
             content = {
                 active = function()
-                    local mode, mode_hl = MiniStatusline.section_mode { trunc_width = 120 }
-
+                    local mode, mode_hl = statusline.section_mode { trunc_width = 120 }
                     local recording = ''
                     if vim.fn.reg_recording() ~= '' then
                         recording = ('Recording on ' .. vim.fn.reg_recording())
                     end
-                    local git = MiniStatusline.section_git { trunc_width = 40 }
-                    local diff = MiniStatusline.section_diff { trunc_width = 75 }
-                    local diagnostics = MiniStatusline.section_diagnostics { trunc_width = 75 }
-                    local lsp = MiniStatusline.section_lsp { trunc_width = 75 }
-                    local filename = MiniStatusline.section_filename { trunc_width = 140 }
-                    local fileinfo = MiniStatusline.section_fileinfo { trunc_width = 120 }
-
-                    local ollama_info = function()
-                        local status = require('ollama').status()
-                        if status == 'WORKING' then
-                            return '󰚩 ' .. status -- nf-md-robot
-                        end
-
-                        return '󱙺 ' .. status -- nf-md-robot-outline
-                    end
-                    local ai_assistant_status = ollama_info()
-                    local location = MiniStatusline.section_location { trunc_width = 75 }
-                    local search = MiniStatusline.section_searchcount { trunc_width = 75 }
-
-                    -- Usage of `MiniStatusline.combine_groups()` ensures highlighting and
-                    -- correct padding with spaces between groups (accounts for 'missing'
-                    -- sections, etc.)
-                    return MiniStatusline.combine_groups {
+                    local venv = section_venv { trunc_width = 100 }
+                    local git = statusline.section_git { trunc_width = 75 }
+                    local diff = statusline.section_diff { trunc_width = 75 }
+                    local diagnostics = statusline.section_diagnostics { trunc_width = 75 }
+                    local lsp = statusline.section_lsp { trunc_width = 75 }
+                    local filename = statusline.section_filename { trunc_width = 140 }
+                    local fileinfo = statusline.section_fileinfo { trunc_width = 120 }
+                    local location = statusline.section_location { trunc_width = 75 }
+                    local search = statusline.section_searchcount { trunc_width = 75 }
+                    return statusline.combine_groups {
                         { hl = mode_hl, strings = { mode } },
                         { hl = 'MyRecordingHighlight', strings = { recording } },
-                        '%<', -- Mark general truncate point
-                        { hl = 'MiniStatuslineDevinfo', strings = { git, diff, diagnostics, lsp } },
-                        '%<', -- Mark general truncate point
-                        { hl = 'MiniStatuslineFilename', strings = { filename } },
-                        '%=', -- End left alignment
-                        { hl = 'MiniStatuslineFileinfo', strings = { fileinfo } },
-                        { hl = 'MiniStatuslineFileinfo', strings = { ai_assistant_status } },
+                        {
+                            hl = 'statuslineDevinfo',
+                            strings = { jove_component() },
+                        },
+                        '%<',
+                        { hl = 'statuslineDevinfo', strings = { section_venv(), git, diff, diagnostics, lsp } },
+                        { hl = 'statuslineFilename', strings = { filename } },
+                        '%=',
+                        { hl = 'statuslineFileinfo', strings = { fileinfo, ai_assistant_status } },
                         { hl = mode_hl, strings = { search, location } },
                     }
                 end,
             },
         }
-        -- H.default_content_active
 
-        -- H.default_content_inactive = function()
-        --     return '%#MiniStatuslineInactive#%F%='
-        -- end
+        vim.api.nvim_create_autocmd('User', {
+            pattern = 'VenvSelectorChanged',
+            command = 'redrawstatus',
+        })
 
-        -- You can configure sections in the statusline by overriding their
-        -- default behavior. For example, here we set the section for
-        -- cursor location to LINE:COLUMN
-        ---@diagnostic disable-next-line: duplicate-set-field
+        -- ... (il resto della tua configurazione)
         statusline.section_location = function()
             return '%2l(%L)│%2v(%-2{virtcol("$") - 1})'
         end
         vim.opt.laststatus = 3
-
-        -- ... and there is more!
-        --  Check out: https://github.com/echasnovski/mini.nvim
     end,
 }
