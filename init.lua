@@ -12,6 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
     local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
     vim.fn.system { 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath }
 end ---@diagnostic disable-next-line: undefined-field
+
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
@@ -19,7 +20,7 @@ require('lazy').setup({
     { 'linrongbin16/commons.nvim', lazy = true },
     -- THIS IS YOUR LOCAL PLUGIN
     {
-        dir = 'C:/Users/andre/Projects/Jove.nvim/',
+        dir = IS_WINDOWS and 'C:/Users/andre/Projects/Jove.nvim/' or '~/Projects/Jove.nvim/',
         name = 'jove',
         dev = true,
         keys = {
