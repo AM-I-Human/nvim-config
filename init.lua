@@ -26,19 +26,20 @@ require('lazy').setup({
         keys = {
             { '<Leader>Je', '<cmd>JoveExecute<cr>', mode = { 'n', 'x' }, desc = 'Jove: Execute line/selection' },
             { '<Leader>Js', '<cmd>JoveStart python<cr>', mode = { 'n' }, desc = 'Jove: Start python kernel' },
+            { '<Leader>Jst', '<cmd>JoveStatus<cr>', mode = { 'n' }, desc = 'Jove: Show status' },
+            { '<Leader>Jl', '<cmd>JoveList<cr>', mode = { 'n' }, desc = 'Jove: List kernels' },
+            { '<Leader>Jr', '<cmd>JoveRestart<cr>', mode = { 'n' }, desc = 'Jove: Restart kernel' },
+            { '<Leader>Jir', '<cmd>JoveInterrupt<cr>', mode = { 'n' }, desc = 'Jove: Interrupt kernel' },
+            { '<Leader>Jh', '<cmd>JoveHistory<cr>', mode = { 'n' }, desc = 'Jove: Show history' },
+            { '<Leader>Ji', '<cmd>JoveInspect<cr>', mode = { 'n' }, desc = 'Jove: Inspect object' },
         },
         config = function()
             -- This is the standard way to set up a plugin
             require('jove').setup {
                 kernels = {
-                    python = { cmd = 'python -m ipykernel_launcher -f {connection_file}' },
-                    python_executable = 'python',
+                    python = { cmd = 'python -m ipykernel_launcher -f {connection_file}', executable = 'python' },
                 },
             }
-
-            -- You likely don't need this if your plugin structure is correct,
-            -- as `setup()` should handle command creation.
-            -- require 'jove.commands'
         end,
     },
     { import = 'plugins' },
