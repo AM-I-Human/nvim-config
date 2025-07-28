@@ -24,7 +24,7 @@ require('lazy').setup({
         name = 'jove',
         dev = true,
         keys = {
-            { '<Leader>Je', '<cmd>JoveExecute<cr>', mode = { 'n', 'x' }, desc = 'Jove: Execute line/selection' },
+            { '<Leader>Je', ':JoveExecute<cr>', mode = { 'n', 'x', 'v' }, desc = 'Jove: Execute line/selection' },
             { '<Leader>Js', '<cmd>JoveStart python<cr>', mode = { 'n' }, desc = 'Jove: Start python kernel' },
             { '<Leader>Jst', '<cmd>JoveStatus<cr>', mode = { 'n' }, desc = 'Jove: Show status' },
             { '<Leader>Jl', '<cmd>JoveList<cr>', mode = { 'n' }, desc = 'Jove: List kernels' },
