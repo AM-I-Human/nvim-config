@@ -1,5 +1,7 @@
 local M = {}
 local Terminal = require('toggleterm.terminal').Terminal
+
+local MiniFiles = require 'mini.files'
 local lazygit = Terminal:new {
     cmd = 'lazygit',
     hidden = true,
@@ -181,8 +183,12 @@ local leader_keymaps = {
         },
         e = {
             function()
-                require('oil').toggle_float(nil)
-                require('oil').open_preview { vertical = true, split = 'botright' }
+                if not MiniFiles.close() then
+                    MiniFiles.open(vim.api.nvim_buf_get_name(0), false)
+                end
+                -- MiniFiles.open()
+                -- require('oil').toggle_float(nil)
+                -- require('oil').open_preview { vertical = true, split = 'botright' }
             end,
             'Explorer',
         },

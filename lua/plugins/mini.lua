@@ -28,8 +28,7 @@ vim.api.nvim_create_autocmd({ 'User' }, {
 
 return {
     'echasnovski/mini.nvim',
-    -- Rimuovi venv-selector da qui, ora è gestito nel suo file
-    dependencies = { 'GCBallesteros/NotebookNavigator.nvim' },
+    version = false,
     config = function()
         -- ... (tutta la tua configurazione di mini.ai e mini.surround rimane invariata) ...
         require('mini.ai').setup { n_lines = 500 }
@@ -37,6 +36,58 @@ return {
             mappings = { add = 'gs', delete = 'gsd', find = 'gsf', find_left = 'gsF', highlight = 'gsh', replace = 'gsr', update_n_linse = 'gns' },
             suffix_last = 'l',
             suffix_next = 'n',
+        }
+
+        require('mini.files').setup {
+            -- Customization of shown content
+            content = {
+                -- Predicate for which file system entries to show
+                filter = nil,
+                -- What prefix to show to the left of file system entry
+                prefix = nil,
+                -- In which order to show file system entries
+                sort = nil,
+            },
+
+            -- Module mappings created only inside explorer.
+            -- Use `''` (empty string) to not create one.
+            mappings = {
+                close = 'q',
+                go_in = 'l',
+                go_in_plus = 'L',
+                go_out = 'h',
+                go_out_plus = 'H',
+                mark_goto = "'",
+                mark_set = 'm',
+                reset = '<BS>',
+                reveal_cwd = '@',
+                show_help = 'g?',
+                synchronize = '=',
+                trim_left = '<',
+                trim_right = '>',
+            },
+
+            -- General options
+            options = {
+                -- Whether to delete permanently or move into module-specific trash
+                permanent_delete = true,
+                -- Whether to use for editing directories
+                use_as_default_explorer = true,
+            },
+
+            -- Customization of explorer windows
+            windows = {
+                -- Maximum number of windows to show side by side
+                max_number = math.huge,
+                -- Whether to show preview of file/directory under cursor
+                preview = true,
+                -- Width of focused window
+                width_focus = 80,
+                -- Width of non-focused window
+                width_nofocus = 100,
+                -- Width of preview window
+                width_preview = 100,
+            },
         }
 
         vim.api.nvim_set_hl(0, 'MyRecordingHighlight', { bg = 'yellow', fg = 'black', bold = true })

@@ -16,21 +16,6 @@ return {
     },
     dependencies = {
         'folke/snacks.nvim',
-        'nvim-tree/nvim-tree.lua',
-        --- Neo-tree integration
-        {
-            'nvim-neo-tree/neo-tree.nvim',
-            opts = function(_, opts)
-                -- Example mapping configuration (already set by default)
-                -- opts.window = {
-                --   mappings = {
-                --     ["+"] = { "nvim_aider_add", desc = "add to aider" },
-                --     ["-"] = { "nvim_aider_drop", desc = "drop from aider" }
-                --   }
-                -- }
-                require('nvim_aider.neo_tree').setup(opts)
-            end,
-        },
     },
     config = true,
 }
