@@ -637,7 +637,7 @@ return {
                 buttons,
             },
             opts = {
-                margin = 5,
+                margin = 2,
                 setup = function()
                     vim.api.nvim_create_autocmd('DirChanged', {
                         pattern = '*',
