@@ -542,10 +542,7 @@ local function get_git_status()
         branch_hl = is_dirty and 'AlphaGitBranchDirty' or 'AlphaGitBranchClean'
     end
 
-    local status_text = is_dirty and ' Uncommitted changes' or '✓ Clean working directory'
-    local status_hl = is_dirty and 'AlphaGitBranchDirty' or 'AlphaGitBranchClean'
-
-    return {
+    local git_info_val = {
         {
             type = 'text',
             val = ' ' .. branch,
@@ -554,15 +551,57 @@ local function get_git_status()
                 position = 'center',
             },
         },
-        {
+    }
+
+    if is_dirty then
+        table.insert(git_info_val, {
             type = 'text',
-            val = status_text,
+            val = ' Uncommitted changes',
             opts = {
-                hl = status_hl,
+                hl = 'AlphaGitBranchDirty',
                 position = 'center',
             },
-        },
-    }
+        })
+        table.insert(git_info_val, { type = 'padding', val = 1 })
+
+        local diff_stats = vim.fn.system 'git diff --numstat'
+        for _, line in ipairs(vim.fn.split(diff_stats, '\n')) do
+            if line ~= '' then
+                local parts = vim.split(line, '\t')
+                -- Ensure we have the expected number of parts to avoid errors on unusual lines
+                if #parts == 3 then
+                    local added = parts[1]
+                    local deleted = parts[2]
+                    local file_path = parts[3]
+
+                    -- You might want to shorten long file paths
+                    if #file_path > 40 then
+                        file_path = '...' .. file_path:sub(-37)
+                    end
+
+                    table.insert(git_info_val, {
+                        type = 'text',
+                        val = string.format('+%s -%s %s', added, deleted, file_path),
+                        opts = {
+                            hl = 'Comment', -- Or any other highlight group you prefer
+                            position = 'center',
+                        },
+                    })
+                end
+            end
+        end
+    else
+        table.insert(git_info_val, {
+            type = 'text',
+            val = '✓ Clean working directory',
+            opts = {
+                hl = 'AlphaGitBranchClean',
+                position = 'center',
+            },
+        })
+    end
+
+    return git_info_val
 end
 
 local git_section = {
@@ -573,13 +612,11 @@ local git_section = {
             return {} -- Return an empty table if not in a git repo
         end
         return {
-            { type = 'padding', val = 1 },
             {
                 type = 'text',
                 val = 'Git Status',
                 opts = { hl = 'SpecialComment', position = 'center' },
             },
-            { type = 'padding', val = 1 },
             {
                 type = 'group',
                 val = get_git_status(),
