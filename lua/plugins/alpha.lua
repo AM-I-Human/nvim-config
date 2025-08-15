@@ -152,6 +152,84 @@ local function mru(start, cwd, items_number, opts)
     }
 end
 
+-- Add this function and layout element
+local function get_git_status()
+    local git_info_val = {}
+    -- Get current branch name and clean the output
+    local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD'):gsub('[\n\r]', '')
+
+    if branch ~= '' and branch ~= 'HEAD' then
+        table.insert(git_info_val, ' ' .. branch) -- Git branch icon
+    end
+
+    -- Get a summary of changes (the --porcelain format is stable for scripting)
+    local status = vim.fn.system 'git status --porcelain'
+    if status == '' then
+        table.insert(git_info_val, ' ✓ Clean working directory')
+    else
+        table.insert(git_info_val, '  Uncommitted changes exist')
+    end
+
+    return git_info_val
+end
+
+--- @param start number Shortcut starting index.
+--- @param items_number number? The number of projects to display.
+local function zoxide_projects(start, items_number)
+    items_number = if_nil(items_number, 10)
+
+    -- 1. Query zoxide for the list of recent directories
+    --    `zoxide query -l` lists the database entries by rank.
+    local projects_str = vim.fn.system 'zoxide query -l'
+    local projects = vim.split(projects_str, '\n', { trimempty = true })
+
+    if not projects or #projects == 0 then
+        return {
+            type = 'text',
+            val = 'No projects found in zoxide.',
+            opts = { position = 'center', hl = 'Comment' },
+        }
+    end
+
+    local tbl = {}
+    local target_width = 35
+
+    -- 2. Create a button for each project directory
+    for i = 1, math.min(items_number, #projects) do
+        local path = projects[i]
+        local short_fn = vim.fn.fnamemodify(path, ':~') -- Use ~ for home directory
+
+        -- Shorten the path if it's too long, using your existing plenary logic
+        if #short_fn > target_width then
+            short_fn = plenary_path.new(short_fn):shorten(1, { -2, -1 })
+            if #short_fn > target_width then
+                short_fn = plenary_path.new(short_fn):shorten(1, { -1 })
+            end
+        end
+
+        local shortcut = tostring(i + start - 1)
+        -- The icon 󰉖 is a Nerd Font icon for a folder
+        local display_text = '󰉖  ' .. short_fn
+
+        -- 3. The button's action is to `cd` into the directory
+        local project_button_el = button(shortcut, display_text, '<cmd>cd ' .. vim.fn.fnameescape(path) .. '<CR>')
+
+        -- Optional: Add highlighting for the path, similar to your file buttons
+        local fn_start = short_fn:match '.*[/\\]'
+        if fn_start ~= nil then
+            project_button_el.opts.hl = { { 'Comment', 4, #fn_start + 4 } }
+        end
+
+        tbl[i] = project_button_el
+    end
+
+    return {
+        type = 'group',
+        val = tbl,
+        opts = {},
+    }
+end
+
 local header = {
     type = 'text',
     val = {
@@ -463,14 +541,67 @@ local section_mru = {
     },
 }
 
+local git_section = {
+    type = 'group',
+    val = function()
+        -- Check if the current directory is a git repository
+        if vim.fn.isdirectory(vim.fn.getcwd() .. '/.git') ~= 1 then
+            return {} -- Return an empty table if not in a git repo
+        end
+        return {
+            { type = 'padding', val = 1 },
+            {
+                type = 'text',
+                val = 'Git Status',
+                opts = { hl = 'SpecialComment', position = 'center' },
+            },
+            { type = 'padding', val = 1 },
+            {
+                type = 'text',
+                val = get_git_status(),
+                opts = {
+                    hl = 'Question',
+                    position = 'center',
+                },
+            },
+        }
+    end,
+}
+
+local section_projects = {
+    type = 'group',
+    val = {
+        {
+            type = 'text',
+            val = 'Projects (zoxide)',
+            opts = {
+                hl = 'SpecialComment',
+                shrink_margin = false,
+                position = 'center',
+            },
+        },
+        { type = 'padding', val = 1 },
+        {
+            type = 'group',
+            val = function()
+                -- Here we start shortcuts from 0 for projects (p0, p1, etc.)
+                -- Or you could use letters like 'p'..tostring(i)
+                -- For simplicity, we'll just number them.
+                return { zoxide_projects(0, 10) } -- Show 10 projects, starting shortcut at 0
+            end,
+            opts = { shrink_margin = false },
+        },
+    },
+}
+
 local buttons = {
     type = 'group',
     val = {
         { type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
         { type = 'padding', val = 1 },
         button('e', '  New file', '<cmd>ene<CR>'),
-        button('<leader> s f', '󰈞  Find file'),
-        button('<leader> s g', '󰊄  Live grep'),
+        button('<leader>sf', '󰈞  Find file'),
+        button('<leader>sg', '󰊄  Live grep'),
         button('c', '  Configuration', '<cmd>cd ' .. (package.config:sub(1, 1) == '\\' and '$LOCALAPPDATA/nvim/' or '~/.config/nvim/') .. '<CR>'),
         button('u', '  Update plugins', '<cmd>Lazy sync<CR>'),
         button('q', '󰅚  Quit', '<cmd>qa<CR>'),
@@ -490,7 +621,18 @@ return {
                 { type = 'padding', val = 2 },
                 header,
                 { type = 'padding', val = 2 },
-                section_mru,
+                git_section,
+                { type = 'padding', val = 1 },
+                {
+                    type = 'group',
+                    val = {
+                        section_mru,
+                        section_projects, -- Add the new project section here
+                    },
+                    opts = {
+                        direction = 'row', -- This is the key for side-by-side layout
+                    },
+                },
                 { type = 'padding', val = 2 },
                 buttons,
             },

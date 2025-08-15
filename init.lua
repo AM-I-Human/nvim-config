@@ -74,4 +74,7 @@ require 'ui.sign'
 require 'functions.autocommands'
 require 'functions.reload'
 require 'keymaps.load_keymaps'
+Path = require 'functions.path'
 Table = require 'functions.table'
+
+require 'commands'

@@ -71,9 +71,25 @@ M.nvim_mappings = {
         ['<A-k>'] = ':m .-2<CR>==',
         [']q'] = ':cnext<CR>',
         ['[q'] = ':cprev<CR>',
-        ['<A-H>'] = { ':bprevious<CR>', 'Previous buffer' },
-        ['<A-L>'] = { ':bnext<CR>', 'Next buffer' },
-        ['<Esc>'] = '<cmd>nohlsearch<CR>',
+        ['<A-H>'] = {
+            function()
+                vim.cmd 'bprevious'
+            end,
+            'Previous buffer',
+        },
+        ['<A-L>'] = {
+
+            function()
+                vim.cmd 'bnext'
+            end,
+            'Next buffer',
+        },
+        ['<Esc>'] = {
+            function()
+                vim.cmd 'nohlsearch'
+            end,
+            'Remove highligth search',
+        },
         g = {
             d = { require('telescope.builtin').lsp_definitions, 'Definition' },
             D = { vim.lsp.buf.declaration, 'Declaration' },
@@ -207,8 +223,18 @@ local leader_keymaps = {
             O = { require('flutter-tools.outline').open, 'OutlineOpen' },
             q = { require('flutter-tools.commands').quit, 'Quit' },
             re = { require('flutter-tools.commands').reload, 'Reload' },
-            r = { '<cmd>FlutterRun<cr>', 'Run' },
-            rd = { '<cmd>FlutterDebug<cr>', 'Debug' },
+            r = {
+                function()
+                    vim.cmd 'FlutterRun'
+                end,
+                'Run',
+            },
+            rd = {
+                function()
+                    vim.cmd 'FlutterDebug'
+                end,
+                'Debug',
+            },
             R = { require('flutter-tools.commands').restart, 'Restart' },
             S = { require('flutter-tools.lsp').dart_lsp_super, 'Super' },
         },
@@ -224,11 +250,36 @@ local leader_keymaps = {
             R = { require('gitsigns').reset_buffer, 'Reset Buffer' },
             s = { require('gitsigns').stage_hunk, 'Stage Hunk' },
             u = { require('gitsigns').stage_hunk, 'Undo Stage Hunk' },
-            o = { '<cmd>Telescope git_status<cr>', 'Open changed file' },
-            b = { '<cmd>Telescope git_branches<cr>', 'Checkout branch' },
-            c = { '<cmd>Telescope git_commits<cr>', 'Checkout commit' },
-            C = { '<cmd>Telescope git_bcommits<cr>', 'Checkout commit(for current file)' },
-            d = { '<cmd>Gitsigns diffthis HEAD<cr>', 'Git Diff' },
+            o = {
+                function()
+                    vim.cmd 'Telescope git_status'
+                end,
+                'Open changed file',
+            },
+            b = {
+                function()
+                    vim.cmd 'Telescope git_branches'
+                end,
+                'Checkout branch',
+            },
+            c = {
+                function()
+                    vim.cmd 'Telescope git_commits'
+                end,
+                'Checkout commit',
+            },
+            C = {
+                function()
+                    vim.cmd 'Telescope git_bcommits'
+                end,
+                'Checkout commit(for current file)',
+            },
+            d = {
+                function()
+                    vim.cmd 'Gitsigns diffthis HEAD'
+                end,
+                'Git Diff',
+            },
         },
         j = {
             name = 'Jump',
@@ -300,12 +351,6 @@ local leader_keymaps = {
             ['4'] = { require('dap').step_out, 'Step Out' },
             ['5'] = { require('dap').step_back, 'Step Back' },
         },
-        G = {
-            G = { ':Gen<CR>', 'Gen Options' },
-            s = { ':Gen Enhance_Grammar_Spelling<CR>', 'Spelling' },
-            c = { ':Gen Chat<CR>', 'Chat' },
-            a = { ':Gen Ask<CR>', 'Ask' },
-        },
         O = {
             name = 'OIL',
             o = {
@@ -357,12 +402,22 @@ local leader_keymaps = {
                 'Open CWD',
             },
         },
-        P = { name = 'Python', v = { '<cmd>VenvSelect<cr>', 'Select Environment' } },
+        P = { name = 'Python', v = {
+            function()
+                vim.cmd 'VenvSelect'
+            end,
+            'Select Environment',
+        } },
         s = {
             name = 'Search',
             b = { require('telescope.builtin').buffers, 'Find existing buffers' },
             d = { require('telescope.builtin').diagnostics, 'Diagnostics' },
-            F = { '<cmd>Telescope file_browser<CR>', 'File Browser' },
+            F = {
+                function()
+                    vim.cmd 'Telescope file_browser'
+                end,
+                'File Browser',
+            },
             f = {
                 function()
                     require('telescope.builtin').find_files { hidden = true }
