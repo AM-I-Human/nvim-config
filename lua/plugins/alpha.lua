@@ -152,27 +152,6 @@ local function mru(start, cwd, items_number, opts)
     }
 end
 
--- Add this function and layout element
-local function get_git_status()
-    local git_info_val = {}
-    -- Get current branch name and clean the output
-    local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD'):gsub('[\n\r]', '')
-
-    if branch ~= '' and branch ~= 'HEAD' then
-        table.insert(git_info_val, ' ' .. branch) -- Git branch icon
-    end
-
-    -- Get a summary of changes (the --porcelain format is stable for scripting)
-    local status = vim.fn.system 'git status --porcelain'
-    if status == '' then
-        table.insert(git_info_val, ' ✓ Clean working directory')
-    else
-        table.insert(git_info_val, '  Uncommitted changes exist')
-    end
-
-    return git_info_val
-end
-
 --- @param start number Shortcut starting index.
 --- @param items_number number? The number of projects to display.
 local function zoxide_projects(start, items_number)
@@ -540,6 +519,51 @@ local section_mru = {
         },
     },
 }
+vim.api.nvim_set_hl(0, 'AlphaGitBranchDirty', { fg = '#ff8080', bold = true }) -- A reddish color for dirty branches
+vim.api.nvim_set_hl(0, 'AlphaGitBranchClean', { fg = '#a6e3a1', bold = true }) -- A greenish color for clean branches
+vim.api.nvim_set_hl(0, 'AlphaGitBranchMain', { fg = '#f9e2af', bold = true }) -- A yellowish color for main/master
+
+local function get_git_status()
+    -- Get current branch name and clean the output
+    local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD'):gsub('[\n\r]', '')
+
+    if branch == '' or branch == 'HEAD' then
+        return {} -- Not in a git repository or in a detached HEAD state
+    end
+
+    -- Get a summary of changes
+    local status = vim.fn.system 'git status --porcelain'
+    local is_dirty = status ~= ''
+
+    local branch_hl
+    if branch == 'main' or branch == 'master' then
+        branch_hl = 'AlphaGitBranchMain'
+    else
+        branch_hl = is_dirty and 'AlphaGitBranchDirty' or 'AlphaGitBranchClean'
+    end
+
+    local status_text = is_dirty and ' Uncommitted changes' or '✓ Clean working directory'
+    local status_hl = is_dirty and 'AlphaGitBranchDirty' or 'AlphaGitBranchClean'
+
+    return {
+        {
+            type = 'text',
+            val = ' ' .. branch,
+            opts = {
+                hl = branch_hl,
+                position = 'center',
+            },
+        },
+        {
+            type = 'text',
+            val = status_text,
+            opts = {
+                hl = status_hl,
+                position = 'center',
+            },
+        },
+    }
+end
 
 local git_section = {
     type = 'group',
@@ -557,10 +581,9 @@ local git_section = {
             },
             { type = 'padding', val = 1 },
             {
-                type = 'text',
+                type = 'group',
                 val = get_git_status(),
                 opts = {
-                    hl = 'Question',
                     position = 'center',
                 },
             },

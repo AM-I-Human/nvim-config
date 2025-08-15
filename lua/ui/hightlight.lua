@@ -136,7 +136,7 @@ end
 --- @param t CyberdreamPalette
 function M.get(opts, t)
     opts = opts or {}
-    local highlights = {
+    return {
         Comment = { fg = t.grey, italic = opts.italic_comments },
         ColorColumn = { bg = t.bgHighlight },
         Conceal = { fg = t.grey },
@@ -274,8 +274,11 @@ function M.get(opts, t)
         LspCodeLens = { fg = t.grey },
         LspInlayHint = { fg = t.grey },
         LspInfoBorder = { fg = t.bg },
-    }
 
-    return highlights
+        -- AlphaGitBranchDirty = { fg = '#ff8080', bold = true },
+        -- AlphaGitBranchClean = { fg = '#a6e3a1', bold = true },
+        -- AlphaGitBranchMain = { fg = '#f9e2af', bold = true },
+    }
 end
+
 return M
