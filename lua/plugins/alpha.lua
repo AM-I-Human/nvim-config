@@ -509,7 +509,6 @@ local section_mru = {
                 position = 'center',
             },
         },
-        { type = 'padding', val = 1 },
         {
             type = 'group',
             val = function()
@@ -562,7 +561,6 @@ local function get_git_status()
                 position = 'center',
             },
         })
-        table.insert(git_info_val, { type = 'padding', val = 1 })
 
         local diff_stats = vim.fn.system 'git diff --numstat'
         for _, line in ipairs(vim.fn.split(diff_stats, '\n')) do
@@ -640,7 +638,6 @@ local section_projects = {
                 position = 'center',
             },
         },
-        { type = 'padding', val = 1 },
         {
             type = 'group',
             val = function()
@@ -658,7 +655,6 @@ local buttons = {
     type = 'group',
     val = {
         { type = 'text', val = 'Quick links', opts = { hl = 'SpecialComment', position = 'center' } },
-        { type = 'padding', val = 1 },
         button('e', '  New file', '<cmd>ene<CR>'),
         button('<leader>sf', '󰈞  Find file'),
         button('<leader>sg', '󰊄  Live grep'),
@@ -687,6 +683,7 @@ return {
                     type = 'group',
                     val = {
                         section_mru,
+                        { type = 'padding', val = 1 },
                         section_projects, -- Add the new project section here
                     },
                     opts = {
