@@ -17,6 +17,7 @@ return {
         { 'L3MON4D3/LuaSnip', version = 'v2.*' },
         'rafamadriz/friendly-snippets',
         'kristijanhusak/vim-dadbod-completion',
+        'Kaiser-Yang/blink-cmp-avante',
         {
             'saghen/blink.compat',
             opts = {},
@@ -51,29 +52,37 @@ return {
                 'snippets',
                 'buffer',
                 'dadbod',
-                'avante_commands',
-                'avante_mentions',
-                'avante_files',
+                'avante',
+                -- 'avante_commands',
+                -- 'avante_mentions',
+                -- 'avante_files',
             },
             providers = {
                 dadbod = { name = 'Dadbod', module = 'vim_dadbod_completion.blink' },
-                avante_commands = {
-                    name = 'avante_commands',
-                    module = 'blink.compat.source',
-                    score_offset = 90,
-                    opts = {},
-                },
-                avante_files = {
-                    name = 'avante_mentions',
-                    module = 'blink.compat.source',
-                    score_offset = 100,
-                    opts = {},
-                },
-                avante_mentions = {
-                    name = 'avante_mentions',
-                    module = 'blink.compat.source',
-                    score_offset = 1000,
-                    opts = {},
+                -- avante_commands = {
+                --     name = 'avante_commands',
+                --     module = 'blink.compat.source',
+                --     score_offset = 90,
+                --     opts = {},
+                -- },
+                -- avante_files = {
+                --     name = 'avante_mentions',
+                --     module = 'blink.compat.source',
+                --     score_offset = 100,
+                --     opts = {},
+                -- },
+                -- avante_mentions = {
+                --     name = 'avante_mentions',
+                --     module = 'blink.compat.source',
+                --     score_offset = 1000,
+                --     opts = {},
+                -- },
+                avante = {
+                    module = 'blink-cmp-avante',
+                    name = 'Avante',
+                    opts = {
+                        -- options for blink-cmp-avante
+                    },
                 },
                 otter_commands = {
                     name = 'otter_commands',

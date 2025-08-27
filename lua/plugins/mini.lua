@@ -78,15 +78,15 @@ return {
             -- Customization of explorer windows
             windows = {
                 -- Maximum number of windows to show side by side
-                max_number = math.huge,
+                max_number = 5, --math.huge,
                 -- Whether to show preview of file/directory under cursor
                 preview = true,
                 -- Width of focused window
-                width_focus = 80,
+                width_focus = 60,
                 -- Width of non-focused window
-                width_nofocus = 100,
+                width_nofocus = 40,
                 -- Width of preview window
-                width_preview = 100,
+                width_preview = 200,
             },
         }
 

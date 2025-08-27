@@ -90,7 +90,7 @@ return {
         end,
         provider = provider,
         use_absolute_path = true,
-        auto_suggestions_provider = 'ollama_autocomplete',
+        -- auto_suggestions_provider = 'ollama_autocomplete',
         providers = {
             bedrock = {
                 model = 'anthropic.claude-3.5-sonnet-20241022-v1:0',
@@ -109,19 +109,11 @@ return {
                     max_tokens = 8192,
                 },
             },
-            gemini = {
-                model = 'gemini-2.5-flash-preview-04-17',
-                api_key_name = 'GEMINI_API_KEY',
-                extra_request_body = {
-                    temperature = 1,
-                    max_tokens = 8192,
-                },
-            },
             ollama_autocomplete = {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
-                model = 'gemma3:4b-it-qat',
+                model = 'gemma3:4b',
             },
             ollama = {
                 __inherited_from = 'openai',
@@ -132,7 +124,7 @@ return {
             },
         },
         behaviour = {
-            auto_suggestions = true, -- Experimental stage
+            auto_suggestions = false, -- Experimental stage
             auto_set_highlight_group = true,
             auto_set_keymaps = true,
             auto_apply_diff_after_generation = false,
