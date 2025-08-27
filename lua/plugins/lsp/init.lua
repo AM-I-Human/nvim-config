@@ -6,7 +6,17 @@ return { -- LSP Configuration & Plugins
         { 'williamboman/mason-lspconfig.nvim' },
         { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
         { 'j-hui/fidget.nvim', opts = {} },
-        { 'folke/neodev.nvim', opts = {} },
+        {
+            'folke/lazydev.nvim',
+            ft = 'lua', -- only load on lua files
+            opts = {
+                library = {
+                    -- See the configuration section for more details
+                    -- Load luvit types when the `vim.uv` word is found
+                    { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+                },
+            },
+        },
         {
             'stevearc/conform.nvim',
         },
@@ -14,7 +24,6 @@ return { -- LSP Configuration & Plugins
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
-
         -- LSP Attach/Detach Autocommands (Keep these)
         vim.api.nvim_create_autocmd('LspAttach', {
             group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
@@ -55,6 +64,9 @@ return { -- LSP Configuration & Plugins
                         workspace = {
                             checkThirdParty = false,
                         },
+                        diagnostics = {
+                            globals = { 'vim' }, -- Tells the language server about the `vim` global
+                        },
                     },
                 },
             },
@@ -82,15 +94,7 @@ return { -- LSP Configuration & Plugins
             },
 
             biome = {
-                filetypes = {
-                    'javascript',
-                    'javascriptreact',
-                    'typescript',
-                    'typescriptreact',
-                    'json',
-                    'jsonc',
-                    'markdown',
-                },
+                filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'jsonc' },
             },
         }
 
