@@ -1,3 +1,4 @@
+local actions = require 'telescope.actions'
 return {
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
@@ -26,8 +27,8 @@ return {
             --
             defaults = {
                 mappings = {
-                    i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-                    n = { ['q'] = 'close' },
+                    i = { ['<c-f>'] = actions.to_fuzzy_refine },
+                    n = { ['q'] = actions.close, ['F'] = actions.to_fuzzy_refine },
                 },
             },
             -- pickers = {
