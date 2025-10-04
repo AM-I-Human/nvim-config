@@ -43,7 +43,7 @@ end
 
 -- Post-install hook for Mason (to install mypy, etc.)
 M.mason_post_install = function(pkg)
-    install_python_packages(pkg, { 'mypy' }) -- Example
+    install_python_packages(pkg, { 'mypy', 'ruff' }) 
 end
 
 -- Python-specific LSP setup (for pyright or pylance)

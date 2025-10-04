@@ -32,12 +32,20 @@ require('lazy').setup({
             { '<Leader>Jir', '<cmd>JoveInterrupt<cr>', mode = { 'n' }, desc = 'Jove: Interrupt kernel' },
             { '<Leader>Jh', '<cmd>JoveHistory<cr>', mode = { 'n' }, desc = 'Jove: Show history' },
             { '<Leader>Ji', '<cmd>JoveInspect<cr>', mode = { 'n' }, desc = 'Jove: Inspect object' },
+            { '<Leader>Jc', '<cmd>JoveExecuteCell<cr>', mode = { 'n' }, desc = 'Jove: Execute cell' },
+            { '<Leader>Jn', '<cmd>JoveNextCell<cr>', mode = { 'n' }, desc = 'Jove: Go to next cell' },
+            { '<Leader>Jp', '<cmd>JovePreviousCell<cr>', mode = { 'n' }, desc = 'Jove: Go to previous cell' },
+            { '<Leader>Jco', ':JoveClearOutput<cr>', mode = { 'n', 'x', 'v' }, desc = 'Jove: Clear output' },
+            { '<Leader>JL', '<cmd>JoveLog<cr>', mode = { 'n' }, desc = 'Jove: Show logs' },
+            { '<Leader>Jri', '<cmd>JoveRenderImage ', mode = { 'n' }, desc = 'Jove: Render image' },
         },
         config = function()
             -- This is the standard way to set up a plugin
             require('jove').setup {
+                -- La configurazione del kernel ora usa un placeholder `{executable}`
+                -- per permettere a Jove di usare il python dal venv attivo.
                 kernels = {
-                    python = { cmd = 'python -m ipykernel_launcher -f {connection_file}', executable = 'python' },
+                    python = { cmd = '{executable} -m ipykernel_launcher -f {connection_file}' },
                 },
             }
         end,
