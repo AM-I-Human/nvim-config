@@ -423,7 +423,19 @@ local leader_keymaps = {
                     require('telescope.builtin').find_files {
                         no_ignore = true,
                         hidden = true, -- to include hidden files like .env
-                        file_ignore_patterns = { '^%.git/' }, -- exclude .git folder explicitly
+                        file_ignore_patterns = {
+                            '^%.git/',
+                            '^%.venv/',
+                            '^venv/',
+                            '^__pycache__/',
+                            '^node_modules/',
+                            '^target/',
+                            '^dist/',
+                            '^build/',
+                            '%.DS_Store',
+                            '^%.idea/',
+                            '^%.vscode/',
+                        },
                     }
                 end,
                 'Files',
