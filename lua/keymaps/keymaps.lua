@@ -420,7 +420,11 @@ local leader_keymaps = {
             },
             f = {
                 function()
-                    require('telescope.builtin').find_files { hidden = true }
+                    require('telescope.builtin').find_files {
+                        no_ignore = true,
+                        hidden = true, -- to include hidden files like .env
+                        file_ignore_patterns = { '^%.git/' }, -- exclude .git folder explicitly
+                    }
                 end,
                 'Files',
             },
