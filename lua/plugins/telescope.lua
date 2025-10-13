@@ -30,6 +30,9 @@ return {
                     i = { ['<c-f>'] = actions.to_fuzzy_refine },
                     n = { ['q'] = actions.close, ['F'] = actions.to_fuzzy_refine },
                 },
+                file_ignore_patterns = {
+                    '.git/',
+                },
             },
             -- pickers = {
             --     find_files = {
