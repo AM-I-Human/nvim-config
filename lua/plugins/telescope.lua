@@ -49,7 +49,7 @@ return {
                     },
                     mappings = {
                         ['i'] = {},
-                        ['n'] = { q = 'close' },
+                        ['n'] = { q = fb_actions.close },
                     },
                 },
             },
