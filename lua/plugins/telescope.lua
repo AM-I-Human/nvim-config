@@ -20,7 +20,7 @@ return {
         },
     },
     config = function()
-        local fb_actions = require('telescope').extensions.file_browser.actions
+        -- local fb_actions = require('telescope').extensions.file_browser.actions
         require('telescope').setup {
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
@@ -29,15 +29,6 @@ return {
                 mappings = {
                     i = { ['<c-f>'] = actions.to_fuzzy_refine },
                     n = { ['q'] = actions.close, ['F'] = actions.to_fuzzy_refine },
-                },
-                file_ignore_patterns = {
-                    '.git/',
-                    'venv/',
-                    'node_modules/',
-                    '__pycache__',
-                    'build/',
-                    'target/',
-                    '.dart_tool/',
                 },
             },
             -- pickers = {
@@ -58,7 +49,7 @@ return {
                     },
                     mappings = {
                         ['i'] = {},
-                        ['n'] = { q = fb_actions.close },
+                        ['n'] = { q = 'close' },
                     },
                 },
             },
