@@ -90,6 +90,17 @@ return {
             },
         }
 
+        -- Refresh mini.files on directory change
+        vim.api.nvim_create_autocmd('DirChanged', {
+            pattern = '*',
+            callback = function()
+                local MiniFiles = require 'mini.files'
+                if MiniFiles.get_windowname() and vim.fn.bufwinid(MiniFiles.get_windowname()) ~= -1 then
+                    MiniFiles.synchronize()
+                end
+            end,
+        })
+
         vim.api.nvim_set_hl(0, 'MyRecordingHighlight', { bg = 'yellow', fg = 'black', bold = true })
 
         local statusline = require 'mini.statusline'
