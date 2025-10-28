@@ -94,9 +94,11 @@ return {
         vim.api.nvim_create_autocmd('DirChanged', {
             pattern = '*',
             callback = function()
-                local MiniFiles = require 'mini.files'
-                if MiniFiles.get_windowname() and vim.fn.bufwinid(MiniFiles.get_windowname()) ~= -1 then
-                    MiniFiles.synchronize()
+                if package.loaded['mini.files'] then
+                    local MiniFiles = require 'mini.files'
+                    if MiniFiles.get_windowname() and vim.fn.bufwinid(MiniFiles.get_windowname()) ~= -1 then
+                        MiniFiles.synchronize()
+                    end
                 end
             end,
         })
