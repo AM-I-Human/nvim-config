@@ -480,11 +480,8 @@ local leader_keymaps = {
     visual_mode = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
-            a = {
-                vim.lsp.buf.code_action,
-                'Action',
-            },
-            f = { vim.lsp.buf.format, 'Format' },
+            a = { vim.lsp.buf.code_action, 'Action' },
+            f = { require('conform').format { async = true, lsp_fallback = true }, 'Format' },
         },
     },
     ---@class WhichKeyPages
