@@ -25,12 +25,12 @@ return { -- LSP Configuration & Plugins
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
         -- LSP Attach/Detach Autocommands (Keep these)
+        local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = true })
         vim.api.nvim_create_autocmd('LspAttach', {
             group = vim.api.nvim_create_augroup('lsp-attach', { clear = true }),
             callback = function(event)
                 local client = vim.lsp.get_client_by_id(event.data.client_id)
                 if client and client.server_capabilities.documentHighlightProvider then
-                    local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = false })
                     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
                         buffer = event.buf,
                         group = highlight_augroup,
@@ -49,7 +49,7 @@ return { -- LSP Configuration & Plugins
             group = vim.api.nvim_create_augroup('lsp-detach', { clear = true }),
             callback = function(event)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'lsp-highlight', buffer = event.buf }
+                vim.api.nvim_clear_autocmds { group = highlight_augroup, buffer = event.buf }
             end,
         })
 
@@ -97,7 +97,7 @@ return { -- LSP Configuration & Plugins
                 filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'jsonc' },
             },
 
-            ruff_lsp = {
+            ruff = {
                 init_options = {
                     settings = {
                         assist = {
@@ -118,7 +118,7 @@ return { -- LSP Configuration & Plugins
                 'jsonls',
                 'yamlls',
                 'pyright',
-                'ruff_lsp',
+                'ruff',
                 'ts_ls',
                 'biome',
                 'tinymist',
@@ -142,7 +142,7 @@ return { -- LSP Configuration & Plugins
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             'stylua',
-            'ruff_lsp',
+            'ruff-lsp',
             'pyright',
             'ts_ls',
             'black',
