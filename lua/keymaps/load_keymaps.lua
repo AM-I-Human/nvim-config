@@ -42,14 +42,15 @@ end
 -- @param key The key of keymap
 -- @param val Can be form as a mapping or tuple of mapping and user defined opt
 function M.set_keymaps(mode, key, val)
-    mode = mode_adapters[mode]
     local opt = generic_opts[mode] or generic_opts_any
+    mode = mode_adapters[mode]
     if type(val) == 'table' then
-        opt = val[2]
+        local user_opt = val[2]
         val = val[1]
-        if type(opt) == 'string' then
-            opt = { desc = opt }
+        if type(user_opt) == 'string' then
+            user_opt = { desc = user_opt }
         end
+        opt = vim.tbl_deep_extend('force', opt, user_opt or {})
     end
     if val then
         vim.keymap.set(mode, key, val, opt)
