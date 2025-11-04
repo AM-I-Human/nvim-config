@@ -242,8 +242,18 @@ local leader_keymaps = {
             name = 'Git',
             g = { _lazygit_toggle, 'Lazygit' },
             L = { name = 'Lab', m = { require('gitlab').choose_merge_request, 'Choose merge request' } },
-            j = { require('gitsigns').nav_hunk 'next', 'Next Hunk' },
-            k = { require('gitsigns').nav_hunk 'prev', 'Previous Hunk' },
+            j = {
+                function()
+                    require('gitsigns').nav_hunk 'next'
+                end,
+                'Next Hunk',
+            },
+            k = {
+                function()
+                    require('gitsigns').nav_hunk 'prev'
+                end,
+                'Previous Hunk',
+            },
             l = { require('gitsigns').blame_line, 'Blame' },
             p = { require('gitsigns').preview_hunk, 'Preview Hunk' },
             r = { require('gitsigns').reset_hunk, 'Reset Hunk' },
