@@ -96,6 +96,16 @@ return { -- LSP Configuration & Plugins
             biome = {
                 filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'jsonc' },
             },
+
+            ruff_lsp = {
+                init_options = {
+                    settings = {
+                        assist = {
+                            enable = true,
+                        },
+                    },
+                },
+            },
         }
 
         -- Mason setup
@@ -108,7 +118,7 @@ return { -- LSP Configuration & Plugins
                 'jsonls',
                 'yamlls',
                 'pyright',
-                'ruff',
+                'ruff_lsp',
                 'ts_ls',
                 'biome',
                 'tinymist',
@@ -132,7 +142,7 @@ return { -- LSP Configuration & Plugins
         local ensure_installed = vim.tbl_keys(servers or {})
         vim.list_extend(ensure_installed, {
             'stylua',
-            'ruff',
+            'ruff_lsp',
             'pyright',
             'ts_ls',
             'black',

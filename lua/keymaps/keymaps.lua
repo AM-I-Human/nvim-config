@@ -481,7 +481,7 @@ local leader_keymaps = {
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = {
-                vim.lsp.buf.range_code_action,
+                vim.lsp.buf.code_action,
                 'Action',
             },
             f = { vim.lsp.buf.format, 'Format' },
