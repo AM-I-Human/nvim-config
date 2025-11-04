@@ -62,32 +62,36 @@ end
 -- Load key mappings for a given mode
 -- @param mode The keymap mode, can be one of the keys of mode_adapters
 -- @param keymaps The list of key mappings
-function M.load_mode(mode, keymaps)
+function M.load_mode(mode, keymaps, prefix)
+    prefix = prefix or ''
     for k, v in pairs(keymaps) do
-        if type(v) == 'table' and (type(v[1]) == 'string' or type(v[1]) == 'function') then
-            -- Direct mapping with optional options table
-            M.set_keymaps(mode, k, v)
-        elseif type(v) == 'table' then
-            -- Nested mappings
-            for subk, subv in pairs(v) do
-                M.set_keymaps(mode, k .. subk, subv)
+        if k ~= 'name' then
+            if type(v) == 'table' and (type(v[1]) == 'string' or type(v[1]) == 'function') then
+                -- Direct mapping with optional options table
+                M.set_keymaps(mode, prefix .. k, v)
+            elseif type(v) == 'table' then
+                -- Nested mappings
+                M.load_mode(mode, v, prefix .. k)
+            else
+                M.set_keymaps(mode, prefix .. k, v)
             end
-        else
-            M.set_keymaps(mode, k, v)
         end
     end
 end
 
 -- Load key mappings for all provided modes
 -- @param keymaps A list of key mappings for each mode
-function M.load(keymaps)
+function M.load(keymaps, prefix)
     keymaps = keymaps or {}
     for mode, mapping in pairs(keymaps) do
-        M.load_mode(mode, mapping)
+        if mode ~= 'pages' then
+            M.load_mode(mode, mapping, prefix)
+        end
     end
 end
 
 M.mappings = (require 'keymaps.keymaps').nvim_mappings
+M.leader_mappings = (require 'keymaps.keymaps').which_key_mappings
 
 if IS_MAC then
     M.mappings.normal_mode['<A-Up>'] = M.mappings.normal_mode['<C-Up>']
@@ -97,4 +101,5 @@ if IS_MAC then
 end
 
 M.load(M.mappings)
+M.load(M.leader_mappings, '<leader>')
 return M
