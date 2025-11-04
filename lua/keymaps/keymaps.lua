@@ -320,11 +320,10 @@ local leader_keymaps = {
                 name = 'Python',
                 t = { require('dap-python').test_method, 'Test Method' },
                 u = {
-                    name = 'UV run',
                     function()
                         require('dap').continue { config = 'UV run' }
                     end,
-                    'Debug with uv run',
+                    'UV run',
                 },
             },
             b = { require('dap').toggle_breakpoint, 'Toggle Breakpoint' },
