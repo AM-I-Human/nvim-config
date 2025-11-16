@@ -1,7 +1,13 @@
 local actions = require 'telescope.actions'
 return {
     'nvim-telescope/telescope.nvim',
-    event = 'VimEnter',
+    cmd = 'Telescope',
+    keys = {
+        '<leader>s',
+        'gd',
+        'gr',
+        'gI',
+    },
     branch = '0.1.x',
     dependencies = {
         'nvim-lua/plenary.nvim',

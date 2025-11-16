@@ -667,6 +667,7 @@ local buttons = {
 
 return {
     'goolord/alpha-nvim',
+    event = 'VeryLazy',
     dependencies = {
         'nvim-tree/nvim-web-devicons',
         'nvim-lua/plenary.nvim',

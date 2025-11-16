@@ -1,5 +1,20 @@
 return {
     'mfussenegger/nvim-dap',
+    cmd = {
+        'DapContinue',
+        'DapStepOver',
+        'DapStepInto',
+        'DapStepOut',
+        'DapClose',
+        'DapTerminate',
+        'DapToggleBreakpoint',
+        'DapRestart',
+        'DapSetBreakpoint',
+        'DapRunToCursor',
+    },
+    keys = {
+        { '<leader>D' },
+    },
     dependencies = {
         'rcarriga/nvim-dap-ui',
         'theHamsta/nvim-dap-virtual-text',

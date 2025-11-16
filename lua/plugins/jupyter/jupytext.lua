@@ -12,6 +12,5 @@ return {
             },
         },
     },
-    lazy = false,
     event = 'VeryLazy',
 }

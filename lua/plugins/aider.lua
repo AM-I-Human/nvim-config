@@ -1,6 +1,7 @@
 return {
     'GeorgesAlkhouri/nvim-aider',
     cmd = 'Aider',
+    event = 'VeryLazy',
     -- Example key mappings for common actions:
     keys = {
         { '<leader>a/', '<cmd>Aider toggle<cr>', desc = 'Toggle Aider' },
