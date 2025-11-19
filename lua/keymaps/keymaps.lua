@@ -417,7 +417,7 @@ local leader_keymaps = {
             end,
             'Select Environment',
         } },
-        p = { require('presenting').toggle },
+        -- p = { require('presenting').toggle },
         s = {
             name = 'Search',
             b = { require('telescope.builtin').buffers, 'Find existing buffers' },

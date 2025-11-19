@@ -122,6 +122,12 @@ return {
                 model = 'deepseek-r1:32b',
                 disable_tools = true,
             },
+            provider = 'gemini',
+            providers = {
+                gemini = {
+                    model = 'gemini-2.5-pro',
+                },
+            },
         },
         behaviour = {
             auto_suggestions = false, -- Experimental stage
