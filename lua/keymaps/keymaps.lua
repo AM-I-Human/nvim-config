@@ -402,12 +402,13 @@ local leader_keymaps = {
                 'Open CWD',
             },
         },
-        P = { name = 'Python', v = {
+        P = { name = 'Python', e = {
             function()
                 vim.cmd 'VenvSelect'
             end,
             'Select Environment',
         } },
+        p = { require('presenting').toggle },
         s = {
             name = 'Search',
             b = { require('telescope.builtin').buffers, 'Find existing buffers' },
