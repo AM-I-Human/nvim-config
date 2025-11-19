@@ -106,6 +106,16 @@ return { -- LSP Configuration & Plugins
                     },
                 },
             },
+            pylsp = {
+                settings = {
+                    pylsp = {
+                        plugins = {
+                            rope_auto_import = { enabled = true }, -- if you want auto import
+                            rope_completion = { enabled = true },
+                        },
+                    },
+                },
+            },
         }
 
         -- Mason setup
@@ -122,6 +132,7 @@ return { -- LSP Configuration & Plugins
                 'ts_ls',
                 'biome',
                 'tinymist',
+                'pylsp',
             },
             automatic_installation = true, -- Let mason-tool-installer handle it
             handlers = {
@@ -149,6 +160,7 @@ return { -- LSP Configuration & Plugins
             'biome',
             'sqlfluff',
             'tinymist',
+            'pylsp-rope',
         })
         require('mason-tool-installer').setup {
             ensure_installed = ensure_installed,
