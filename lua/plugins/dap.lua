@@ -27,7 +27,7 @@ return {
     config = function()
         -- 1. Enable DAP logging for debugging. This is the most impMasonInstall python-debugpyortant step.
         -- Log file will be at C:\\Users\\<user>\\AppData\\Local\\nvim-data\\dap.log
-        require('dap').set_log_level 'TRACE'
+        -- require('dap').set_log_level 'TRACE' -- Uncomment for debugging
 
         local dap = require 'dap'
         local dapui = require 'dapui'
@@ -132,13 +132,9 @@ return {
             },
         }
 
-        dap.listeners.before.launch.dapui_config = dapui.open
-        dap.listeners.after.event_initialized.dapui_config = dapui.open
-        dap.listeners.before.event_terminated.dapui_config = dapui.close
-        dap.listeners.before.event_exited.dapui_config = dapui.close
-
         dap.listeners.before.attach.dapui_config = dapui.open
         dap.listeners.before.launch.dapui_config = dapui.open
+        dap.listeners.after.event_initialized.dapui_config = dapui.open
         dap.listeners.before.event_terminated.dapui_config = dapui.close
         dap.listeners.before.event_exited.dapui_config = dapui.close
 

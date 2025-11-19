@@ -42,7 +42,6 @@ local provider = 'gemini'
 return {
     'yetone/avante.nvim',
     event = 'VeryLazy',
-    lazy = false,
     version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
     build = (IS_WINDOWS and 'powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false') or 'make',
 
@@ -122,11 +121,8 @@ return {
                 model = 'deepseek-r1:32b',
                 disable_tools = true,
             },
-            provider = 'gemini',
-            providers = {
-                gemini = {
-                    model = 'gemini-2.5-pro',
-                },
+            gemini = {
+                model = 'gemini-2.5-pro',
             },
         },
         behaviour = {

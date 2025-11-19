@@ -20,7 +20,7 @@ require('lazy').setup({
     { 'linrongbin16/commons.nvim', lazy = true },
     -- THIS IS YOUR LOCAL PLUGIN
     {
-        dir = IS_WINDOWS and 'C:/Users/andre/Projects/Jove.nvim/' or '~/Projects/Jove.nvim/',
+        dir = vim.fn.expand('~/Projects/Jove.nvim/'),
         name = 'jove',
         dev = true,
         keys = {

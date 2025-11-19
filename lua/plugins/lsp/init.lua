@@ -106,16 +106,16 @@ return { -- LSP Configuration & Plugins
                     },
                 },
             },
-            pylsp = {
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            rope_auto_import = { enabled = true }, -- if you want auto import
-                            rope_completion = { enabled = true },
-                        },
-                    },
-                },
-            },
+            -- pylsp = { -- Using pyright instead
+            --     settings = {
+            --         pylsp = {
+            --             plugins = {
+            --                 rope_auto_import = { enabled = true }, -- if you want auto import
+            --                 rope_completion = { enabled = true },
+            --             },
+            --         },
+            --     },
+            -- },
         }
 
         -- Mason setup
@@ -132,9 +132,9 @@ return { -- LSP Configuration & Plugins
                 'ts_ls',
                 'biome',
                 'tinymist',
-                'pylsp',
+                -- 'pylsp', -- pyright is preferred
             },
-            automatic_installation = true, -- Let mason-tool-installer handle it
+            automatic_installation = false, -- Let mason-tool-installer handle it
             handlers = {
                 function(server_name)
                     local server = servers[server_name] or {}
@@ -154,8 +154,8 @@ return { -- LSP Configuration & Plugins
         vim.list_extend(ensure_installed, {
             'stylua',
             'ruff-lsp',
-            'pyright',
-            'ts_ls',
+            -- 'pyright', -- Already handled by mason-lspconfig
+            -- 'ts_ls', -- Already handled by mason-lspconfig
             'black',
             'biome',
             'sqlfluff',

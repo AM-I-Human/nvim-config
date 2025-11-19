@@ -30,7 +30,7 @@ return {
     'echasnovski/mini.nvim',
     version = false,
     config = function()
-        -- ... (tutta la tua configurazione di mini.ai e mini.surround rimane invariata) ...
+        -- ... (your entire mini.ai and mini.surround configuration remains unchanged) ...
         require('mini.ai').setup { n_lines = 500 }
         require('mini.surround').setup {
             mappings = { add = 'gs', delete = 'gsd', find = 'gsf', find_left = 'gsF', highlight = 'gsh', replace = 'gsr', update_n_linse = 'gns' },
@@ -108,7 +108,7 @@ return {
         local statusline = require 'mini.statusline'
 
         ---
-        -- Sezione VENV personalizzata (con la tua patch di sicurezza, che è un'ottima idea)
+        -- Custom VENV section (with your security patch, which is a great idea)
         ---
         local function section_venv(args)
             args = args or {}
@@ -116,7 +116,7 @@ return {
             args.icon = args.icon or ''
 
             local ok, venv_selector = pcall(require, 'venv-selector')
-            -- La tua patch è perfetta per gestire i casi limite durante l'avvio
+            -- Your patch is perfect for handling edge cases during startup
             if not ok or venv_selector.get_active_venv == nil then
                 return ''
             end
@@ -181,7 +181,7 @@ return {
             command = 'redrawstatus',
         })
 
-        -- ... (il resto della tua configurazione)
+        -- ... (the rest of your configuration)
         statusline.section_location = function()
             return '%2l(%L)│%2v(%-2{virtcol("$") - 1})'
         end
