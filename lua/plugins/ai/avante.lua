@@ -123,6 +123,8 @@ return {
             },
             gemini = {
                 model = 'gemini-2.5-pro',
+                temperature = 0,
+                max_tokens = 8192,
             },
         },
         behaviour = {
