@@ -91,40 +91,30 @@ return {
         use_absolute_path = true,
         -- auto_suggestions_provider = 'ollama_autocomplete',
         providers = {
-            bedrock = {
-                model = 'anthropic.claude-3.5-sonnet-20241022-v1:0',
-                timeout = 30000, -- Timeout in milliseconds
-                profile = 'wsi-dev-ai', -- Your AWS CLI profile name
-                extra_request_body = {
-                    temperature = 1, -- Adjust as needed
-                    max_tokens = 8192, -- Adjust as needed
-                },
-            },
-            claude = {
-                endpoint = 'https://api.anthropic.com',
-                model = 'claude-3-5-sonnet-20241022',
-                extra_request_body = {
-                    temperature = 1,
-                    max_tokens = 8192,
-                },
-            },
             ollama_autocomplete = {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
                 model = 'gemma3:4b',
+                extra_request_body = {
+                    temperature = 0,
+                },
             },
             ollama = {
                 __inherited_from = 'openai',
                 api_key_name = '',
                 endpoint = 'http://localhost:11434/v1',
                 model = 'deepseek-r1:32b',
-                disable_tools = true,
+                extra_request_body = {
+                    temperature = 0,
+                },
             },
             gemini = {
                 model = 'gemini-2.5-pro',
-                temperature = 0,
-                max_tokens = 8192,
+                extra_request_body = {
+                    temperature = 0,
+                    max_tokens = 8192,
+                },
             },
         },
         behaviour = {

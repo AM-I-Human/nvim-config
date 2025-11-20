@@ -160,7 +160,6 @@ return { -- LSP Configuration & Plugins
             'biome',
             'sqlfluff',
             'tinymist',
-            'pylsp-rope',
         })
         require('mason-tool-installer').setup {
             ensure_installed = ensure_installed,
