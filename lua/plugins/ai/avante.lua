@@ -110,7 +110,7 @@ return {
                 },
             },
             gemini = {
-                model = 'gemini-2.5-pro',
+                model = 'gemini-3.0-pro-preview',
                 extra_request_body = {
                     temperature = 0,
                     max_tokens = 8192,
