@@ -127,7 +127,7 @@ return { -- LSP Configuration & Plugins
                 'lua_ls',
                 'jsonls',
                 'yamlls',
-                'pyright',
+                -- 'pyright',
                 'ruff',
                 'ts_ls',
                 'biome',

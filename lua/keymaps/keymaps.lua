@@ -73,14 +73,28 @@ M.nvim_mappings = {
         ['[q'] = ':cprev<CR>',
         ['<A-H>'] = {
             function()
-                vim.cmd 'bprevious'
+                -- Controlla se è una finestra floating o se ha winfixbuf attivo
+                local win_id = vim.api.nvim_get_current_win()
+                local win_config = vim.api.nvim_win_get_config(win_id)
+                local is_floating = win_config.relative ~= ''
+                local is_fixed = vim.wo[win_id].winfixbuf
+
+                if not is_floating and not is_fixed then
+                    pcall(vim.cmd, 'bprevious') -- pcall cattura l'errore senza crashare
+                end
             end,
             'Previous buffer',
         },
         ['<A-L>'] = {
-
             function()
-                vim.cmd 'bnext'
+                local win_id = vim.api.nvim_get_current_win()
+                local win_config = vim.api.nvim_win_get_config(win_id)
+                local is_floating = win_config.relative ~= ''
+                local is_fixed = vim.wo[win_id].winfixbuf
+
+                if not is_floating and not is_fixed then
+                    pcall(vim.cmd, 'bnext')
+                end
             end,
             'Next buffer',
         },
