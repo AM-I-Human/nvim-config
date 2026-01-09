@@ -2,15 +2,28 @@ return {
     'olimorris/codecompanion.nvim',
     opts = {
         language = 'English',
-        -- system_prompt = function(opts)
-        --      return "My new system prompt"
-        --    end,
+
+        adapters = {
+            -- Gli adapter classici (Gemini, OpenAI, Anthropic) ora vanno sotto "http"
+            http = {
+                gemini = function()
+                    return require('codecompanion.adapters').extend('gemini', {
+                        schema = {
+                            model = {
+                                default = 'gemini-3-pro-preview',
+                            },
+                        },
+                    })
+                end,
+            },
+        },
+
         strategies = {
             chat = {
+                adapter = 'gemini',
                 show_references = true,
                 show_settings = true,
                 show_token_count = true,
-                model = 'gemini-2.5-pro-preview-03-25', -- Specify the model for chat
                 keymaps = {
                     send = {
                         modes = { n = '<C-s>', i = '<C-s>' },
@@ -18,35 +31,10 @@ return {
                     close = {
                         modes = { n = 'q', i = '<C-c>' },
                     },
-                    -- Add further custom keymaps here
                 },
-                adapter = 'gemini',
-                -- tools = {
-                --         ["my_tool"] = {
-                --           description = "Run a custom task",
-                --           callback = require("user.codecompanion.tools.my_tool")
-                --         },
-                --         groups = {
-                --           ["my_group"] = {
-                --             description = "A custom agent combining tools",
-                --             system_prompt = "Describe what the agent should do",
-                --             tools = {
-                --               "cmd_runner",
-                --               "editor",
-                --               -- Add your own tools or reuse existing ones
-                --             },
-                --           },
-                --         },
-                -- ["cmd_runner"] = {
-                --   opts = {
-                --     requires_approval = false,
-                --   },
-                -- },
-                --         },
             },
             inline = {
                 adapter = 'gemini',
-                model = 'gemini-2.5-pro-preview-03-25', -- Specify the model for chat
                 keymaps = {
                     accept_change = {
                         modes = { n = 'ga' },
@@ -59,14 +47,7 @@ return {
                 },
             },
             extensions = {
-                -- mcphub = {
-                --     callback = 'mcphub.extensions.codecompanion',
-                --     opts = {
-                --         show_result_in_chat = true, -- Show mcp tool results in chat
-                --         make_vars = true, -- Convert resources to #variables
-                --         make_slash_commands = true, -- Add prompts as /slash commands
-                --     },
-                -- },
+                -- Le tue estensioni
             },
         },
     },

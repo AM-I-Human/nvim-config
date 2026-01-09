@@ -20,7 +20,7 @@ require('lazy').setup({
     { 'linrongbin16/commons.nvim', lazy = true },
     -- THIS IS YOUR LOCAL PLUGIN
     {
-        dir = vim.fn.expand('~/Projects/Jove.nvim/'),
+        dir = vim.fn.expand '~/Projects/Jove.nvim/',
         name = 'jove',
         dev = true,
         keys = {
@@ -44,6 +44,7 @@ require('lazy').setup({
             require('jove').setup {
                 -- La configurazione del kernel ora usa un placeholder `{executable}`
                 -- per permettere a Jove di usare il python dal venv attivo.
+                image_renderer = 'iip', -- Renderer per le immagini: "popup", "iip" (inline), "terminal_popup" (re-openable)
                 kernels = {
                     python = { cmd = '{executable} -m ipykernel_launcher -f {connection_file}' },
                 },

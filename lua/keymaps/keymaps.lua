@@ -118,6 +118,7 @@ M.nvim_mappings = {
         ['<C-j>'] = '<C-\\><C-N><C-w>j',
         ['<C-k>'] = '<C-\\><C-N><C-w>k',
         ['<C-l>'] = '<C-\\><C-N><C-w>l',
+        ['<Esc><Esc>'] = '<C-\\><C-n>',
     },
 
     visual_mode = {
@@ -501,6 +502,12 @@ local leader_keymaps = {
         },
     },
     visual_mode = {
+        ['/'] = {
+            function()
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('gc', true, false, true), 'x', false)
+            end,
+            'Comment',
+        },
         c = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
