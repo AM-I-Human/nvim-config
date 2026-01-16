@@ -22,14 +22,17 @@ local function install_python_packages(pkg, packages)
         return
     end
 
+    local args = {
+        'install',
+        '-U',
+        '--disable-pip-version-check',
+    }
+    vim.list_extend(args, packages)
+
     local job = require 'plenary.job'
     job:new({
         command = pip_path,
-        args = {
-            'install',
-            '-U',
-            '--disable-pip-version-check',
-        } .. packages, -- Use provided packages
+        args = args,
         cwd = venv_path,
         env = { VIRTUAL_ENV = venv_path },
         on_exit = function()

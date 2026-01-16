@@ -24,6 +24,7 @@ return { -- LSP Configuration & Plugins
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
+        capabilities.offsetEncoding = { 'utf-16' }
         -- LSP Attach/Detach Autocommands (Keep these)
         local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = true })
         vim.api.nvim_create_autocmd('LspAttach', {
@@ -97,6 +98,8 @@ return { -- LSP Configuration & Plugins
                 filetypes = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'jsonc' },
             },
 
+
+            pyright = {},
             ruff = {
                 init_options = {
                     settings = {
@@ -127,7 +130,7 @@ return { -- LSP Configuration & Plugins
                 'lua_ls',
                 'jsonls',
                 'yamlls',
-                -- 'pyright',
+                'pyright',
                 'ruff',
                 'ts_ls',
                 'biome',
@@ -137,6 +140,7 @@ return { -- LSP Configuration & Plugins
             automatic_installation = false, -- Let mason-tool-installer handle it
             handlers = {
                 function(server_name)
+
                     local server = servers[server_name] or {}
                     server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
 
