@@ -9,32 +9,31 @@ return {
                 lsp_fallback = true,
             },
 
+            -- 1. Definisci qui QUALI formatter usare per ogni filetype
             formatters_by_ft = {
                 lua = { 'stylua' },
-                python = {
-                    command = 'ruff',
-                    args = function(ctx)
-                        return { 'check', '--fix', '--stdin-filename', ctx.filename, '-' }
-                    end,
-                    stdin = true,
-                },
+                python = { 'ruff' }, -- Nota: ruff supporta già la configurazione standard, non serve la funzione complessa se non hai esigenze specifiche
                 javascript = { 'biome' },
                 typescript = { 'biome' },
                 json = { 'biome' },
-                jsonc = { 'biome' },
                 markdown = { 'biome' },
                 html = { 'biome' },
-                sql = {
-                    command = 'sqlfluff',
-                    args = {
-                        'format',
-                        '--dialect',
-                        'snowflake',
-                        '--disable-progress-bar',
-                        '-',
-                        '--force',
-                    },
-                    stdin = true,
+                -- Aggiungi SQL qui
+                sql = { 'sqlfluff' },
+            },
+
+            -- 2. Definisci qui COME devono comportarsi i formatter specifici
+            formatters = {
+                sqlfluff = {
+                    -- Sovrascrivi gli argomenti per impostare il dialetto (es. postgres, mysql, snowflake)
+                    -- Nota: è meglio usare un file .sqlfluff nel progetto, ma puoi forzarlo qui
+                    args = { 'format', '--dialect', 'ansi', '-' },
+                },
+                -- Se volevi mantenere la tua config custom di ruff per python:
+                ruff = {
+                    args = function(ctx)
+                        return { 'check', '--fix', '--stdin-filename', ctx.filename, '-' }
+                    end,
                 },
             },
         }
