@@ -140,6 +140,9 @@ return { -- LSP Configuration & Plugins
             automatic_installation = false, -- Let mason-tool-installer handle it
             handlers = {
                 function(server_name)
+                    if server_name == 'pylsp' then
+                        return
+                    end
 
                     local server = servers[server_name] or {}
                     server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
