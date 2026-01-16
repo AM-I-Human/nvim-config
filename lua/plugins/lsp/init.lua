@@ -24,7 +24,6 @@ return { -- LSP Configuration & Plugins
     config = function()
         local capabilities = require('blink.cmp').get_lsp_capabilities()
         capabilities.textDocument.completion.completionItem.snippetSupport = true
-        capabilities.offsetEncoding = { 'utf-16' }
         -- LSP Attach/Detach Autocommands (Keep these)
         local highlight_augroup = vim.api.nvim_create_augroup('lsp-highlight', { clear = true })
         vim.api.nvim_create_autocmd('LspAttach', {
@@ -100,15 +99,6 @@ return { -- LSP Configuration & Plugins
 
 
             pyright = {},
-            ruff = {
-                init_options = {
-                    settings = {
-                        assist = {
-                            enable = true,
-                        },
-                    },
-                },
-            },
             -- pylsp = { -- Using pyright instead
             --     settings = {
             --         pylsp = {
@@ -131,7 +121,8 @@ return { -- LSP Configuration & Plugins
                 'jsonls',
                 'yamlls',
                 'pyright',
-                'ruff',
+                'pyright',
+                -- 'ruff', -- Disable Ruff LSP, use nvim-lint/conform
                 'ts_ls',
                 'biome',
                 'tinymist',
@@ -167,6 +158,7 @@ return { -- LSP Configuration & Plugins
             'biome',
             'sqlfluff',
             'tinymist',
+            'ruff',
         })
         require('mason-tool-installer').setup {
             ensure_installed = ensure_installed,
