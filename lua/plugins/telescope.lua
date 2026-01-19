@@ -1,6 +1,7 @@
-local actions = require 'telescope.actions'
+
 return {
     'nvim-telescope/telescope.nvim',
+    tag = '*',
     cmd = 'Telescope',
     keys = {
         '<leader>s',
@@ -8,7 +9,6 @@ return {
         'gr',
         'gI',
     },
-    branch = '0.1.x',
     dependencies = {
         'nvim-lua/plenary.nvim',
         {
@@ -27,6 +27,7 @@ return {
     },
     config = function()
         -- local fb_actions = require('telescope').extensions.file_browser.actions
+        local actions = require 'telescope.actions'
         require('telescope').setup {
             -- You can put your default mappings / updates / etc. in here
             --  All the info you're looking for is in `:help telescope.setup()`
