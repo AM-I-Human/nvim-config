@@ -1,6 +1,5 @@
 return {
     'nvim-telescope/telescope.nvim',
-    tag = '*',
     cmd = 'Telescope',
     keys = {
         '<leader>s',
