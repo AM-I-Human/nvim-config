@@ -105,10 +105,25 @@ M.nvim_mappings = {
             'Remove highligth search',
         },
         g = {
-            d = { require('telescope.builtin').lsp_definitions, 'Definition' },
+            d = {
+                function()
+                    require('telescope.builtin').lsp_definitions()
+                end,
+                'Definition',
+            },
             D = { vim.lsp.buf.declaration, 'Declaration' },
-            r = { require('telescope.builtin').lsp_references, 'References' },
-            I = { require('telescope.builtin').lsp_implementations, 'Implementation' },
+            r = {
+                function()
+                    require('telescope.builtin').lsp_references()
+                end,
+                'References',
+            },
+            I = {
+                function()
+                    require('telescope.builtin').lsp_implementations()
+                end,
+                'Implementation',
+            },
         },
         K = { vim.lsp.buf.hover, 'Hover Documentation' },
     },
@@ -211,6 +226,55 @@ local leader_keymaps = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
             f = { require('conform').format { async = true, lsp_fallback = true }, 'Format' },
+            e = {
+                function()
+                    return require('refactoring').refactor 'Extract Block'
+                end,
+                'Extract Block',
+            },
+            i = {
+                function()
+                    return require('refactoring').refactor 'Inline Variable'
+                end,
+                'Inline Variable',
+            },
+            I = {
+                function()
+                    return require('refactoring').refactor 'Inline Function'
+                end,
+                'Inline Function',
+            },
+            b = {
+                function()
+                    return require('refactoring').refactor 'Extract Block'
+                end,
+                'Extract Block',
+            },
+            R = {
+                function()
+                    require('telescope').extensions.refactoring.refactors()
+                end,
+                'Refactoring Menu',
+            },
+            -- Debug Operations
+            p = {
+                function()
+                    require('refactoring').debug.printf { below = false }
+                end,
+                'Print function call',
+            },
+            v = {
+                function()
+                    require('refactoring').debug.print_var()
+                end,
+                'Print Variable',
+            },
+            x = {
+                function()
+                    require('refactoring').debug.cleanup {}
+                end,
+                'Cleanup Prints',
+            },
         },
         e = {
             function()
@@ -512,6 +576,37 @@ local leader_keymaps = {
             r = { vim.lsp.buf.rename, 'Rename' },
             a = { vim.lsp.buf.code_action, 'Action' },
             f = { require('conform').format { async = true, lsp_fallback = true }, 'Format' },
+            e = {
+                function()
+                    return require('refactoring').refactor 'Extract Function'
+                end,
+                'Extract Function',
+            },
+            v = {
+                function()
+                    return require('refactoring').refactor 'Extract Variable'
+                end,
+                'Extract Variable',
+            },
+            i = {
+                function()
+                    return require('refactoring').refactor 'Inline Variable'
+                end,
+                'Inline Variable',
+            },
+            R = {
+                function()
+                    require('telescope').extensions.refactoring.refactors()
+                end,
+                'Refactoring Menu',
+            },
+            -- Debug Operations
+            p = {
+                function()
+                    require('refactoring').debug.print_var()
+                end,
+                'Print Variable',
+            },
         },
     },
     ---@class WhichKeyPages

@@ -12,7 +12,7 @@ return {
             -- 1. Definisci qui QUALI formatter usare per ogni filetype
             formatters_by_ft = {
                 lua = { 'stylua' },
-                python = { 'ruff' }, -- Nota: ruff supporta già la configurazione standard, non serve la funzione complessa se non hai esigenze specifiche
+                python = { 'ruff_format', 'ruff_fix' }, -- Usa i formatter integrati di conform
                 javascript = { 'biome' },
                 typescript = { 'biome' },
                 json = { 'biome' },
@@ -28,12 +28,6 @@ return {
                     -- Sovrascrivi gli argomenti per impostare il dialetto (es. postgres, mysql, snowflake)
                     -- Nota: è meglio usare un file .sqlfluff nel progetto, ma puoi forzarlo qui
                     args = { 'format', '--dialect', 'ansi', '-' },
-                },
-                -- Se volevi mantenere la tua config custom di ruff per python:
-                ruff = {
-                    args = function(ctx)
-                        return { 'check', '--fix', '--stdin-filename', ctx.filename, '-' }
-                    end,
                 },
             },
         }

@@ -99,6 +99,7 @@ return { -- LSP Configuration & Plugins
 
 
             pyright = {},
+            ruff = {},
             -- pylsp = { -- Using pyright instead
             --     settings = {
             --         pylsp = {
@@ -121,7 +122,7 @@ return { -- LSP Configuration & Plugins
                 'jsonls',
                 'yamlls',
                 'pyright',
-                'pyright',
+                'ruff',
                 -- 'ruff', -- Disable Ruff LSP, use nvim-lint/conform
                 'ts_ls',
                 'biome',
