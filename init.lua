@@ -20,7 +20,7 @@ require('lazy').setup({
     { 'linrongbin16/commons.nvim', lazy = true },
     -- THIS IS YOUR LOCAL PLUGIN
     {
-        dir = vim.fn.expand '~/Projects/Jove.nvim/',
+        dir = vim.fn.has 'wsl' == 1 and '/mnt/c/Users/andre/Projects/Jove.nvim/' or vim.fn.expand '~/Projects/Jove.nvim/',
         name = 'jove',
         dev = true,
         keys = {
@@ -37,7 +37,8 @@ require('lazy').setup({
             { '<Leader>Jp', '<cmd>JovePreviousCell<cr>', mode = { 'n' }, desc = 'Jove: Go to previous cell' },
             { '<Leader>Jco', ':JoveClearOutput<cr>', mode = { 'n', 'x', 'v' }, desc = 'Jove: Clear output' },
             { '<Leader>JL', '<cmd>JoveLog<cr>', mode = { 'n' }, desc = 'Jove: Show logs' },
-            { '<Leader>Jri', '<cmd>JoveRenderImage ', mode = { 'n' }, desc = 'Jove: Render image' },
+            { '<Leader>Jri', '<cmd>JoveRenderImage<cr>', mode = { 'n' }, desc = 'Jove: Render image' },
+            { '<Leader>Jt', ':JoveTestImage<cr>', mode = { 'n' }, desc = 'Jove: Render image' },
         },
         config = function()
             -- This is the standard way to set up a plugin

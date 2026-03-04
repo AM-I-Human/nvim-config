@@ -24,3 +24,26 @@ if IS_WINDOWS then
     vim.o.shellquote = ''
     vim.o.shellxquote = ''
 end
+
+-- === CONFIGURAZIONE WSL ===
+if IS_WSL then
+    -- Costruiamo il path dinamicamente usando la HOME di Linux
+    local home = os.getenv 'HOME'
+
+    -- Punta all'ambiente 'nvim-env' creato con pyenv
+    vim.g.python3_host_prog = home .. '/.pyenv/versions/3.13.11/envs/nvim-env-13/bin/python'
+
+    -- (Opzionale) Se vuoi che la clipboard funzioni tra WSL e Windows (richiede win32yank.exe)
+    vim.g.clipboard = {
+        name = 'WslClipboard',
+        copy = {
+            ['+'] = 'clip.exe',
+            ['*'] = 'clip.exe',
+        },
+        paste = {
+            ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+            ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        },
+        cache_enabled = 0,
+    }
+end
