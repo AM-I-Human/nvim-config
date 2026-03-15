@@ -98,6 +98,58 @@ M.nvim_mappings = {
             end,
             'Next buffer',
         },
+        ['H'] = {
+            function()
+                local win_id = vim.api.nvim_get_current_win()
+                local win_config = vim.api.nvim_win_get_config(win_id)
+                local is_floating = win_config.relative ~= ''
+                local is_fixed = vim.wo[win_id].winfixbuf
+
+                if not is_floating and not is_fixed then
+                    pcall(vim.cmd, 'bprevious')
+                end
+            end,
+            'Previous buffer',
+        },
+        ['L'] = {
+            function()
+                local win_id = vim.api.nvim_get_current_win()
+                local win_config = vim.api.nvim_win_get_config(win_id)
+                local is_floating = win_config.relative ~= ''
+                local is_fixed = vim.wo[win_id].winfixbuf
+
+                if not is_floating and not is_fixed then
+                    pcall(vim.cmd, 'bnext')
+                end
+            end,
+            'Next buffer',
+        },
+        ['[b'] = {
+            function()
+                local win_id = vim.api.nvim_get_current_win()
+                local win_config = vim.api.nvim_win_get_config(win_id)
+                local is_floating = win_config.relative ~= ''
+                local is_fixed = vim.wo[win_id].winfixbuf
+
+                if not is_floating and not is_fixed then
+                    pcall(vim.cmd, 'bprevious')
+                end
+            end,
+            'Previous buffer',
+        },
+        [']b'] = {
+            function()
+                local win_id = vim.api.nvim_get_current_win()
+                local win_config = vim.api.nvim_win_get_config(win_id)
+                local is_floating = win_config.relative ~= ''
+                local is_fixed = vim.wo[win_id].winfixbuf
+
+                if not is_floating and not is_fixed then
+                    pcall(vim.cmd, 'bnext')
+                end
+            end,
+            'Next buffer',
+        },
         ['<Esc>'] = {
             function()
                 vim.cmd 'nohlsearch'
