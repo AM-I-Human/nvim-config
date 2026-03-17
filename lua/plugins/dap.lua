@@ -107,6 +107,25 @@ return {
             {
                 type = 'python',
                 request = 'launch',
+                name = 'Launch file (with CLI args)',
+                program = '${file}',
+                args = function()
+                    local args_string = vim.fn.input 'Argomenti CLI: '
+                    return vim.split(args_string, ' +')
+                end,
+                pythonPath = function()
+                    local venv = require('venv-selector').python()
+                    if venv then
+                        return venv
+                    end
+                    vim.notify('Python venv not selected, falling back to global python', vim.log.levels.WARN)
+                    return 'python'
+                end,
+                justMyCode = true,
+            },
+            {
+                type = 'python',
+                request = 'launch',
                 name = 'FastAPI: uvicorn',
                 module = 'uvicorn',
                 args = {
@@ -127,7 +146,33 @@ return {
                 program = function()
                     return vim.fn.expand '%:p'
                 end,
-                pythonPath = require('venv-selector').python(),
+                pythonPath = function()
+                    local venv = require('venv-selector').python()
+                    if venv then
+                        return venv
+                    end
+                    return 'python'
+                end,
+                justMyCode = true,
+            },
+            {
+                type = 'python',
+                request = 'launch',
+                name = 'UV run (with CLI args)',
+                program = function()
+                    return vim.fn.expand '%:p'
+                end,
+                args = function()
+                    local args_string = vim.fn.input 'Argomenti CLI: '
+                    return vim.split(args_string, ' +')
+                end,
+                pythonPath = function()
+                    local venv = require('venv-selector').python()
+                    if venv then
+                        return venv
+                    end
+                    return 'python'
+                end,
                 justMyCode = true,
             },
         }
