@@ -283,24 +283,28 @@ local leader_keymaps = {
                     return require('refactoring').refactor 'Extract Block'
                 end,
                 'Extract Block',
+                expr = true,
             },
             i = {
                 function()
                     return require('refactoring').refactor 'Inline Variable'
                 end,
                 'Inline Variable',
+                expr = true,
             },
             I = {
                 function()
                     return require('refactoring').refactor 'Inline Function'
                 end,
                 'Inline Function',
+                expr = true,
             },
             b = {
                 function()
                     return require('refactoring').refactor 'Extract Block'
                 end,
                 'Extract Block',
+                expr = true,
             },
             R = {
                 function()
@@ -633,18 +637,21 @@ local leader_keymaps = {
                     return require('refactoring').refactor 'Extract Function'
                 end,
                 'Extract Function',
+                expr = true,
             },
             v = {
                 function()
                     return require('refactoring').refactor 'Extract Variable'
                 end,
                 'Extract Variable',
+                expr = true,
             },
             i = {
                 function()
                     return require('refactoring').refactor 'Inline Variable'
                 end,
                 'Inline Variable',
+                expr = true,
             },
             R = {
                 function()

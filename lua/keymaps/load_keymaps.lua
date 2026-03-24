@@ -42,16 +42,29 @@ end
 -- @param key The key of keymap
 -- @param val Can be form as a mapping or tuple of mapping and user defined opt
 function M.set_keymaps(mode, key, val)
-    local opt = generic_opts[mode] or generic_opts_any
+    local opt = vim.deepcopy(generic_opts[mode] or generic_opts_any)
     mode = mode_adapters[mode]
+
     if type(val) == 'table' then
-        local user_opt = val[2]
-        val = val[1]
-        if type(user_opt) == 'string' then
-            user_opt = { desc = user_opt }
+        local action = val[1]
+        
+        -- Compatibility: if val[2] is a string, treat it as the description
+        if type(val[2]) == 'string' then
+            opt.desc = val[2]
+        elseif type(val[2]) == 'table' then
+            opt = vim.tbl_deep_extend('force', opt, val[2])
         end
-        opt = vim.tbl_deep_extend('force', opt, user_opt or {})
+
+        -- Extract any native options (e.g., expr = true, silent = false) directly from the val table
+        for k, v in pairs(val) do
+            if type(k) ~= 'number' then
+                opt[k] = v
+            end
+        end
+
+        val = action
     end
+
     if val then
         vim.keymap.set(mode, key, val, opt)
     else
