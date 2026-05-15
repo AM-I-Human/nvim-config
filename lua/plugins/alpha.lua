@@ -518,114 +518,6 @@ local section_mru = {
         },
     },
 }
-vim.api.nvim_set_hl(0, 'AlphaGitBranchDirty', { fg = '#ff8080', bold = true }) -- A reddish color for dirty branches
-vim.api.nvim_set_hl(0, 'AlphaGitBranchClean', { fg = '#a6e3a1', bold = true }) -- A greenish color for clean branches
-vim.api.nvim_set_hl(0, 'AlphaGitBranchMain', { fg = '#f9e2af', bold = true }) -- A yellowish color for main/master
-
-local function get_git_status()
-    -- Get current branch name and clean the output
-    local branch = vim.fn.system('git rev-parse --abbrev-ref HEAD'):gsub('[\n\r]', '')
-
-    if branch == '' or branch == 'HEAD' then
-        return {} -- Not in a git repository or in a detached HEAD state
-    end
-
-    -- Get a summary of changes
-    local status = vim.fn.system 'git status --porcelain'
-    local is_dirty = status ~= ''
-
-    local branch_hl
-    if branch == 'main' or branch == 'master' then
-        branch_hl = 'AlphaGitBranchMain'
-    else
-        branch_hl = is_dirty and 'AlphaGitBranchDirty' or 'AlphaGitBranchClean'
-    end
-
-    local git_info_val = {
-        {
-            type = 'text',
-            val = ' ' .. branch,
-            opts = {
-                hl = branch_hl,
-                position = 'center',
-            },
-        },
-    }
-
-    if is_dirty then
-        table.insert(git_info_val, {
-            type = 'text',
-            val = ' Uncommitted changes',
-            opts = {
-                hl = 'AlphaGitBranchDirty',
-                position = 'center',
-            },
-        })
-
-        local diff_stats = vim.fn.system 'git diff --numstat'
-        for _, line in ipairs(vim.fn.split(diff_stats, '\n')) do
-            if line ~= '' then
-                local parts = vim.split(line, '\t')
-                -- Ensure we have the expected number of parts to avoid errors on unusual lines
-                if #parts == 3 then
-                    local added = parts[1]
-                    local deleted = parts[2]
-                    local file_path = parts[3]
-
-                    -- You might want to shorten long file paths
-                    if #file_path > 40 then
-                        file_path = '...' .. file_path:sub(-37)
-                    end
-
-                    table.insert(git_info_val, {
-                        type = 'text',
-                        val = string.format('+%s -%s %s', added, deleted, file_path),
-                        opts = {
-                            hl = 'Comment', -- Or any other highlight group you prefer
-                            position = 'center',
-                        },
-                    })
-                end
-            end
-        end
-    else
-        table.insert(git_info_val, {
-            type = 'text',
-            val = '✓ Clean working directory',
-            opts = {
-                hl = 'AlphaGitBranchClean',
-                position = 'center',
-            },
-        })
-    end
-
-    return git_info_val
-end
-
-local git_section = {
-    type = 'group',
-    val = function()
-        -- Check if the current directory is a git repository
-        if vim.fn.isdirectory(vim.fn.getcwd() .. '/.git') ~= 1 then
-            return {} -- Return an empty table if not in a git repo
-        end
-        return {
-            {
-                type = 'text',
-                val = 'Git Status',
-                opts = { hl = 'SpecialComment', position = 'center' },
-            },
-            {
-                type = 'group',
-                val = get_git_status(),
-                opts = {
-                    position = 'center',
-                },
-            },
-        }
-    end,
-}
-
 local section_projects = {
     type = 'group',
     val = {
@@ -678,8 +570,6 @@ return {
                 { type = 'padding', val = 2 },
                 header,
                 { type = 'padding', val = 2 },
-                git_section,
-                { type = 'padding', val = 1 },
                 {
                     type = 'group',
                     val = {

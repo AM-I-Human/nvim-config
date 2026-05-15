@@ -1,29 +1,29 @@
 return { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
+    branch = 'main',
     build = ':TSUpdate',
-    opts = {
-        ensure_installed = { 'bash', 'c', 'html', 'css', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc', 'python', 'dart', 'regex', 'markdown_inline' },
+    lazy = false,
+    config = function()
+        -- Install parsers
+        local parsers = {
+            'bash', 'c', 'html', 'css', 'lua', 'luadoc', 'markdown', 'vim', 'vimdoc',
+            'python', 'dart', 'regex', 'markdown_inline', 'sql', 'json', 'jsonc',
+            'yaml', 'toml', 'java', 'javascript', 'typescript', 'dockerfile'
+        }
+        require('nvim-treesitter').install(parsers)
 
-        auto_install = true,
-        highlight = {
-            enable = true,
-            additional_vim_regex_highlighting = {},
-        },
-        indent = { enable = true, disable = {} },
-    },
-    config = function(_, opts)
-        -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
+        -- Enable Treesitter highlighting
+        vim.api.nvim_create_autocmd('FileType', {
+            callback = function()
+                pcall(vim.treesitter.start)
+            end,
+        })
 
-        -- Prefer git instead of curl in order to improve connectivity in some environments
-        require('nvim-treesitter.install').prefer_git = true
-        ---@diagnostic disable-next-line: missing-fields
-        require('nvim-treesitter.configs').setup(opts)
-
-        -- There are additional nvim-treesitter modules that you can use to interact
-        -- with nvim-treesitter. You should go explore a few and see what interests you:
-        --
-        --    - Incremental selection: Included, see `:help nvim-treesitter-incremental-selection-mod`
-        --    - Show your current context: https://github.com/nvim-treesitter/nvim-treesitter-context
-        --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
+        -- Enable Treesitter indentation
+        vim.api.nvim_create_autocmd('FileType', {
+            callback = function()
+                vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+            end,
+        })
     end,
 }

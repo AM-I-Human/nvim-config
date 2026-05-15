@@ -1,5 +1,5 @@
 -- local provider = 'bedrock'
-local provider = 'gemini'
+local provider = 'gemini-cli'
 
 return {
     'yetone/avante.nvim',
@@ -50,46 +50,17 @@ return {
         --     }
         -- end,
         provider = provider,
-        use_absolute_path = true,
         -- auto_suggestions_provider = 'ollama_autocomplete',
-        providers = {
-            ollama_autocomplete = {
-                __inherited_from = 'openai',
-                api_key_name = '',
-                endpoint = 'http://localhost:11434/v1',
-                model = 'gemma3:4b',
-                extra_request_body = {
-                    temperature = 0,
-                },
-            },
-            ollama = {
-                __inherited_from = 'openai',
-                api_key_name = '',
-                endpoint = 'http://localhost:11434/v1',
-                model = 'deepseek-r1:32b',
-                extra_request_body = {
-                    temperature = 0,
-                },
-            },
-            gemini = {
-                model = 'gemini-3.1-pro-preview',
-                extra_request_body = {
-                    temperature = 0,
-                    max_tokens = 8192,
-                },
-                use_tools = false,
-            },
-        },
-        behaviour = {
+        behavior = {
             auto_suggestions = false, -- Experimental stage
             auto_set_highlight_group = true,
             auto_set_keymaps = true,
             auto_apply_diff_after_generation = false,
             support_paste_from_clipboard = true,
         },
-        web_search_engine = {
-            provider = 'google', --GOOGLE_SEARCH_API_KEY
-        },
+        -- web_search_engine = {
+        --     provider = 'google', --GOOGLE_SEARCH_API_KEY
+        -- },
 
         mappings = {
             --- @class AvanteConflictMappings

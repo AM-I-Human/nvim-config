@@ -8,7 +8,7 @@ return {
     opts = {
         preview = {
             filetypes = { 'md', 'rmd', 'quarto', 'markdown', 'Avante', 'codecompanion' },
-            ignore_buftypes = {},
+            ignore_buftypes = { 'nofile' },
         },
         max_length = 99999,
     },

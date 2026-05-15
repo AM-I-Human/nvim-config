@@ -42,6 +42,10 @@ return { -- LSP Configuration & Plugins
                         callback = vim.lsp.buf.clear_references,
                     })
                 end
+
+                if client and client.server_capabilities.colorProvider then
+                    pcall(vim.lsp.document_color.enable, event.buf)
+                end
             end,
         })
 
